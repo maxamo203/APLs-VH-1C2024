@@ -1,0 +1,4 @@
+Como verán de las figuran anteriores, no es posible colocar discos de una marca en servidores de otra, o 
+por lo menos no directamente. Por lo tanto, volviendo al punto anterior, si un servidor que contiene 
+discos queda fuera de servicio, también queda afectada la disponibilidad de la información que en los 
+discos reside.  

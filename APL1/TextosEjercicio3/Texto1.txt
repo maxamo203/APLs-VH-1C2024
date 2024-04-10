@@ -1,0 +1,31 @@
+RAID: Es el acrónimo de Redundant Array of Inexpensive Disk, aunque actualmente se ha reemplazado 
+la palabra “Inexpensive” por “Independent”. 
+La idea fundamental detrás de esto es contar con un conjunto de discos, llamado Array, que se 
+comportan como si fuera uno solo.  
+Existe lo que se denominan diferentes niveles de RAID los cuales se utilizan de acuerdo a las necesidades 
+de la aplicación o del usuario, los cuales explicaremos más adelante en este mismo documento. 
+El concepto de RAID se puede implementar tanto en software como en hardware, siendo este último el 
+más utilizado últimamente, además de brindar mayor performance. 
+Este tipo de tecnología hace algunos años sólo estaba disponible para ambientes corporativos debido a 
+su alto costo, y si uno quería implementar una solución de este tipo tenía que terminar optando por la 
+solución de RAID por software. Hoy en día los costos han disminuido de tal manera que muchos de los 
+motherboards a los que hoy tenemos acceso como usuarios ya disponen de controladoras RAID 
+integradas en el hardware. 
+Pero antes de adentrarnos en el concepto de RAID, recorramos un poco la historia y algunos otros 
+conceptos por demás interesantes. 
+Debido a que el concepto de RAID trata sobre la agrupación de discos que albergan la información, 
+comencemos preguntándonos dónde están los discos. ¿A qué nos referimos con esta pregunta? Nos 
+referimos a en qué lugar uno pone los discos...sí, sí, los discos físicos, esos discos rígidos que uno sabe 
+que están casi siempre en los sistemas de computación. Uno intuitivamente piensa que en el único lugar 
+donde podrían colocarse los discos en las computadoras hogareñas tiene que ser dentro del gabinete de 
+la computadora (mal llamado CPU). Sin embargo, ¿se han preguntado alguna vez dónde se colocan esos 
+discos en los servidores o sistemas de cómputo que generalmente se encuentran en los datacenters? 
+En un principio, en los servidores también se pueden colocar discos rígidos. Pero pregúntense qué 
+pasaría si ese servidor donde están los discos que contiene la información por alguna razón fallase (se 
+quemara el motherboard, el microprocesador, la fuente de alimentación, etc.). En un principio uno 
+podría pensar que simplemente podría sacar los discos del servidor y colocarlos en otro. Sin embargo, 
+cuando nos vamos de las PCs hogareñas hacia los servidores de marca (IBM, HP, Cisco, Dell, etc.) 
+generalmente estos fabricantes diseñan sus propios discos para sus propios servidores. En realidad, los 
+discos físicamente la mayoría de las veces son los mismos, pero lo que se denomina el “enclosure” (o la 
+carcasa o soporte) no lo es. A continuación se muestran algunas imágenes de discos para servidores de 
+los diferentes fabricantes del mercado para que se den cuenta de qué estamos hablando. 

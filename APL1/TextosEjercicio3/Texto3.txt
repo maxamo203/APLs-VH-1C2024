@@ -1,0 +1,4 @@
+NFS: Network File System. Desarrollado por Sun Microsystems para su sistema 
+SUN Solaris. Se convirtió en un estándar para la compartición de archivos en 
+sistemas UNIX. En la jerga de NFS el directorio a compartir se dice que se 
+“exporta”.

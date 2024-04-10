@@ -1,0 +1,8 @@
+En los protocolos orientados a archivos la información que viaja por la red como peticiones son 
+comandos del propio protocolo (comandos definidos en NFS o en CIFS) con sus diferentes parámetros, 
+entre ellos la ruta y el archivo a acceder. Es decir, el sistema operativo que se ejecuta sobre el servidor 
+sabe que la información a la que está accediendo es un directorio exportado o una carpeta compartida, 
+según el protocolo, y envía las órdenes para acceder a ellos a la controladora del storage, y es esta 
+última la que ejecuta el comando SCSI para acceder a la información.  
+Ahora que hemos hecho la introducción a los sistemas de almacenamiento y la forma de acceder a ellos 
+nos adentraremos en el mundo RAID. 
