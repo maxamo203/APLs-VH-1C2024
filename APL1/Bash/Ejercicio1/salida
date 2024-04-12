@@ -1,0 +1,1676 @@
+{"notas": [
+ {
+  "dni": "36455899",
+  "notas": [
+   {"materia":1122, "nota":4},
+   {"materia":1125, "nota":3},
+   {"materia":1129, "nota":2},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "29085168",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1124, "nota":5},
+   {"materia":1126, "nota":3},
+   {"materia":1134, "nota":8}
+  ]},
+ {
+  "dni": "26913109",
+  "notas": [
+   {"materia":1126, "nota":5},
+   {"materia":1129, "nota":5},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "42113543",
+  "notas": [
+   {"materia":1122, "nota":5},
+   {"materia":1123, "nota":6},
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":3}
+  ]},
+ {
+  "dni": "41097283",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1124, "nota":5},
+   {"materia":1129, "nota":5},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":8}
+  ]},
+ {
+  "dni": "27595804",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1127, "nota":5},
+   {"materia":1130, "nota":6},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "20352673",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1125, "nota":10},
+   {"materia":1126, "nota":5},
+   {"materia":1128, "nota":0},
+   {"materia":1129, "nota":5},
+   {"materia":1131, "nota":4},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "40623619",
+  "notas": [
+   {"materia":1128, "nota":0},
+   {"materia":1130, "nota":3},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":10}
+  ]},
+ {
+  "dni": "32836318",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1128, "nota":0},
+   {"materia":1129, "nota":7},
+   {"materia":1130, "nota":5},
+   {"materia":1131, "nota":5},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "44209605",
+  "notas": [
+   {"materia":1120, "nota":7},
+   {"materia":1123, "nota":4},
+   {"materia":1125, "nota":3},
+   {"materia":1127, "nota":5},
+   {"materia":1128, "nota":5},
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":5},
+   {"materia":1131, "nota":3}
+  ]},
+ {
+  "dni": "42281063",
+  "notas": [
+   {"materia":1127, "nota":7},
+   {"materia":1128, "nota":5},
+   {"materia":1129, "nota":0},
+   {"materia":1130, "nota":6}
+  ]},
+ {
+  "dni": "32287821",
+  "notas": [
+   {"materia":1125, "nota":8},
+   {"materia":1127, "nota":5},
+   {"materia":1129, "nota":0},
+   {"materia":1131, "nota":7},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "31598368",
+  "notas": [
+   {"materia":1120, "nota":5},
+   {"materia":1122, "nota":5},
+   {"materia":1126, "nota":4},
+   {"materia":1127, "nota":7},
+   {"materia":1128, "nota":0}
+  ]},
+ {
+  "dni": "  "dni": "44209605"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "24025102",
+  "notas": [
+   {"materia":1124, "nota":3},
+   {"materia":1126, "nota":3}
+  ]},
+ {
+  "dni": "42416512",
+  "notas": [
+   {"materia":1120, "nota":7},
+   {"materia":1125, "nota":1},
+   {"materia":1130, "nota":1},
+   {"materia":1131, "nota":5},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "26623365",
+  "notas": [
+   {"materia":1129, "nota":7},
+   {"materia":1132, "nota":5},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "32387815",
+  "notas": [
+   {"materia":1122, "nota":5},
+   {"materia":1126, "nota":4},
+   {"materia":1127, "nota":6},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "21917621",
+  "notas": [
+   {"materia":1125, "nota":5},
+   {"materia":1126, "nota":5},
+   {"materia":1128, "nota":0},
+   {"materia":1130, "nota":5},
+   {"materia":1131, "nota":3}
+  ]},
+ {
+  "dni": "20663455",
+  "notas": [
+   {"materia":1125, "nota":3},
+   {"materia":1129, "nota":7},
+   {"materia":1130, "nota":0}
+  ]},
+ {
+  "dni": "37299703",
+  "notas": [
+   {"materia":1122, "nota":4},
+   {"materia":1126, "nota":4},
+   {"materia":1127, "nota":5},
+   {"materia":1128, "nota":5}
+  ]},
+ {
+  "dni": "46843556",
+  "notas": [
+   {"materia":1125, "nota":2},
+   {"materia":1127, "nota":5},
+   {"materia":1128, "nota":0},
+   {"materia":1130, "nota":1},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "33611203",
+  "notas": [
+   {"materia":1126, "nota":3},
+   {"materia":1130, "nota":1},
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "33894361",
+  "notas": [
+   {"materia":1125, "nota":3},
+   {"materia":1130, "nota":6},
+   {"materia":1131, "nota":5},
+   {"materia":1132, "nota":4},
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "24222528",
+  "notas": [
+   {"materia":1128, "nota":10}
+  ]},
+ {
+  "dni": "43461690",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1126, "nota":5},
+   {"materia":1128, "nota":5}
+  ]},
+ {
+  "dni": "  "dni": "30472536"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "36690138",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1126, "nota":5},
+   {"materia":1127, "nota":4},
+   {"materia":1128, "nota":0},
+   {"materia":1129, "nota":6},
+   {"materia":1130, "nota":8},
+   {"materia":1133, "nota":5},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "41170966",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1130, "nota":3},
+   {"materia":1134, "nota":1}
+  ]},
+ {
+  "dni": "DNI-Alumnonota-ej-1",
+  "notas": [
+   {"materia":1120, "nota":0},
+   {"materia":1122, "nota":0},
+   {"materia":1123, "nota":0},
+   {"materia":1124, "nota":0},
+   {"materia":1125, "nota":0},
+   {"materia":1126, "nota":0},
+   {"materia":1127, "nota":0},
+   {"materia":1128, "nota":0},
+   {"materia":1129, "nota":0},
+   {"materia":1130, "nota":0},
+   {"materia":1131, "nota":0},
+   {"materia":1132, "nota":0},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":0}
+  ]},
+ {
+  "dni": "47592771",
+  "notas": [
+   {"materia":1124, "nota":1},
+   {"materia":1125, "nota":3},
+   {"materia":1129, "nota":5},
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "  "dni": "23689537"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "  "dni": "41322047"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "  "dni": "31598368"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "48085244",
+  "notas": [
+   {"materia":1120, "nota":6},
+   {"materia":1122, "nota":4},
+   {"materia":1123, "nota":5},
+   {"materia":1125, "nota":3},
+   {"materia":1126, "nota":5},
+   {"materia":1129, "nota":6},
+   {"materia":1130, "nota":1},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "35676507",
+  "notas": [
+   {"materia":1123, "nota":7},
+   {"materia":1126, "nota":6},
+   {"materia":1130, "nota":0},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "32139588",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1126, "nota":8},
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":8}
+  ]},
+ {
+  "dni": "24053398",
+  "notas": [
+   {"materia":1125, "nota":2},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "46723781",
+  "notas": [
+   {"materia":1122, "nota":7},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "24652773",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1124, "nota":6},
+   {"materia":1130, "nota":6}
+  ]},
+ {
+  "dni": "30643131",
+  "notas": [
+   {"materia":1122, "nota":5},
+   {"materia":1123, "nota":6},
+   {"materia":1126, "nota":3},
+   {"materia":1130, "nota":3},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "21768223",
+  "notas": [
+   {"materia":1125, "nota":3},
+   {"materia":1129, "nota":2},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "29181928",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1127, "nota":6},
+   {"materia":1128, "nota":10},
+   {"materia":1134, "nota":8}
+  ]},
+ {
+  "dni": "28660352",
+  "notas": [
+   {"materia":1130, "nota":6}
+  ]},
+ {
+  "dni": "49827313",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1124, "nota":5},
+   {"materia":1130, "nota":6},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "30725800",
+  "notas": [
+   {"materia":1126, "nota":3},
+   {"materia":1127, "nota":4},
+   {"materia":1133, "nota":5},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "31678246",
+  "notas": [
+   {"materia":1123, "nota":1},
+   {"materia":1127, "nota":4},
+   {"materia":1129, "nota":2},
+   {"materia":1130, "nota":5},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "29541327",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1125, "nota":3}
+  ]},
+ {
+  "dni": "43463705",
+  "notas": [
+   {"materia":1126, "nota":4},
+   {"materia":1127, "nota":5},
+   {"materia":1131, "nota":7},
+   {"materia":1134, "nota":10}
+  ]},
+ {
+  "dni": "40362836",
+  "notas": [
+   {"materia":1124, "nota":5},
+   {"materia":1126, "nota":4},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "25838289",
+  "notas": [
+   {"materia":1129, "nota":3},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "20915291",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1124, "nota":5},
+   {"materia":1129, "nota":7},
+   {"materia":1130, "nota":6},
+   {"materia":1131, "nota":5},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "25602574",
+  "notas": [
+   {"materia":1120, "nota":2},
+   {"materia":1125, "nota":6},
+   {"materia":1126, "nota":3},
+   {"materia":1129, "nota":6},
+   {"materia":1130, "nota":5},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "48666377",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1124, "nota":6},
+   {"materia":1126, "nota":7},
+   {"materia":1129, "nota":8}
+  ]},
+ {
+  "dni": "34772064",
+  "notas": [
+   {"materia":1125, "nota":2},
+   {"materia":1126, "nota":5},
+   {"materia":1127, "nota":6},
+   {"materia":1128, "nota":10}
+  ]},
+ {
+  "dni": "  "dni": "DNI-Alumnonota-ej-1"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "37008305",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1126, "nota":4},
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "36709522",
+  "notas": [
+   {"materia":1125, "nota":7},
+   {"materia":1129, "nota":3},
+   {"materia":1131, "nota":4}
+  ]},
+ {
+  "dni": "21512872",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1129, "nota":6},
+   {"materia":1130, "nota":1},
+   {"materia":1131, "nota":3}
+  ]},
+ {
+  "dni": "20443267",
+  "notas": [
+   {"materia":1128, "nota":10},
+   {"materia":1129, "nota":0}
+  ]},
+ {
+  "dni": "45893185",
+  "notas": [
+   {"materia":1127, "nota":6},
+   {"materia":1134, "nota":8}
+  ]},
+ {
+  "dni": "23081872",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1128, "nota":10},
+   {"materia":1130, "nota":3},
+   {"materia":1131, "nota":6},
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "33870440",
+  "notas": [
+   {"materia":1124, "nota":7},
+   {"materia":1126, "nota":6},
+   {"materia":1127, "nota":4},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "22365345",
+  "notas": [
+   {"materia":1124, "nota":5},
+   {"materia":1133, "nota":5},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "28391919",
+  "notas": [
+   {"materia":1120, "nota":6},
+   {"materia":1130, "nota":3},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "47893885",
+  "notas": [
+   {"materia":1129, "nota":6},
+   {"materia":1131, "nota":4},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "34643282",
+  "notas": [
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "24172486",
+  "notas": [
+   {"materia":1131, "nota":4}
+  ]},
+ {
+  "dni": "33888984",
+  "notas": [
+   {"materia":1125, "nota":8},
+   {"materia":1126, "nota":5},
+   {"materia":1131, "nota":3},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "28278615",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1125, "nota":3},
+   {"materia":1128, "nota":10},
+   {"materia":1134, "nota":1}
+  ]},
+ {
+  "dni": "49376877",
+  "notas": [
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "41322047",
+  "notas": [
+   {"materia":1120, "nota":4},
+   {"materia":1125, "nota":3},
+   {"materia":1126, "nota":5},
+   {"materia":1130, "nota":5},
+   {"materia":1131, "nota":5},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "24180009",
+  "notas": [
+   {"materia":1125, "nota":5},
+   {"materia":1126, "nota":8},
+   {"materia":1128, "nota":0},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "32061561",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1129, "nota":2},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "20146568",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1125, "nota":5},
+   {"materia":1127, "nota":4}
+  ]},
+ {
+  "dni": "32083317",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1124, "nota":5},
+   {"materia":1127, "nota":4},
+   {"materia":1128, "nota":0},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "38044620",
+  "notas": [
+   {"materia":1125, "nota":2},
+   {"materia":1130, "nota":5},
+   {"materia":1134, "nota":1}
+  ]},
+ {
+  "dni": "32820448",
+  "notas": [
+   {"materia":1120, "nota":7},
+   {"materia":1123, "nota":3},
+   {"materia":1125, "nota":6},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "27288918",
+  "notas": [
+   {"materia":1122, "nota":3},
+   {"materia":1125, "nota":2},
+   {"materia":1126, "nota":6},
+   {"materia":1130, "nota":5}
+  ]},
+ {
+  "dni": "26022737",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1130, "nota":5}
+  ]},
+ {
+  "dni": "49783372",
+  "notas": [
+   {"materia":1124, "nota":5},
+   {"materia":1129, "nota":5}
+  ]},
+ {
+  "dni": "49054990",
+  "notas": [
+   {"materia":1124, "nota":3},
+   {"materia":1125, "nota":3},
+   {"materia":1129, "nota":7},
+   {"materia":1131, "nota":5},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "48554117",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1130, "nota":5},
+   {"materia":1134, "nota":8}
+  ]},
+ {
+  "dni": "25633923",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1125, "nota":6},
+   {"materia":1127, "nota":5},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "27690566",
+  "notas": [
+   {"materia":1122, "nota":5},
+   {"materia":1123, "nota":4},
+   {"materia":1125, "nota":7},
+   {"materia":1130, "nota":3},
+   {"materia":1131, "nota":4},
+   {"materia":1134, "nota":1}
+  ]},
+ {
+  "dni": "30407616",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1127, "nota":5},
+   {"materia":1129, "nota":3},
+   {"materia":1133, "nota":5},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "37437960",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1132, "nota":5}
+  ]},
+ {
+  "dni": "  "dni": "28391919"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "36702729",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1124, "nota":6},
+   {"materia":1125, "nota":3},
+   {"materia":1127, "nota":4},
+   {"materia":1128, "nota":5},
+   {"materia":1130, "nota":1},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "35601148",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1124, "nota":3},
+   {"materia":1125, "nota":3},
+   {"materia":1133, "nota":5},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "21012480",
+  "notas": [
+   {"materia":1122, "nota":5},
+   {"materia":1124, "nota":3},
+   {"materia":1125, "nota":3},
+   {"materia":1126, "nota":6},
+   {"materia":1129, "nota":6}
+  ]},
+ {
+  "dni": "31340387",
+  "notas": [
+   {"materia":1125, "nota":7},
+   {"materia":1129, "nota":2},
+   {"materia":1131, "nota":4},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "26528606",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1125, "nota":2},
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "45190423",
+  "notas": [
+   {"materia":1120, "nota":2},
+   {"materia":1126, "nota":5},
+   {"materia":1129, "nota":1},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "42650533",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1125, "nota":3},
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":6}
+  ]},
+ {
+  "dni": "  "dni": "48085244"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "22425042",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1126, "nota":5},
+   {"materia":1128, "nota":0},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "33679285",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1129, "nota":5},
+   {"materia":1130, "nota":8},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "36798230",
+  "notas": [
+   {"materia":1125, "nota":2},
+   {"materia":1127, "nota":1},
+   {"materia":1128, "nota":10},
+   {"materia":1129, "nota":5},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "45216303",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1125, "nota":2},
+   {"materia":1127, "nota":5},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "45685097",
+  "notas": [
+   {"materia":1126, "nota":4},
+   {"materia":1127, "nota":2},
+   {"materia":1130, "nota":3},
+   {"materia":1132, "nota":4},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "46431895",
+  "notas": [
+   {"materia":1125, "nota":7},
+   {"materia":1129, "nota":5},
+   {"materia":1130, "nota":5}
+  ]},
+ {
+  "dni": "37276997",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1127, "nota":10}
+  ]},
+ {
+  "dni": "  "dni": "38440096"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "37135645",
+  "notas": [
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":8}
+  ]},
+ {
+  "dni": "42942917",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1124, "nota":5},
+   {"materia":1125, "nota":3},
+   {"materia":1127, "nota":6},
+   {"materia":1129, "nota":2}
+  ]},
+ {
+  "dni": "41657672",
+  "notas": [
+   {"materia":1128, "nota":5}
+  ]},
+ {
+  "dni": "36465000",
+  "notas": [
+   {"materia":1122, "nota":6},
+   {"materia":1125, "nota":6},
+   {"materia":1127, "nota":6}
+  ]},
+ {
+  "dni": "23689537",
+  "notas": [
+   {"materia":1120, "nota":3},
+   {"materia":1123, "nota":4},
+   {"materia":1125, "nota":3},
+   {"materia":1127, "nota":2},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "26169144",
+  "notas": [
+   {"materia":1125, "nota":3},
+   {"materia":1130, "nota":5},
+   {"materia":1134, "nota":8}
+  ]},
+ {
+  "dni": "37529241",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1127, "nota":6},
+   {"materia":1130, "nota":5},
+   {"materia":1131, "nota":6},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "25647205",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1127, "nota":0},
+   {"materia":1129, "nota":5},
+   {"materia":1130, "nota":6},
+   {"materia":1131, "nota":5},
+   {"materia":1132, "nota":4}
+  ]},
+ {
+  "dni": "32487742",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1124, "nota":2},
+   {"materia":1127, "nota":5}
+  ]},
+ {
+  "dni": "28095425",
+  "notas": [
+   {"materia":1122, "nota":5}
+  ]},
+ {
+  "dni": "42543721",
+  "notas": [
+   {"materia":1122, "nota":5},
+   {"materia":1126, "nota":6},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "33306485",
+  "notas": [
+   {"materia":1122, "nota":7},
+   {"materia":1123, "nota":4},
+   {"materia":1126, "nota":5},
+   {"materia":1127, "nota":5},
+   {"materia":1129, "nota":7},
+   {"materia":1130, "nota":5},
+   {"materia":1131, "nota":5},
+   {"materia":1134, "nota":8}
+  ]},
+ {
+  "dni": "45983623",
+  "notas": [
+   {"materia":1125, "nota":0},
+   {"materia":1127, "nota":6},
+   {"materia":1129, "nota":3}
+  ]},
+ {
+  "dni": "48770042",
+  "notas": [
+   {"materia":1125, "nota":1},
+   {"materia":1129, "nota":5}
+  ]},
+ {
+  "dni": "38454776",
+  "notas": [
+   {"materia":1125, "nota":3},
+   {"materia":1126, "nota":4},
+   {"materia":1128, "nota":5}
+  ]},
+ {
+  "dni": "   {"materia":1120",
+  "notas": [
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0},
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "45807715",
+  "notas": [
+   {"materia":1130, "nota":10},
+   {"materia":1131, "nota":6},
+   {"materia":1132, "nota":6},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "21688695",
+  "notas": [
+   {"materia":1126, "nota":5},
+   {"materia":1129, "nota":2},
+   {"materia":1131, "nota":5},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "22878042",
+  "notas": [
+   {"materia":1126, "nota":3},
+   {"materia":1130, "nota":3}
+  ]},
+ {
+  "dni": "28748265",
+  "notas": [
+   {"materia":1124, "nota":8},
+   {"materia":1127, "nota":3},
+   {"materia":1130, "nota":3},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "34650347",
+  "notas": [
+   {"materia":1131, "nota":4},
+   {"materia":1133, "nota":10},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "22957702",
+  "notas": [
+   {"materia":1129, "nota":10},
+   {"materia":1130, "nota":3}
+  ]},
+ {
+  "dni": "40500070",
+  "notas": [
+   {"materia":1124, "nota":6},
+   {"materia":1125, "nota":1},
+   {"materia":1127, "nota":5},
+   {"materia":1129, "nota":7}
+  ]},
+ {
+  "dni": "30249403",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1124, "nota":3},
+   {"materia":1130, "nota":3},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "24479711",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1124, "nota":6},
+   {"materia":1129, "nota":6},
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "20808463",
+  "notas": [
+   {"materia":1130, "nota":3},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "20552027",
+  "notas": [
+   {"materia":1128, "nota":0}
+  ]},
+ {
+  "dni": "23997368",
+  "notas": [
+   {"materia":1124, "nota":4},
+   {"materia":1125, "nota":6}
+  ]},
+ {
+  "dni": "45906202",
+  "notas": [
+   {"materia":1128, "nota":5},
+   {"materia":1129, "nota":5},
+   {"materia":1130, "nota":6},
+   {"materia":1134, "nota":8}
+  ]},
+ {
+  "dni": "21356056",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1127, "nota":5},
+   {"materia":1129, "nota":1},
+   {"materia":1131, "nota":5},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "33218618",
+  "notas": [
+   {"materia":1124, "nota":3},
+   {"materia":1125, "nota":5},
+   {"materia":1131, "nota":4},
+   {"materia":1132, "nota":5}
+  ]},
+ {
+  "dni": "36831964",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "49274303",
+  "notas": [
+   {"materia":1125, "nota":7},
+   {"materia":1126, "nota":6},
+   {"materia":1128, "nota":0},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "45408246",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1127, "nota":2},
+   {"materia":1129, "nota":5},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "33504704",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1128, "nota":10},
+   {"materia":1130, "nota":3},
+   {"materia":1131, "nota":2},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "42902276",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1129, "nota":5},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "47008373",
+  "notas": [
+   {"materia":1124, "nota":2},
+   {"materia":1125, "nota":3},
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":5},
+   {"materia":1131, "nota":6}
+  ]},
+ {
+  "dni": "47713736",
+  "notas": [
+   {"materia":1122, "nota":3},
+   {"materia":1123, "nota":5},
+   {"materia":1126, "nota":2},
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":5}
+  ]},
+ {
+  "dni": "35218247",
+  "notas": [
+   {"materia":1124, "nota":5},
+   {"materia":1126, "nota":5},
+   {"materia":1129, "nota":3}
+  ]},
+ {
+  "dni": "46313668",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1128, "nota":5},
+   {"materia":1130, "nota":5},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "25709374",
+  "notas": [
+   {"materia":1126, "nota":5},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "23216336",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1125, "nota":1},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "38440096",
+  "notas": [
+   {"materia":1120, "nota":2},
+   {"materia":1123, "nota":4},
+   {"materia":1128, "nota":5},
+   {"materia":1130, "nota":8}
+  ]},
+ {
+  "dni": "28835991",
+  "notas": [
+   {"materia":1126, "nota":2},
+   {"materia":1131, "nota":5},
+   {"materia":1133, "nota":10},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "25408730",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1126, "nota":1},
+   {"materia":1128, "nota":10},
+   {"materia":1130, "nota":5},
+   {"materia":1133, "nota":10},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "49027627",
+  "notas": [
+   {"materia":1127, "nota":5},
+   {"materia":1128, "nota":5},
+   {"materia":1131, "nota":3},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "37900996",
+  "notas": [
+   {"materia":1123, "nota":4},
+   {"materia":1125, "nota":6},
+   {"materia":1126, "nota":5},
+   {"materia":1130, "nota":5}
+  ]},
+ {
+  "dni": "43326673",
+  "notas": [
+   {"materia":1128, "nota":5},
+   {"materia":1130, "nota":0},
+   {"materia":1131, "nota":3},
+   {"materia":1134, "nota":1}
+  ]},
+ {
+  "dni": "44696730",
+  "notas": [
+   {"materia":1124, "nota":3},
+   {"materia":1126, "nota":5},
+   {"materia":1128, "nota":10},
+   {"materia":1129, "nota":3},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "36691062",
+  "notas": [
+   {"materia":1125, "nota":10},
+   {"materia":1128, "nota":5},
+   {"materia":1130, "nota":3}
+  ]},
+ {
+  "dni": "  "dni": "21758153"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "39754350",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1126, "nota":3},
+   {"materia":1131, "nota":5},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "20923894",
+  "notas": [
+   {"materia":1122, "nota":1},
+   {"materia":1126, "nota":5},
+   {"materia":1127, "nota":3},
+   {"materia":1130, "nota":8},
+   {"materia":1131, "nota":5},
+   {"materia":1132, "nota":5}
+  ]},
+ {
+  "dni": "44102549",
+  "notas": [
+   {"materia":1124, "nota":6},
+   {"materia":1125, "nota":6},
+   {"materia":1126, "nota":3},
+   {"materia":1129, "nota":7},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "39228171",
+  "notas": [
+   {"materia":1125, "nota":1},
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":1}
+  ]},
+ {
+  "dni": "34188586",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1125, "nota":7},
+   {"materia":1126, "nota":5},
+   {"materia":1129, "nota":5},
+   {"materia":1130, "nota":6}
+  ]},
+ {
+  "dni": "40006765",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1124, "nota":4},
+   {"materia":1125, "nota":5},
+   {"materia":1126, "nota":5},
+   {"materia":1127, "nota":8},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "40381970",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1124, "nota":6},
+   {"materia":1126, "nota":4},
+   {"materia":1127, "nota":2},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "30472536",
+  "notas": [
+   {"materia":1120, "nota":5},
+   {"materia":1123, "nota":5},
+   {"materia":1124, "nota":5}
+  ]},
+ {
+  "dni": "48619472",
+  "notas": [
+   {"materia":1122, "nota":7},
+   {"materia":1124, "nota":6},
+   {"materia":1126, "nota":3},
+   {"materia":1127, "nota":4},
+   {"materia":1129, "nota":5},
+   {"materia":1130, "nota":8},
+   {"materia":1133, "nota":10},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "46674145",
+  "notas": [
+   {"materia":1126, "nota":5},
+   {"materia":1131, "nota":4},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "31216113",
+  "notas": [
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "26021368",
+  "notas": [
+   {"materia":1127, "nota":5},
+   {"materia":1129, "nota":3},
+   {"materia":1134, "nota":10}
+  ]},
+ {
+  "dni": "22411958",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1125, "nota":5},
+   {"materia":1127, "nota":4},
+   {"materia":1128, "nota":0},
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":6},
+   {"materia":1133, "nota":10},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "26674324",
+  "notas": [
+   {"materia":1125, "nota":5},
+   {"materia":1129, "nota":3},
+   {"materia":1131, "nota":5},
+   {"materia":1132, "nota":4},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "45811274",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1129, "nota":2}
+  ]},
+ {
+  "dni": "47078243",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1127, "nota":2},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "33363621",
+  "notas": [
+   {"materia":1129, "nota":5}
+  ]},
+ {
+  "dni": "24243344",
+  "notas": [
+   {"materia":1122, "nota":6},
+   {"materia":1125, "nota":3},
+   {"materia":1126, "nota":5},
+   {"materia":1129, "nota":2},
+   {"materia":1130, "nota":8},
+   {"materia":1132, "nota":3},
+   {"materia":1133, "nota":5},
+   {"materia":1134, "nota":0}
+  ]},
+ {
+  "dni": "36727476",
+  "notas": [
+   {"materia":1126, "nota":2},
+   {"materia":1128, "nota":0},
+   {"materia":1129, "nota":1},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "45729230",
+  "notas": [
+   {"materia":1122, "nota":6}
+  ]},
+ {
+  "dni": "  "dni": "32820448"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "48250857",
+  "notas": [
+   {"materia":1126, "nota":6},
+   {"materia":1127, "nota":7},
+   {"materia":1128, "nota":5},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":10}
+  ]},
+ {
+  "dni": "43721246",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1127, "nota":6},
+   {"materia":1129, "nota":8},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "  "dni": "34177983"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "  "dni": "25602574"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "33741962",
+  "notas": [
+   {"materia":1125, "nota":2},
+   {"materia":1130, "nota":5},
+   {"materia":1131, "nota":4},
+   {"materia":1133, "nota":5},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "38851305",
+  "notas": [
+   {"materia":1126, "nota":6},
+   {"materia":1132, "nota":5},
+   {"materia":1134, "nota":0}
+  ]},
+ {
+  "dni": "24858608",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1126, "nota":6},
+   {"materia":1128, "nota":10}
+  ]},
+ {
+  "dni": "39942599",
+  "notas": [
+   {"materia":1122, "nota":4},
+   {"materia":1125, "nota":7},
+   {"materia":1130, "nota":6},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "48239228",
+  "notas": [
+   {"materia":1125, "nota":2},
+   {"materia":1128, "nota":0},
+   {"materia":1130, "nota":6},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "33206686",
+  "notas": [
+   {"materia":1124, "nota":4},
+   {"materia":1125, "nota":6},
+   {"materia":1126, "nota":3},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "24214418",
+  "notas": [
+   {"materia":1122, "nota":6},
+   {"materia":1125, "nota":5},
+   {"materia":1128, "nota":5},
+   {"materia":1130, "nota":5},
+   {"materia":1132, "nota":2},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "43702734",
+  "notas": [
+   {"materia":1124, "nota":6},
+   {"materia":1126, "nota":6},
+   {"materia":1127, "nota":4},
+   {"materia":1131, "nota":4}
+  ]},
+ {
+  "dni": "20797469",
+  "notas": [
+   {"materia":1125, "nota":6},
+   {"materia":1127, "nota":7},
+   {"materia":1129, "nota":2},
+   {"materia":1131, "nota":4},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "48879615",
+  "notas": [
+   {"materia":1123, "nota":2},
+   {"materia":1124, "nota":5},
+   {"materia":1129, "nota":6},
+   {"materia":1131, "nota":5},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "28413843",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "21027764",
+  "notas": [
+   {"materia":1131, "nota":4},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "38022475",
+  "notas": [
+   {"materia":1130, "nota":5},
+   {"materia":1131, "nota":3},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "26394063",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1125, "nota":2},
+   {"materia":1126, "nota":6},
+   {"materia":1127, "nota":4},
+   {"materia":1131, "nota":7},
+   {"materia":1133, "nota":0},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "48588510",
+  "notas": [
+   {"materia":1125, "nota":10},
+   {"materia":1126, "nota":7}
+  ]},
+ {
+  "dni": "31901266",
+  "notas": [
+   {"materia":1123, "nota":3},
+   {"materia":1125, "nota":1},
+   {"materia":1126, "nota":5},
+   {"materia":1127, "nota":4},
+   {"materia":1130, "nota":1},
+   {"materia":1131, "nota":5},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "47168130",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1126, "nota":3},
+   {"materia":1129, "nota":3},
+   {"materia":1130, "nota":8},
+   {"materia":1131, "nota":6},
+   {"materia":1133, "nota":5}
+  ]},
+ {
+  "dni": "41690912",
+  "notas": [
+   {"materia":1125, "nota":3},
+   {"materia":1126, "nota":3},
+   {"materia":1128, "nota":10},
+   {"materia":1130, "nota":3},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "22595735",
+  "notas": [
+   {"materia":1125, "nota":1},
+   {"materia":1127, "nota":5},
+   {"materia":1128, "nota":0},
+   {"materia":1129, "nota":7},
+   {"materia":1131, "nota":5}
+  ]},
+ {
+  "dni": "20315168",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1127, "nota":3},
+   {"materia":1128, "nota":10}
+  ]},
+ {
+  "dni": "  "dni": "42416512"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "27851527",
+  "notas": [
+   {"materia":1125, "nota":3},
+   {"materia":1128, "nota":10},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "46970755",
+  "notas": [
+   {"materia":1127, "nota":5},
+   {"materia":1131, "nota":5},
+   {"materia":1133, "nota":5},
+   {"materia":1134, "nota":6}
+  ]},
+ {
+  "dni": "32673743",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1125, "nota":10},
+   {"materia":1129, "nota":3}
+  ]},
+ {
+  "dni": "23445290",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1124, "nota":4},
+   {"materia":1129, "nota":5}
+  ]},
+ {
+  "dni": "  "dni": "45190423"",
+  "notas": [
+   {"materia":1121, "nota":0}
+  ]},
+ {
+  "dni": "45251535",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1126, "nota":5},
+   {"materia":1128, "nota":10},
+   {"materia":1134, "nota":5}
+  ]},
+ {
+  "dni": "31849300",
+  "notas": [
+   {"materia":1123, "nota":5},
+   {"materia":1125, "nota":2},
+   {"materia":1131, "nota":3},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "30155145",
+  "notas": [
+   {"materia":1123, "nota":6},
+   {"materia":1126, "nota":6},
+   {"materia":1130, "nota":5},
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "32453906",
+  "notas": [
+   {"materia":1129, "nota":2},
+   {"materia":1130, "nota":3}
+  ]},
+ {
+  "dni": "36957053",
+  "notas": [
+   {"materia":1127, "nota":3}
+  ]},
+ {
+  "dni": "21758153",
+  "notas": [
+   {"materia":1120, "nota":5},
+   {"materia":1123, "nota":4},
+   {"materia":1124, "nota":6},
+   {"materia":1125, "nota":5},
+   {"materia":1126, "nota":5},
+   {"materia":1130, "nota":5},
+   {"materia":1134, "nota":3}
+  ]},
+ {
+  "dni": "34177983",
+  "notas": [
+   {"materia":1120, "nota":5},
+   {"materia":1122, "nota":2},
+   {"materia":1123, "nota":6},
+   {"materia":1124, "nota":5},
+   {"materia":1130, "nota":6},
+   {"materia":1133, "nota":0}
+  ]},
+ {
+  "dni": "23886153",
+  "notas": [
+   {"materia":1125, "nota":7},
+   {"materia":1127, "nota":6},
+   {"materia":1128, "nota":0},
+   {"materia":1133, "nota":10}
+  ]},
+ {
+  "dni": "37925028",
+  "notas": [
+   {"materia":1124, "nota":4},
+   {"materia":1127, "nota":6}
+  ]}
+] }

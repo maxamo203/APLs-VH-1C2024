@@ -1,22 +1,77 @@
-49272013,r,m,r,b,m,r,r,m,r,m,m,r
-41223518,r,b,b,r,m,r,m,b,r,m,r,b
-20367064,r,m,m,m,b,b,r,m,r,r,r,b
-37360496,r,r,b,m,b,m,b,r,r,m,m,b
-24695223,m,r,m,b,b,b,m,m,b,b,r,r
-23352884,r,m,r,r,m,m,r,r,m,r,m,m
-24832718,r,r,b,m,r,r,b,b,m,r,m,r
-35123062,b,b,m,r,r,r,m,b,m,b,m,r
-36995268,m,b,b,b,r,b,b,m,r,r,m,b
-25089206,r,r,r,r,r,r,r,b,b,m,b,r
-40666506,b,m,m,r,m,m,b,m,m,m,r,b
-20894621,m,m,b,m,m,m,m,r,r,b,b,m
-32495850,b,r,m,b,m,m,r,r,m,r,m,r
-27752423,r,r,m,b,r,r,r,m,b,r,r,b
-35137094,r,b,b,b,m,r,m,m,m,b,m,m
-45965356,b,b,m,b,r,b,m,r,m,m,r,b
-23683193,m,r,b,b,m,m,m,r,m,m,m,b
-24766813,r,m,r,r,b,m,r,b,m,b,m,r
-37154179,m,m,b,r,r,r,m,r,r,m,m,r
-37066499,r,b,r,b,m,m,m,m,r,r,m,b
-43787050,m,b,b,b,r,m,m,m,m,b,r,r
-27313238,r,m,m,r,m,r,b,m,b,r,r,r
+{"notas": [
+ {
+  "dni": "44209605",
+  "notas": [
+   {"materia":1120, "nota":7}
+  ]},
+ {
+  "dni": "31598368",
+  "notas": [
+   {"materia":1120, "nota":5}
+  ]},
+ {
+  "dni": "42416512",
+  "notas": [
+   {"materia":1120, "nota":7}
+  ]},
+ {
+  "dni": "DNI-Alumnonota-ej-1",
+  "notas": [
+   {"materia":1120, "nota":0}
+  ]},
+ {
+  "dni": "48085244",
+  "notas": [
+   {"materia":1120, "nota":6}
+  ]},
+ {
+  "dni": "25602574",
+  "notas": [
+   {"materia":1120, "nota":2}
+  ]},
+ {
+  "dni": "28391919",
+  "notas": [
+   {"materia":1120, "nota":6}
+  ]},
+ {
+  "dni": "41322047",
+  "notas": [
+   {"materia":1120, "nota":4}
+  ]},
+ {
+  "dni": "32820448",
+  "notas": [
+   {"materia":1120, "nota":7}
+  ]},
+ {
+  "dni": "45190423",
+  "notas": [
+   {"materia":1120, "nota":2}
+  ]},
+ {
+  "dni": "23689537",
+  "notas": [
+   {"materia":1120, "nota":3}
+  ]},
+ {
+  "dni": "38440096",
+  "notas": [
+   {"materia":1120, "nota":2}
+  ]},
+ {
+  "dni": "30472536",
+  "notas": [
+   {"materia":1120, "nota":5}
+  ]},
+ {
+  "dni": "34177983",
+  "notas": [
+   {"materia":1120, "nota":5}
+  ]},
+ {
+  "dni": "21758153",
+  "notas": [
+   {"materia":1120, "nota":5}
+  ]}
+] }
