@@ -12,6 +12,6 @@ for i in range(cantMaterias):
     with open(f'{primerCodigoMateria+i}.csv', 'w') as archivoMateria:
         for dni in dnisDeMAteria:
             cadenaNotas = str([random.choice(notas) for i in range(cantNotas)]).replace("'",'').replace('[', '').replace(']', '').replace(" ",'')
-            archivoMateria.write(f'{dni}, {cadenaNotas} \n')
+            archivoMateria.write(f'{dni},{cadenaNotas}\n')
             print(f'{dni},{cadenaNotas} \n')
     

@@ -1,99 +1,28 @@
-22700945, b,m,b,r,b,r,m 
-44548247, m,r,r,b,r,m,b 
-26500134, b,b,r,b,m,m,m 
-49822192, r,r,b,m,r,m,r 
-45712963, b,m,r,b,b,b,m 
-26381539, r,m,b,m,r,r,r 
-34790958, r,r,b,b,b,m,m 
-32651999, b,r,r,m,r,r,r 
-25982938, b,r,b,r,m,r,m 
-41917099, b,b,b,b,m,m,b 
-34953416, m,m,b,m,r,r,b 
-38041112, b,r,m,r,b,r,r 
-23942237, r,r,b,b,m,r,b 
-37510669, b,r,b,m,m,r,m 
-28656696, r,b,b,r,m,r,r 
-27201187, b,m,r,b,b,r,m 
-38181946, r,b,m,r,b,r,r 
-28778476, r,m,b,m,r,r,r 
-42453008, m,r,m,m,b,r,r 
-47355682, m,m,r,m,m,b,r 
-21387407, b,r,r,r,m,b,m 
-39594459, m,b,b,r,m,r,b 
-35644522, b,r,m,r,b,m,b 
-37606674, r,r,b,b,m,m,r 
-20061406, r,r,b,m,b,r,r 
-39073630, b,b,m,m,m,m,r 
-32361681, m,b,b,m,b,b,m 
-44149923, r,b,r,r,m,m,m 
-26814795, b,m,r,r,r,b,b 
-30173028, b,m,b,b,r,b,b 
-41631319, r,b,r,m,r,b,m 
-26702942, r,b,m,b,r,m,m 
-25606355, r,r,r,r,r,r,b 
-45947832, b,b,r,r,b,r,r 
-47832462, r,m,b,m,b,r,b 
-44336020, m,r,b,m,m,m,b 
-26836933, r,b,b,r,m,b,r 
-47361039, m,b,m,r,r,m,m 
-23242519, r,m,b,b,r,r,b 
-28922782, b,b,m,b,b,b,r 
-31835853, r,r,b,m,r,m,m 
-23375015, m,r,r,b,m,m,m 
-48117676, r,r,r,r,b,m,b 
-47379629, r,r,r,m,b,m,r 
-43548137, b,m,r,b,b,r,b 
-33068831, b,m,r,b,m,m,b 
-44321517, m,b,r,m,m,m,m 
-28702961, m,b,m,b,b,b,b 
-47070898, m,r,r,b,m,b,m 
-24844091, b,m,r,r,r,m,b 
-24878257, r,b,m,b,r,m,r 
-45855404, b,m,r,m,m,r,b 
-28791126, r,r,r,b,r,m,b 
-45372824, m,m,m,m,b,m,b 
-31092736, r,b,r,m,m,b,m 
-24925207, m,r,r,m,m,b,m 
-35031190, r,r,r,m,m,r,r 
-39305618, b,m,m,b,r,b,r 
-38276152, b,r,r,b,b,r,m 
-48948035, b,r,m,m,b,r,b 
-30581063, m,r,b,b,r,b,b 
-31172641, m,b,m,r,r,r,m 
-27844305, r,b,m,m,b,m,r 
-40419211, m,r,b,m,r,r,m 
-38965168, m,r,r,m,r,b,b 
-22465884, b,b,r,r,b,r,m 
-45049091, b,b,r,b,r,r,r 
-44227128, m,m,b,m,r,b,b 
-48089223, r,m,r,b,r,r,r 
-34720328, b,r,m,m,r,m,r 
-34569540, m,b,r,b,m,b,m 
-23537201, r,m,b,b,b,b,m 
-29328493, m,b,b,b,r,m,r 
-37103425, m,b,b,m,m,b,m 
-48025393, m,m,b,r,b,b,b 
-39794990, m,m,r,b,m,m,r 
-24668032, b,r,b,b,b,m,m 
-45191772, m,b,b,b,m,m,m 
-33851996, m,r,r,b,r,m,b 
-34782057, r,m,r,b,b,m,m 
-24320276, b,b,m,r,b,b,r 
-44059091, b,b,r,m,r,m,b 
-47368229, b,r,r,r,r,b,r 
-24642253, b,m,m,m,m,r,m 
-44087180, r,r,b,m,m,r,r 
-45542182, b,m,r,m,m,m,b 
-43370214, b,m,m,r,r,r,b 
-33848113, b,b,r,r,r,m,r 
-20554954, b,b,r,m,m,m,m 
-41282842, m,r,b,m,b,b,r 
-33197202, r,m,b,m,m,b,b 
-34428810, b,m,m,b,r,r,m 
-43701250, r,r,r,m,m,m,r 
-48096605, b,b,m,r,b,m,m 
-22218029, r,r,r,r,b,b,r 
-46604956, r,r,m,r,m,r,m 
-40808516, r,b,b,r,b,r,b 
-44743001, m,m,r,b,b,m,r 
-34876607, r,r,r,m,b,b,m 
+40117140,r,r,r,r,b,r,b,r,r,b,b,r,m,b,m
+23683193,r,m,m,b,m,b,m,m,r,m,b,r,m,m,b
+37066499,r,m,m,m,r,b,b,r,m,r,m,m,b,b,b
+24298015,b,b,b,b,m,r,m,r,r,m,r,m,r,r,b
+43787050,b,r,m,r,r,r,b,r,b,r,r,b,b,m,r
+44887470,m,m,m,m,r,m,r,m,m,r,b,m,b,b,m
+24168836,r,r,m,r,r,m,m,b,m,b,r,m,b,b,r
+46693416,r,m,b,r,b,m,m,r,r,r,r,m,m,b,r
+23352884,b,m,b,m,r,b,b,m,r,r,r,m,b,m,m
+44583374,m,m,r,r,r,b,b,m,r,m,b,m,r,r,m
+48148609,m,r,r,m,m,m,r,b,b,b,r,m,m,b,r
+37440545,b,m,r,b,r,m,m,m,r,r,b,m,m,b,b
+31391033,m,m,b,b,r,b,b,b,m,m,b,m,m,b,r
+33755965,m,b,m,m,m,b,b,m,m,m,r,m,b,m,r
+44925273,r,r,r,b,b,r,r,m,b,m,b,r,m,r,b
+37133422,b,b,b,r,m,b,r,b,r,r,b,r,b,m,b
+35123062,m,b,r,b,r,r,r,r,m,b,m,b,m,b,m
+44114418,b,b,m,r,m,m,b,m,b,m,b,b,m,b,b
+44024252,r,b,b,r,m,r,m,r,r,b,m,m,r,r,m
+34851361,m,m,m,m,r,r,b,b,r,m,r,r,r,r,r
+20593287,b,b,m,m,r,m,m,m,m,m,m,m,m,b,r
+25560385,m,b,m,b,m,m,m,b,b,b,r,r,r,m,r
+43981222,r,b,b,b,r,r,b,m,b,b,r,m,b,b,m
+38654975,b,m,r,m,r,b,m,b,m,m,b,b,r,m,b
+46150274,r,r,r,r,m,b,m,b,m,m,r,r,r,b,r
+40666506,m,r,r,r,m,r,m,r,r,m,m,m,b,r,r
+24083420,m,b,r,r,r,b,b,r,r,b,m,r,b,b,r
+44414997,b,m,m,m,b,m,r,b,m,r,m,b,m,r,m

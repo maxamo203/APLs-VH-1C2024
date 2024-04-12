@@ -1,73 +1,59 @@
-44336020, m,r,b,m,m,r,r 
-42381188, b,b,b,b,b,r,m 
-41282842, m,m,b,r,r,r,r 
-44143823, m,b,r,m,m,m,b 
-46855343, b,b,m,r,m,r,m 
-26702942, b,m,r,r,b,b,r 
-32697244, m,m,m,m,r,b,m 
-42453008, b,r,r,r,r,r,m 
-48096605, r,m,b,b,m,b,b 
-29273448, m,r,b,r,b,r,m 
-23242519, r,m,m,r,b,m,m 
-27121118, b,b,b,r,b,m,r 
-45372824, m,m,b,m,r,b,r 
-47379629, m,b,r,r,r,r,b 
-42070838, m,m,m,r,m,b,m 
-29609124, b,m,r,r,r,m,b 
-38041112, r,m,m,b,b,m,r 
-24878257, m,b,b,m,r,m,r 
-40585636, m,r,r,m,b,m,m 
-28702961, m,b,r,m,m,b,m 
-34428810, b,m,r,m,m,b,r 
-29188334, r,b,b,b,r,m,r 
-31180882, b,m,r,b,r,r,m 
-36729769, m,b,b,r,r,m,b 
-25801801, b,b,b,m,m,m,r 
-35644522, b,b,r,r,b,m,r 
-48948035, r,r,r,m,b,r,m 
-37658912, m,b,r,b,m,b,m 
-44892742, m,b,m,m,b,m,m 
-38971390, m,b,m,b,b,b,m 
-40394617, b,b,b,r,b,r,m 
-35031190, r,m,b,r,b,r,b 
-44268187, b,b,r,b,b,b,b 
-34720328, r,b,r,m,m,r,r 
-38552418, r,r,m,b,b,r,r 
-22700945, r,b,b,b,m,b,m 
-34953416, m,r,b,b,m,b,m 
-45191772, b,m,m,m,b,b,b 
-32536045, b,m,b,b,b,m,m 
-24126813, b,r,b,b,r,m,b 
-28548459, b,b,m,r,m,r,b 
-45870470, m,r,r,b,b,r,b 
-27028817, m,r,b,b,m,r,r 
-45855404, b,r,b,m,m,r,r 
-47361039, m,b,b,r,r,m,b 
-43651993, m,b,m,b,r,r,r 
-26500134, b,b,r,m,m,r,m 
-45049091, m,b,m,b,r,b,b 
-34269630, m,r,b,r,b,r,m 
-45158420, m,b,m,r,r,b,m 
-43548137, r,r,b,r,r,b,r 
-31550436, r,m,b,r,r,b,b 
-35659148, m,r,b,r,r,b,m 
-49867506, r,m,b,r,r,m,r 
-39075622, r,m,r,r,b,m,r 
-24869145, r,b,b,m,b,b,r 
-24828105, m,m,m,r,b,m,r 
-45947832, m,r,m,m,r,r,r 
-33848113, b,b,m,m,m,r,b 
-43212664, b,r,b,b,m,b,b 
-33068831, r,r,r,b,b,r,b 
-37911848, b,m,m,r,m,m,m 
-28993738, b,m,m,m,r,m,b 
-27060076, m,r,m,m,r,m,m 
-37103425, b,b,m,r,b,b,m 
-37606674, m,r,m,r,r,b,m 
-20554954, m,r,b,b,r,b,m 
-22843837, m,b,m,m,m,r,r 
-37501190, r,r,m,b,m,b,b 
-47112832, r,r,r,r,b,b,b 
-24844091, r,m,m,m,r,r,r 
-21248406, b,r,b,r,m,r,b 
-37510669, m,b,b,m,b,r,b 
+40666506,m,r,m,b,m,m,m
+38686516,r,r,m,m,r,b,b
+43981222,r,b,r,b,r,m,m
+33988922,r,m,m,b,r,m,r
+25786129,m,r,m,m,b,b,m
+32099604,b,r,r,b,m,r,r
+26289927,b,r,m,m,b,m,m
+39643600,b,r,b,r,b,r,m
+47874024,b,r,m,m,m,m,r
+34855658,b,r,b,r,r,b,m
+27089928,r,b,b,r,b,b,m
+39140585,r,m,r,m,m,b,b
+31391033,b,r,r,m,b,m,r
+29391164,b,r,b,r,m,b,r
+40548401,r,b,b,m,b,b,r
+44925839,r,m,m,b,r,m,b
+44114418,b,m,m,m,b,m,m
+24298015,b,m,m,r,b,b,b
+35123062,m,b,m,r,b,m,r
+35449033,r,b,m,b,m,b,m
+49645072,r,b,b,r,r,b,r
+32495850,m,b,r,r,m,m,b
+37192082,b,r,b,b,r,m,r
+21015879,r,b,m,r,m,r,r
+20367064,r,m,b,b,r,r,r
+20116587,b,m,b,m,m,r,r
+38700564,b,m,m,b,m,r,r
+41311235,r,r,m,m,b,m,b
+44960538,m,m,b,b,m,m,r
+32006863,m,m,m,m,m,r,m
+36883834,m,m,r,b,m,m,m
+45965356,m,b,m,m,m,b,b
+45407545,m,r,r,m,m,r,r
+27100061,b,r,m,m,b,m,m
+43224380,m,m,r,m,r,m,r
+34197311,r,r,m,b,m,r,r
+38254211,b,m,r,m,b,b,m
+39844120,b,r,m,b,r,r,b
+26726792,m,r,m,r,b,r,b
+45794717,r,m,b,r,r,b,m
+27011188,m,r,m,b,b,r,b
+25211310,r,r,r,m,m,b,r
+29777634,m,m,r,m,r,m,m
+39025017,m,r,m,b,r,r,m
+43067154,b,r,b,m,r,m,r
+33202655,r,m,m,b,r,b,b
+49054706,m,r,b,r,r,r,r
+32233644,b,b,m,b,m,m,r
+20859059,m,m,b,m,r,r,m
+45502329,m,r,b,m,m,b,r
+43432968,b,m,r,b,r,r,m
+37440545,b,r,m,m,b,r,m
+48148609,m,m,b,r,m,m,m
+44024252,b,m,b,b,b,r,m
+48091871,r,b,m,b,m,b,m
+33190878,r,m,b,m,m,m,m
+44887470,b,m,b,r,b,m,b
+31916152,m,r,b,b,m,r,r
+37000913,b,m,m,m,b,r,m
