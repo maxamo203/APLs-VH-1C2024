@@ -1,4 +1,15 @@
 #! /bin/bash
+
+function mostrarAyuda(){
+echo 'Modo de uso:
+-d|--direccion <path> * --> Indica la direccion de la carpeta (relativa o absoluta) donde estan los archivos a analizar
+-s|--salida <path> --> Indica la ruta del archivo (relativa o absoluta) donde se escribirá el resultado del procesamiento
+-p|--pantalla --> Indica si la salida se imprimira por consola
+-h|--help --> Muestra la ayuda y omite el resto de parametros
+
+-s y -p no pueden usarse a la vez
+* : OBLIGATORIO'
+}
 function generarJSON(){
 
     archivos=`ls -d $1/* 2>&1` 
@@ -63,8 +74,8 @@ function validarParametros(){
 # salida="/dev/stdout"
 
 
-opcionesCortas=d:s:p
-opcionesLargas=directorio:,salida:,pantalla
+opcionesCortas=d:s:ph
+opcionesLargas=directorio:,salida:,pantalla,help
 
 opts=`getopt -o $opcionesCortas -l $opcionesLargas -- "$@" 2> /dev/null`
 if [ "$?" != "0" ]; then
@@ -89,6 +100,10 @@ while true; do
         pantalla=true
         shift
         ;;
+    -h|--help )
+        help=true
+        shift
+        ;;
     --)
         shift
         break
@@ -99,6 +114,10 @@ while true; do
     esac
 done
 
+if [ "$help" == "true" ]; then
+    mostrarAyuda
+    exit 0
+fi
 validarParametros #verifica si son parametros validos y establece la salida segun sea necesario (archivo o stdout)
 
 
