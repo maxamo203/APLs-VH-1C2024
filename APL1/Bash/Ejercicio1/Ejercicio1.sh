@@ -3,12 +3,13 @@
 function mostrarAyuda(){
 echo 'Modo de uso:
 -d|--direccion <path> * --> Indica la direccion de la carpeta (relativa o absoluta) donde estan los archivos a analizar
--s|--salida <path> --> Indica la ruta del archivo (relativa o absoluta) donde se escribirá el resultado del procesamiento
+-s|--salida <path> ** --> Indica la ruta del archivo (relativa o absoluta) donde se escribirá el resultado del procesamiento
 -p|--pantalla --> Indica si la salida se imprimira por consola
 -h|--help --> Muestra la ayuda y omite el resto de parametros
 
 -s y -p no pueden usarse a la vez
-* : OBLIGATORIO'
+* : OBLIGATORIO
+**: Si no se indica ni -s ni -p se generara por defecto el archivo de salida en ./resultado.json'
 }
 function generarJSON(){
 
@@ -65,6 +66,7 @@ function validarParametros(){
         echo "No indico origen (-d/--direccion)" >&2
         exit 1
     fi
+    
     if [ "$pantalla" == "true" ]; then
         salida=/dev/stdout
         return 0
@@ -84,7 +86,7 @@ if [ "$?" != "0" ]; then
 fi
 
 eval set -- $opts #no se que hace
-
+salida="./resultado.json" #salida por defecto
 while true; do
     
     case "$1" in 
