@@ -12,8 +12,13 @@ echo 'Modo de uso:
 **: Si no se indica ni -s ni -p se generara por defecto el archivo de salida en ./resultado.json'
 }
 function generarJSON(){
-
-    archivos=`ls -d $1/* 2>&1` 
+    echo $1 "JIJi"
+    IFS_VIEJO="$IFS"
+    IFS=$'\n' #el simbolo $ acá es para que bash interprete el \n como salto de linea, y no como la cadena literal "\n"
+    #lo que hace la linea anterior es cambiar el separador de parametros de bash, por defecto toma espacios, \n y \r (creo) para separar
+    #entonces lo fuerzo a que use solo el \n, porque la salida que me va a generar el ls de abajo está separadas por saltos de linea (creo que por las comiilas que tiene "$1")
+    archivos=`ls -d "$1"/* 2>&1` 
+    echo $archivos
     if [ $? != 0 ]; then
         echo Ubicacion no encontrada, saliendo
         exit 1
@@ -51,10 +56,11 @@ END {
 
     print "] }"
 }' $archivos > $2
+IFS="$IFS_VIEJO"
 }
 
 function validarParametros(){
-    if [[ "$directorio" =~ ^-p || "$salida" =~ ^-p ]]; then #si empiezan con -p (un error) 
+    if [[ "$directorio" =~ ^-p || "$salida" =~ ^-p ]]; then #si empiezan con -p (un error, por ej, si hizo -d -p, en directorio va a quedar -p)
         echo "Opcion invalida, saliendo" >&2
         exit 1
     fi
@@ -69,8 +75,13 @@ function validarParametros(){
     
     if [ "$pantalla" == "true" ]; then
         salida=/dev/stdout
-        return 0
+    else
+        if [ "$salida" == ""];then #si no especifica ni -p ni -s
+            salida="./resultado.json" #salida por defecto
+        fi
     fi
+
+    return 0
 }
 # dir="../../NotasEjercicio1"
 # salida="/dev/stdout"
@@ -86,7 +97,8 @@ if [ "$?" != "0" ]; then
 fi
 
 eval set -- $opts #no se que hace
-salida="./resultado.json" #salida por defecto
+#echo $1 $2
+
 while true; do
     
     case "$1" in 
@@ -123,7 +135,7 @@ fi
 validarParametros #verifica si son parametros validos y establece la salida segun sea necesario (archivo o stdout)
 
 
-#echo $salida
-generarJSON $directorio $salida
+
+generarJSON "$directorio" "$salida"
 
 echo "Fin"
