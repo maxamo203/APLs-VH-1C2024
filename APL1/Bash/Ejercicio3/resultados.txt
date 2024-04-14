@@ -1,0 +1,16 @@
+Palabras de 10 caracteres: 1
+Palabras de 8 caracteres: 1
+Palabras de 5 caracteres: 1
+Palabras de 2 caracteres: 1
+Palabras de 1 caracteres: 2
+Palabras de 0 caracteres: 1
+
+Palabra/s que mas aparecio/eron, (2) veces
+l
+
+Cantidad total de palabras: 7
+
+Promedio de palabras por archivo: 7
+
+Caracteres/s que mas aparecio/eron, (6) veces
+o
