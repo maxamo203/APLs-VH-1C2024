@@ -66,17 +66,16 @@ function validarParametros(){
     fi
     if [[ "$salida" != "" && "$pantalla" == true ]]; then #pasa los dos parametros, mal
         echo "Solo puede haber una opcion, -s o -p" >&2
-        exit 1
+        exit 2
     fi
     if [ "$directorio" == "" ]; then #no pasa direccion de origen
         echo "No indico origen (-d/--direccion)" >&2
-        exit 1
+        exit 3
     fi
-    
     if [ "$pantalla" == "true" ]; then
         salida=/dev/stdout
     else
-        if [ "$salida" == ""];then #si no especifica ni -p ni -s
+        if [ "$salida" == "" ];then #si no especifica ni -p ni -s
             salida="./resultado.json" #salida por defecto
         fi
     fi
@@ -93,7 +92,7 @@ opcionesLargas=directorio:,salida:,pantalla,help
 opts=`getopt -o $opcionesCortas -l $opcionesLargas -- "$@" 2> /dev/null`
 if [ "$?" != "0" ]; then
     echo "Error parseando opciones, saliendo" >&2;
-    exit 1;
+    exit 4;
 fi
 
 eval set -- $opts #no se que hace
