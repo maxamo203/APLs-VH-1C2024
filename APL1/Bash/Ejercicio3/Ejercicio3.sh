@@ -20,7 +20,7 @@ if [ "$?" != "0" ]; then
     exit 1;
 fi
 
-extension=""
+extension=".*" #en regex, acepta cualquier caracter las veces que sea
 separador=" "
 omitir=""
 caseSensitive="false"
@@ -77,6 +77,7 @@ echo $archivos
 
 #pasar todo a minuscula (asi Linux y linux es la misma palabra)
 #remover caracteres especiales (.,!? etc), salvo el delimitador 
+echo "($extension)"
 awk -F"$separador" -v extension="$extension" -v omitir="$omitir" -v case="$caseSensitive" '
 BEGIN {
     archivoRegex = "\." extension "$" #el simbolo $ al final de la regex indica que quiero que la cadena termine con lo que le dije antes
@@ -118,9 +119,17 @@ match(FILENAME, archivoRegex){
     archivoAnterior = FILENAME
 }
 END{
+    #Muestra las distintas longitudes de palabras ordenadas
+    maximaLongitudDePalabra = 0
     for (longitud in conteoLongitudPalabras){
-        print "Palabras de " longitud " caracteres: " conteoLongitudPalabras[longitud]
+        if (longitud > maximaLongitudDePalabra)
+            maximaLongitudDePalabra = longitud
     }
+    for (i = 1;i<=maximaLongitudDePalabra;i++){
+        if (i in conteoLongitudPalabras)
+            print "Palabras de " i " caracteres: " conteoLongitudPalabras[i]
+    }
+
     maxOcurrenciaDePalabras = 0
     for (ocurrencia in conteoDeOcurrenciasDePalabras){ #obtengo el maximo de ocurrencias de una palabra
         if (conteoDeOcurrenciasDePalabras[ocurrencia]>maxOcurrenciaDePalabras)
