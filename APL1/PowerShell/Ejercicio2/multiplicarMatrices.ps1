@@ -18,11 +18,21 @@
 #>
 Param(
   [Parameter(Mandatory=$true)]
-  [ValidateNotNullOrEmpty()]
+  [ValidateScript({
+    if (-not (Test-Path $_)) {
+        throw "La ruta $_ no existe."
+    }
+    $true
+  })]
   [string] $matriz1,
 
   [Parameter(Mandatory=$true)]
-  [ValidateNotNullOrEmpty()]
+  [ValidateScript({
+    if (-not (Test-Path $_)) {
+        throw "La ruta $_ no existe."
+    }
+    $true
+  })]
   [string] $matriz2,
 
   [Parameter(Mandatory=$false)]
