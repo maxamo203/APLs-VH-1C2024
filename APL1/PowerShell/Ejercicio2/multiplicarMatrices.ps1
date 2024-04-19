@@ -26,6 +26,12 @@ Param(
   [string] $matriz2,
 
   [Parameter(Mandatory=$false)]
+  [ValidateScript({
+    if ($_ -eq "-" -or $_ -match '\d') {
+        throw "El separador no puede ser '-' o un caracter numerico."
+    }
+    $true
+  })]
   [string] $separador = ","
 )
 function ProcesarArchivos{
@@ -38,7 +44,7 @@ function ProcesarArchivos{
 
 		# Verifica si la matriz está vacía
 		if (-not $ContenidoMatriz) {
-			Write-Error "ERROR: El archivo de la matriz $NombreMatriz está vacío"
+			Write-Error "ERROR: El archivo de la matriz $NombreMatriz esta vacío"
 			exit 1
 		}
 
@@ -51,12 +57,12 @@ function ProcesarArchivos{
 				exit 1
 			}
 		}
-
+		
 		# Verifica si todos los elementos son numéricos
 		foreach ($fila in $ContenidoMatriz) {
 			foreach ($elemento in ($fila -split $separador)) {
 				if ($elemento -match '\D') {
-					Write-Error "ERROR: Hay elementos de la matriz $NombreMatriz que no son numéricos"
+					Write-Error "ERROR: Hay elementos de la matriz $NombreMatriz que no son numericos o el separador ingresado es incorrecto"
 					exit 1
 				}
 			}
