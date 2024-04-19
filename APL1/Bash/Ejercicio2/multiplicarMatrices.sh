@@ -17,7 +17,7 @@ function procesarArchivos() {
 			nuevaLinea="|"
 		fi
 
-		paste -s -d $nuevaLinea $arch1 $arch2 | awk -v separador="$separador" -v nuevaLinea="$nuevaLinea" -F $separador '
+		paste -s -d "$nuevaLinea" "$arch1" "$arch2" | awk -v separador="$separador" -v nuevaLinea="$nuevaLinea" -F $separador '
 
 		function validarMatriz(matriz,filas,columnas,errorMatriz) {
 			if ( filas == 0 ){
@@ -37,7 +37,7 @@ function procesarArchivos() {
 			for (i in arr){
 				split(arr[i],fila,separador)
 				for (j in fila){
-					if ( !(fila[j] ~ /\-?[0-9]/) ){
+					if ( fila[j] !~ /^(\-?)([0-9]+)$/ ){
 						print "ERROR: Hay elementos de la matriz " errorMatriz " que no son numericos"
 						salir=1
 						exit 1
@@ -104,13 +104,11 @@ function procesarParametros() {
 		# -m2 / --matriz2
 		# -s / --separador
 
-		params=$(echo $@ | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
-		set -- "$params"
 
 		opcionesCortas=f:t:s:h
 		opcionesLargas=matriz1:,matriz2:,separador:,help
 
-		opts=`getopt -o $opcionesCortas -l $opcionesLargas -- $@ 2> /dev/null`
+		opts=`getopt -o $opcionesCortas -l $opcionesLargas -- "$@" 2> /dev/null`
 		if [ "$?" != 0 ];then
 			echo "Error en las opciones especificadas al ejecutar el archivo" >&2
 			exit 1
@@ -166,18 +164,29 @@ function validarParametros() {
 		fi
 }
 
-procesarParametros $@
+
+#PROBLEMA DEL EJERCICIO
+#pide que existan las opciones -m1 y m2... Estas opciones deben ser opciones CORTAS
+#las opciones cortas solo pueden tener un caracter
+#Solucion que se me ocurrio: reemplazar los -m1 y -m2 por otro caracter y en el getopt usar ese caracter
+#Al principio hacia:
+	#params=$(echo $@ | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+	#set -- "$params"
+#La primer linea reemplaza los -m1 y -m2. La segunda linea hace que la variable 'params' sea el '$@'
+#El problema de esto es que cuando haces la siguiente linea:
+	#opts=`getopt -o $opcionesCortas -l $opcionesLargas -- "$@" 2> /dev/null`
+#Toda la linea de parametros se rompe... Para que no se rompa, la variable '$@' hay que ponerla sin ""
+#El problema? Que si pasas '$@' sin "", no va a poder separar bien si le paso un directorio con espacios
+#La solucion que se me ocurrio es mirar cada parametro, reemplazar en cada uno si es necesario y pasarle cada parametro uno por uno a una funcion
+
+uno=$(echo "$1" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+dos=$(echo "$2" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+tres=$(echo "$3" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+cuatro=$(echo "$4" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+cinco=$(echo "$5" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+seis=$(echo "$6" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+
+procesarParametros "$uno" "$dos" "$tres" "$cuatro" "$cinco" "$seis"
 validarParametros
 procesarArchivos
-
-
-
-
-
-
-
-
-
-
-
 
