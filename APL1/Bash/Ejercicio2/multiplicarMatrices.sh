@@ -179,14 +179,35 @@ function validarParametros() {
 #El problema? Que si pasas '$@' sin "", no va a poder separar bien si le paso un directorio con espacios
 #La solucion que se me ocurrio es mirar cada parametro, reemplazar en cada uno si es necesario y pasarle cada parametro uno por uno a una funcion
 
-uno=$(echo "$1" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
-dos=$(echo "$2" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
-tres=$(echo "$3" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
-cuatro=$(echo "$4" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
-cinco=$(echo "$5" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
-seis=$(echo "$6" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+# uno=$(echo "$1" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+# dos=$(echo "$2" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+# tres=$(echo "$3" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+# cuatro=$(echo "$4" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+# cinco=$(echo "$5" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+# seis=$(echo "$6" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
 
-procesarParametros "$uno" "$dos" "$tres" "$cuatro" "$cinco" "$seis"
+
+# params=$(echo "$@" | sed -r "s/-m1/-f/" | sed -r "s/-m2/-t/")
+
+# set -- $params
+
+# Guarda los parámetros originales en un array para manejar correctamente las comillas
+params=("$@")
+# Recorre cada parámetro y aplica los cambios a m1 y m2
+for i in "${!params[@]}"; do #itera sobre los indices del array
+    case "${params[i]}" in
+        -m1)
+            params[i]="-f"
+            ;;
+        -m2)
+            params[i]="-t"
+            ;;
+    esac
+done
+set -- "${params[@]}"
+
+
+procesarParametros "$@"
 validarParametros
 procesarArchivos
 
