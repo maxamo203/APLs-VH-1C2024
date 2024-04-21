@@ -13,10 +13,11 @@ Param(
   [switch]$kill
 )
 
-try{
+try {
   $directorio = Resolve-Path $directorio -ErrorAction Stop #convierto el direcotrio a analizar en ruta absoluta, asi es siempre el mismo
   #el ErrorAction Stop es para que en caso de error salte al catch, por defecto no lo hace
-}catch{
+}
+catch {
   Write-Error "No se pudo convertir $directorio a una ruta absoluta"
   exit 2
 }
@@ -36,7 +37,7 @@ function comprobarDirectorioMonitoreado {
   }
 }
 
-function dejarMonitorizar{
+function dejarMonitorizar {
   param ($directorio)
   #ir al running ej4
   #leer el PID
@@ -48,7 +49,7 @@ function dejarMonitorizar{
   }
 
   $coincidencias = Select-String -Path "/tmp/Ejercicio4/running.ej4" -Pattern $directorio #trae las lineas donde se indica el directorio (deberia ser solo una)
-  if (-not $coincidencias){
+  if (-not $coincidencias) {
     Write-Error "No se esta monitoreando $directorio, si quieres monitorearlo indica el parametro -salida y -patron"
     exit 3
   }
@@ -57,48 +58,89 @@ function dejarMonitorizar{
   $pidABorrar = $coincidencias[0].ToString().Split()[0].Split(":")[2]
   Stop-Process $pidABorrar
 
-  $lineaABorrar =  $coincidencias[0].ToString().Split()[0].Split(":")[1]
+  $lineaABorrar = $coincidencias[0].ToString().Split()[0].Split(":")[1]
   $lineas = Get-Content "/tmp/Ejercicio4/running.ej4"
-  if($lineas.Count -eq 1){ #si solo queda un proceso, borra el archivo directamente
-    Remove-Item -Path "/tmp/Ejercicio4" -Recurse
+  if ($lineas.Count -eq 1) {
+    #si solo queda un proceso, borra el archivo directamente
+    Remove-Item -Path "/tmp/Ejercicio4/running.ej4" 
   }
-  else{
+  else {
 
     Clear-Content "/tmp/Ejercicio4/running.ej4" #borra todas las lineas para escribirlas devuelta, sin la que mate recien
     for ($i = 0; $i -lt $lineas.Count; $i++) {
-      if ($i -eq $lineaABorrar - 1){
+      if ($i -eq $lineaABorrar - 1) {
         continue
       }
       Write-Output $lineas[$i] >> "/tmp/Ejercicio4/running.ej4"
     }
   }
-  Write-Output "Ya no se esta monitoreando el directorio $directorio"
+  Write-Host "Ya no se esta monitoreando el directorio $directorio" -ForegroundColor Green
 }
 
 $bloque = {
   param($directorio, $salida, $patron)
-  
+  function fechaFormateada{
+    return Get-Date -Format "yyyyMMdd-HHmmss"
+  }
   function main {
     param($directorio, $salida, $patron)
 
     #Deja registrado en el archivo que se esta monitoreando el directorio, con el PID correspondiente
-    Write-Output "$($PID) $($directorio)" >> "/tmp/Ejercicio4/running.ej4"
+    try {
+      Write-Output "$($PID) $($directorio)" >> "/tmp/Ejercicio4/running.ej4"
 
-    while ($true) {
-      $fechaHora = Get-Date
-      Write-Output  "$fechaHora">> "testigo_$PID.txt"
-      Start-Sleep -Seconds 5
+      $watcher = New-Object -TypeName System.IO.FileSystemWatcher -Property @{
+        Path                  = $directorio
+        Filter                = "*"
+        IncludeSubdirectories = $true
+        NotifyFilter          = [IO.NotifyFilters]::FileName, [IO.NotifyFilters]::LastWrite 
+      }
+  
+      . {
+        Register-ObjectEvent -InputObject $watcher -EventName Changed  -Action {
+          $fecha = fechaFormateada
+          $coincidenciasPatron = Select-String -Path $event.SourceEventArgs.FullPath -Pattern $patron
+          if ($coincidenciasPatron){
+            Compress-Archive -Path $event.SourceEventArgs.FullPath -DestinationPath "$salida/$fecha.zip" -CompressionLevel Fastest
+            Write-Output "$fecha--$($event.SourceEventArgs.FullPath)--modificado--se realizo back up" >> "/tmp/Ejercicio4/ej4.log"
+          }
+          else{
+            Write-Output "$fecha--$($event.SourceEventArgs.FullPath)--modificado--no se realizo back up" >> "/tmp/Ejercicio4/ej4.log"
+          }
+        }
+        Register-ObjectEvent -InputObject $watcher -EventName Created  -Action {
+          $fecha = fechaFormateada
+          Write-Output "$fecha--$($event.SourceEventArgs.FullPath)--creado" >> "/tmp/Ejercicio4/ej4.log"
+        } 
+      }
+    
+      # monitoring starts now:
+      $watcher.EnableRaisingEvents = $true
+      do {
+        # Wait-Event waits for a second and stays responsive to events
+        # Start-Sleep in contrast would NOT work and ignore incoming events
+        Wait-Event -Timeout 1
+        
+            
+      } while ($true)
+    }catch{
+      Write-Error $Errors[0] >> ./errores.txt
     }
+    
+    
   }
 
   
   main -directorio $directorio -salida $salida -patron $patron
 }
 
-if ($PSCmdlet.ParameterSetName -eq "invocar") { #si los parametros que se pasaron, son los de invocar ...
+
+if ($PSCmdlet.ParameterSetName -eq "invocar") {
+  #si los parametros que se pasaron, son los de invocar ...
   comprobarDirectorioMonitoreado $directorio
   Start-Job -ScriptBlock $bloque -ArgumentList $directorio, $salida, $patron
 }
-else{ #son los parametros para matar un proceso
+else {
+  #son los parametros para matar un proceso
   dejarMonitorizar $directorio
 }
