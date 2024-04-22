@@ -1,7 +1,17 @@
 #!/bin/bash
 
 function mostrarAyuda(){
-	echo "Todavía tengo que escribir la ayuda"
+	echo "Modo de uso:"
+	echo -e "-d|--directorio <path> ** --> Indica el directorio a observar"
+	echo -e "-s|--salida <path> ***\t  --> Indica el directorio donde se hará el backup"
+	echo -e "-k|--kill ***\t\t  --> Mata al proceso en el directorio especificado"
+	echo -e "-p|--patron <patrón> *\t  --> Indica el patrón a buscar en el archivo"
+	echo -e "--shell *\t\t  --> El script NO se ejecuta en el fondo"
+	echo -e "-h|--help\t\t  --> Muestra esta ayuda" 
+	echo ""
+	echo "*:   OPCIONAL"
+	echo "**:  OBLIGATORIO"
+	echo "***: SOLO PUEDE USARSE UNO A LA VEZ"
 }
 
 # Se encarga de validar que los parámetros pasados al script sean válidos
@@ -105,40 +115,55 @@ function matarProceso {
 	exit 0
 }
 
-#Estas funciones se encargan de guardar los registros de cuando fueron creados o modificados los archivos en el directorio de origen
-function archivoCreado {
-	echo "[`date`]: El archivo $1$2 fue creado" >> $salida/registro.log
-}
+#Guarda un registro, en el directorio de salida, de los eventos detectados por inotifywait
+function guardarRegistro {
 
-function archivoModificado {
-	echo "[`date`]: El archivo $1$2 fue modificado" >> $salida/registro.log
+	evento="$2"
+
+	if [[ "$evento" == "CREATE" ]]; then
+		evento="creado"
+	elif [[ "$evento" == "MODIFY" ]]; then
+		evento="modificado"
+	fi
+
+	if [[ ! "$salida" =~ \/$ ]]; then
+		salida="$salida/"
+	fi
+
+
+
+	echo "[`date '+%Y-%m-%d %H:%M:%S'`] $salida$1 fue $evento, $3" >> $salida/registro.log
 }
 
 function hacerBackup {
 
+	archivoEntrada="$directorio/$1"
 	archivoSalida="$salida/$1.tar"
 
-	#Nota: tar se reusa cobardemente a crear un archivo vacío.
-	if [[ ! -s "$1" ]]; then
-		echo "No se puede hacer un backup del archivo $1 ya que está vacío (Esto tendría que estar en el registro)"
+	#Ignoramos archivos innecesarios
+	if [[ ! -s "$archivoEntrada" || "$1" == "" || "$1" =~ ^\..* ]]; then
 		return 1
 	fi
 
 	#Si no hay un archivo de backup lo tenemos que crear
-	if [[ ! -e "$archivoSalida" ]]; then
-		tar -cf $archivoSalida --transform="s,^,`date +%Y%m%d-%H%M%S` ," $1
+	if [[ ! -e "$archivoSalida.gz" ]]; then
+		tar -cf "$archivoSalida" --transform="s,.*/\(.*\),`date +%Y%m%d-%H%M%S`-\1," "$archivoEntrada"
+	else
+		gzip -d "$archivoSalida.gz"
+		tar -r -f "$archivoSalida" --transform="s,.*/\(.*\),`date +%Y%m%d-%H%M%S`-\1," "$archivoEntrada"
 	fi
 
-	gzip $archivoSalida
+	gzip --force $archivoSalida
 }
 
 function observarDirectorio {
+
 
 	#El notify lo ejecuto en el fondo para que no haga lío
 	inotifywait -m -q -e create,modify "$directorio" >> /tmp/Ejercicio4/$$.nlog &
 	notifyPID="$!" #Guardo su PID para poder matarlo después
 	ultimaLinea=""
-	
+
 	while true; do
 		#Agarra la última linea del archivo donde inotifywait está guardando la salida
 		nuevaLinea=`tail -n 1 /tmp/Ejercicio4/$$.nlog`
@@ -147,9 +172,9 @@ function observarDirectorio {
 		#lo que hice acá fue que el inotify guardara su output en un archivo temporal .nlog
 		#y que el script del ejercicio4 leyera la última línea que está ahí.
 		
-		#De momento, creo que tiene un error medio grave, si se modifica el archivo varias veces seguidas, no lo nota.
+		#De momento, CREO que tiene un error medio grave, si se modifica el archivo varias veces seguidas, no lo nota.
 		#Lo mismo si se crea el archivo varias veces seguidas
-		if [[ "$nuevaLinea" != "$ultimaLinea" ]]; then
+		if [[ "$nuevaLinea" != "$ultimaLinea" && ! "$nuevaLinea" == "" ]]; then
 			ultimaLinea="$nuevaLinea"
 
 			evento=`echo $ultimaLinea | awk '{print $2}'`
@@ -157,17 +182,25 @@ function observarDirectorio {
 
 			sed '$d' /tmp/Ejercicio4/$$.nlog > /tmp/Ejercicio4/$$.nlog
 
-			case "$evento" in
-				"CREATE")
-					archivoCreado $archivoAfectado
-				;;
-				"MODIFY")
-					archivoModificado $archivoAfectado
-				;;
-			esac
+			#Ignora archivos que cuyo nombre empiecen por un punto o sea vacío
+			#E ignora los directorios
+			if [[ ! "$archivoAfectado" =~ ^\..* && ! "$archivoAfectado" == "" && ! -d "$archivoAfectado" ]]; then
+#				#Si se ingresó un patrón, lo busca en el archivo antes de decidir si hacer un backup o no
+#				#Si no se ingresó un patrón, hará un backup de todos los archivos que se modifiquen o creen en el directorio
 
-			hacerBackup $archivoAfectado
+				grep -q "$patron" "$directorio/$archivoAfectado"
+				patronEncontrado=$?
 
+				if [[ -z "$patron" || "$patronEncontrado" -eq 0 ]]; then
+                                        hacerBackup "$archivoAfectado"
+					backupHecho="se realizo back up"
+				else
+					backupHecho="NO se realizo back up"
+				fi
+
+				guardarRegistro "$archivoAfectado" "$evento" "$backupHecho"
+
+			fi
 		fi
 	done
 }
@@ -184,8 +217,7 @@ if [ "$?" != "0" ]; then
     exit 1;
 fi
 
-eval set -- $opts #no se que hace
-#echo $1 $2
+eval set -- $opts
 
 #Bucle para guardar los parámetros pasados al script
 #TODO: arreglar un pequeño bug en el que por alguna razón se puede escribir --k --ki y --kil y los toma como argumentos válidos
@@ -233,12 +265,12 @@ if [[ "$kill" = "true" ]]; then
 	matarProceso
 elif [[ "$shell" = "true" ]]; then
 	validarDirectorio
-	
+
 	notifyPID=""
 	observarDirectorio
 else
 	#Si no se le pasa el parámetro --shell, asume que se quiere ejecutar el script en el fondo.
 	#Para lograr esto, se ejecuta el mismo comando en una subshell
-	( ./Ejercicio4.sh -d "$directorio" -s "$salida" --shell &)
+	( ./Ejercicio4.sh -d "$directorio" -s "$salida" -p "$patron" --shell &)
 fi
 
