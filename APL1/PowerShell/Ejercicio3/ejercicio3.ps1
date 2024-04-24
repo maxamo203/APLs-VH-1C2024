@@ -95,9 +95,10 @@ foreach ($archivo in $archivos){
     $registros= Get-Content $archivo.FullName -Delimiter $separador
     foreach ($registro in $registros){
         #quito del registro los "." y ","
-        $registro=$registro -replace '\.|\,'
+        $registro=$registro -replace '[^\p{L}\p{N}]', ''
         #si contieneOmitir devuelve "1" se saltea el registro
         if(-not (contieneOmitir $registro)){
+            $registro
             #cuenta las palabras
             $listaPalabras[$registro]++
             #cuenta las longitudes de las palabras
