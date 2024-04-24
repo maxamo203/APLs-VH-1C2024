@@ -57,15 +57,14 @@ function validarDirectorio {
 		mkdir /tmp/Ejercicio4
 	fi
 
-	rutaAbsoluta=`realpath $directorio`
-
+	rutaAbsoluta=`realpath "$directorio"`
 	#Se buscan todos los procesos "Ejercicio4" que se estén ejecutando
 	#para ver si hay alguno que ya se esté ejecutando en el directorio actual
 	if [[ -d /tmp/Ejercicio4 && `ls -A /tmp/Ejercicio4` ]]; then
 		for archivo in /tmp/Ejercicio4/*.ej4; do
 			rutaObtenida=`cat $archivo`
-			if [[ $rutaObtenida = $rutaAbsoluta ]]; then
-				echo "Ya hay un proceso ejecutándose en $rutaAbsoluta , saliendo"
+			if [[ "$rutaObtenida" = "$rutaAbsoluta" ]]; then
+				echo "Ya hay un proceso ejecutándose en "$rutaAbsoluta" , saliendo"
 				exit 0
 			fi
 		done
@@ -73,7 +72,7 @@ function validarDirectorio {
 
 	#Los archivos tendrán como extensión .ej4 y como nombre su PID
 	#Contendrán el directorio en el que están trabajando
-	echo $rutaAbsoluta > /tmp/Ejercicio4/$$.ej4
+	echo "$rutaAbsoluta" > /tmp/Ejercicio4/$$.ej4
 }
 
 #Cuando el script se termina de ejecutar, elimina todos los archivos creados en /tmp
@@ -97,8 +96,8 @@ function limpiarTmp {
 #Si no lo hay, informa al usuario
 function matarProceso {
 
-	ruta=`realpath $directorio`
-
+	ruta=`realpath "$directorio"`
+	echo "$ruta"
 	if [[ -d /tmp/Ejercicio4 && `ls -A /tmp/Ejercicio4` ]]; then
 		for archivo in /tmp/Ejercicio4/*.ej4; do
 			rutaObtenida=`cat $archivo`
@@ -132,7 +131,7 @@ function guardarRegistro {
 
 
 
-	echo "[`date '+%Y-%m-%d %H:%M:%S'`] $salida$1 fue $evento, $3" >> $salida/registro.log
+	echo "[`date '+%Y-%m-%d %H:%M:%S'`] "$salida"$1 fue $evento, $3" >> "$salida"/registro.log
 }
 
 function hacerBackup {
@@ -153,14 +152,14 @@ function hacerBackup {
 		tar -r -f "$archivoSalida" --transform="s,.*/\(.*\),`date +%Y%m%d-%H%M%S`-\1," "$archivoEntrada"
 	fi
 
-	gzip --force $archivoSalida
+	gzip --force "$archivoSalida"
 }
 
 function observarDirectorio {
 
 
 	#El notify lo ejecuto en el fondo para que no haga lío
-	inotifywait -m -q -e create,modify "$directorio" >> /tmp/Ejercicio4/$$.nlog &
+	inotifywait -m -q -e create,modify "$directorio" --format "%w;%e;%f" >> /tmp/Ejercicio4/$$.nlog &
 	notifyPID="$!" #Guardo su PID para poder matarlo después
 	ultimaLinea=""
 
@@ -177,8 +176,8 @@ function observarDirectorio {
 		if [[ "$nuevaLinea" != "$ultimaLinea" && ! "$nuevaLinea" == "" ]]; then
 			ultimaLinea="$nuevaLinea"
 
-			evento=`echo $ultimaLinea | awk '{print $2}'`
-			archivoAfectado=`echo $ultimaLinea |awk '{print $3}'`
+			evento=`echo $ultimaLinea | awk -F';' '{print $2}'`
+			archivoAfectado=`echo $ultimaLinea |awk -F';' '{print $3}'`
 
 			sed '$d' /tmp/Ejercicio4/$$.nlog > /tmp/Ejercicio4/$$.nlog
 
@@ -187,7 +186,7 @@ function observarDirectorio {
 			if [[ ! "$archivoAfectado" =~ ^\..* && ! "$archivoAfectado" == "" && ! -d "$archivoAfectado" ]]; then
 #				#Si se ingresó un patrón, lo busca en el archivo antes de decidir si hacer un backup o no
 #				#Si no se ingresó un patrón, hará un backup de todos los archivos que se modifiquen o creen en el directorio
-
+				
 				grep -q "$patron" "$directorio/$archivoAfectado"
 				patronEncontrado=$?
 
