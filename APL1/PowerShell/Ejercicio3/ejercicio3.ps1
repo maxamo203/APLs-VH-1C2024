@@ -1,3 +1,5 @@
+#encoding: UTF-8
+
 <#
 .SYNOPSIS
 Esta funcion analiza los archivos de texto en un directorio y genera un informe.
@@ -28,7 +30,6 @@ Array de caracteres que deben ser omitidos al analizar las palabras del archivo.
 .EXAMPLE
 .\ejercicio.ps1 -directorio .\misArchivos -extension .txt -omitir @("`n", "`r")
 #>
-
 
 Param(
     [Parameter(Mandatory=$True)]
@@ -77,6 +78,11 @@ function contieneOmitir(){
         [string]
         $cadena
     )
+    #Esto chequea que la cadena no este vacia, si lo esta, lo omite
+    if([String]::IsNullOrWhiteSpace($cadena)){
+        return 1
+    }
+    #Recorro la cadena omitir para chequear que la palabra no tenga un caracter del array
     foreach ($char in $omitir){
         if($cadena.Contains($char)){
             return 1
@@ -94,26 +100,36 @@ foreach ($archivo in $archivos){
     #obtengo un array de registros del archivo separados por el separador
     $registros= Get-Content $archivo.FullName -Delimiter $separador
     foreach ($registro in $registros){
-        #quito del registro los "." y ","
-        $registro=$registro -replace '[^\p{L}\p{N}]', ''
-        #si contieneOmitir devuelve "1" se saltea el registro
-        if(-not (contieneOmitir $registro)){
-            $registro
-            #cuenta las palabras
-            $listaPalabras[$registro]++
-            #cuenta las longitudes de las palabras
-            $listaLongitudes[$registro.Length]++
-            #cuenta la cantidad de palabras
-            $cantidadDePalabras++
-            #creo array de caracteres para recorrerlo
-            $caracteres=$registro.ToCharArray()
-            foreach ($caracter in $caracteres){
-                    #cuenta la cantidad de caracteres
-                    $listaCaracteres[$caracter]++
+        #creo un array de cadenas con el resultado de splitear por cualquier cosa que no sea numero o letra
+        #esto se hace por si hay caracteres no deseados entre palabras, como por ejemplo: Arbol(TDA)
+        #dando como resultado este array: ("Arbol", "TDA")
+        $cadenasRegistros = $registro -split '[^\p{L}\p{N}áéíóúüÁÉÍÓÚÜ]+'
+        foreach ($cadenaRegistros in $cadenasRegistros ){
+            #quito del registro todo lo que no sea numeros o letras
+            $cadenaRegistros = $cadenaRegistros -replace '[^\p{L}\p{N}áéíóúüÁÉÍÓÚÜ]', ''
+            #si contieneOmitir devuelve "1" se saltea el registro
+            if(-not (contieneOmitir $cadenaRegistros)){
+                #cuenta las palabras
+                $listaPalabras[$cadenaRegistros]++
+                #cuenta las longitudes de las palabras
+                $listaLongitudes[$cadenaRegistros.Length]++
+                #cuenta la cantidad de palabras
+                $cantidadDePalabras++
+                #creo array de caracteres para recorrerlo
+                $caracteres=$cadenaRegistros.ToCharArray()
+                foreach ($caracter in $caracteres){
+                        #cuenta la cantidad de caracteres
+                        $listaCaracteres[$caracter]++
+                }
             }
         }
     }
 }
+
+##NOTA: Se requiere usar el metodo "GetEnumerator" para obtener un enumerador que permite recorrer los elementos de una colección uno por uno.
+##      Tanto para pasar el array por pipelining a la funcion Sort o Where, o como para recorrerlo y mostrarlo en pantalla, se necesita el enumerador.
+
+
 #creo lista ordenada por longitud
 $listaLongitudesOrdenada = $listaLongitudes.GetEnumerator() | Sort-Object -Property Key
 
@@ -121,7 +137,7 @@ $listaLongitudesOrdenada = $listaLongitudes.GetEnumerator() | Sort-Object -Prope
 $listaPalabrasOrdenada = $listaPalabras.GetEnumerator() | Sort-Object -Property Value -Descending
 $mayorValor = $listaPalabrasOrdenada[0].Value
 #hago una lista con las palabras que tengan como repeticiones la maxima cantidad de repeticiones
-$palabrasMasFrecuentes = $listaPalabrasOrdenada | Where-Object { $_.Value -eq $mayorValor }
+$palabrasMasFrecuentes = $listaPalabrasOrdenada.GetEnumerator() | Where-Object { $_.Value -eq $mayorValor }
 
 #obtengo el promedio de palabras por archivo
 $promedioPalabrasxArchivo=$cantidadDePalabras/$($archivos.Count)
@@ -131,16 +147,21 @@ $promedioPalabrasxArchivo=$cantidadDePalabras/$($archivos.Count)
 $listaCaracteresOrdenada = $listaCaracteres.GetEnumerator() | Sort-Object -Property Value -Descending
 $mayorValor = $listaCaracteresOrdenada[0].Value
 #hago una lista con los caracteres que tengan como repeticiones la maxima cantidad de repeticiones
-$caracteresMasFrecuentes = $listaCaracteresOrdenada | Where-Object { $_.Value -eq $mayorValor }
+$caracteresMasFrecuentes = $listaCaracteresOrdenada.GetEnumerator() | Where-Object { $_.Value -eq $mayorValor }
 
 
 #Imprimo el informe
+
+foreach ($palabra in $listaPalabras.GetEnumerator()) {
+    Write-Host "$($palabra.Key) con $($palabra.Value) ocurrencia(s)"
+}
+
 Write-Host "
 ------------------INFORME------------------
 La cantidad de ocurrencias de palabras de X caracteres"
 foreach($longitud in $listaLongitudesOrdenada){
     if($longitud.Key -eq 1){
-        Write-Host "Palabras de $($longitud.Key)caracter: $($longitud.Value)"
+        Write-Host "Palabras de $($longitud.Key) caracter: $($longitud.Value)"
     }
     else{
         Write-Host "Palabras de $($longitud.Key) caracteres:  $($longitud.Value)"
@@ -151,7 +172,7 @@ Write-Host "
 
 La(s) Palabra(s) mas frecuente(s):"
 foreach ($palabra in $palabrasMasFrecuentes) {
-    Write-Host "$($palabra.Key) con $($palabra.Value) ocurrencia(s)"
+    Write-Host "`"$($palabra.Key)`" con $($palabra.Value) ocurrencia(s)"
 }
 
 Write-Host "
@@ -166,6 +187,10 @@ Write-Host "
 
 El/Los caracter(es) mas frecuente(s):"
 foreach ($caracter in $caracteresMasFrecuentes) {
-    Write-Host "$($caracter.Key) con $($caracter.Value) ocurrencia(s)"
+    Write-Host "`"$($caracter.Key)`" con $($caracter.Value) ocurrencia(s)"
 }
+
+Write-Host "
+
+"
 
