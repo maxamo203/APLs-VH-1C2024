@@ -59,6 +59,7 @@ Param(
     $omitir=@()
 )
 
+#omite salto de linea
 $omitir += "`n"
 $archivos=$(Get-ChildItem -Path "$directorio" -Filter "*.$extension")
 
