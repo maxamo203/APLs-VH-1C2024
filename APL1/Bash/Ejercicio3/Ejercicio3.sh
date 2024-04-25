@@ -69,22 +69,21 @@ if [ "$dir" == "" ]; then
     echo "Direccion no pasada, saliendo" >&2
     exit 2
 fi
-echo "$dir"
 IFS_VIEJO="$IFS"
 IFS=$'\n'
 archivos=`ls -d "$dir"/*`
-echo $archivos
 
 #pasar todo a minuscula (asi Linux y linux es la misma palabra)
 #remover caracteres especiales (.,!? etc), salvo el delimitador 
-echo "($extension)"
-awk -F"$separador" -v extension="$extension" -v omitir="$omitir" -v case="$caseSensitive" '
+
+awk -F"$separador" -v extension="$extension" -v omitir="$omitir" -v AceptaCase="$caseSensitive" '
 BEGIN {
-    archivoRegex = "\." extension "$" #el simbolo $ al final de la regex indica que quiero que la cadena termine con lo que le dije antes
+    archivoRegex = "\\." extension "$" #el simbolo $ al final de la regex indica que quiero que la cadena termine con lo que le dije antes
+    
     #por ejemplo para la extension de un archivo seria tipo txt$, porque quiero quedarme con los archivos que terminen txt
     conteoArchivos = 0
     cantTotalPalabras = 0
-    if (case != "true")
+    if (AceptaCase != "true")
         omitir = tolower(omitir)
         separador = tolower(separador)
     split(omitir, palabrasAOmitir, ",")
@@ -93,11 +92,12 @@ match(FILENAME, archivoRegex){
     if (archivoAnterior != FILENAME) #una especie de corte de control para contar los archivos que efectivamente se analizan (xq algunos pueden ser omitidos por la extension)
         conteoArchivos++
 
-    if (case != "true")
+    if (AceptaCase != "true")
             $0 = tolower($0) #pasa todo a minuscula
-    gsub(/[^A-Za-z0-9 ]/,"",$0) #elimina todo lo que no sea letra o numero o espacio (importante el espacio entre el 9 y el ])
+
+    gsub(/[^A-Za-z0-9 ]/,FS,$0) #elimina todo lo que no sea letra o numero o espacio (importante el espacio entre el 9 y el ]) y lo reemplaza por el separador
+
     for(i=1; i<=NF; i++){
-        
         omitir = "false"
         for (j = 1;j<= length(palabrasAOmitir);j++)
             if (match($i, palabrasAOmitir[j])){ #Si la palabra actual contiene alguna de las subcadenas pasadas para omitir
@@ -122,13 +122,10 @@ END{
     #Muestra las distintas longitudes de palabras ordenadas
     maximaLongitudDePalabra = 0
     for (longitud in conteoLongitudPalabras){
-        if (longitud > maximaLongitudDePalabra)
-            maximaLongitudDePalabra = longitud
+        print "Palabras de " longitud " caracteres: " conteoLongitudPalabras[longitud]
+            
     }
-    for (i = 1;i<=maximaLongitudDePalabra;i++){
-        if (i in conteoLongitudPalabras)
-            print "Palabras de " i " caracteres: " conteoLongitudPalabras[i]
-    }
+    
 
     maxOcurrenciaDePalabras = 0
     for (ocurrencia in conteoDeOcurrenciasDePalabras){ #obtengo el maximo de ocurrencias de una palabra
