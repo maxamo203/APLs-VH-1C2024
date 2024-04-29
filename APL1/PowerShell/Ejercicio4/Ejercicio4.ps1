@@ -26,7 +26,8 @@ Param(
   [string]$directorio, #lo uso como string porque sino me da problemas cuando quiero convertirlo a ruta absoluta
 
   [Parameter(Mandatory = $True, ParameterSetName = "invocar")]
-  [System.IO.DirectoryInfo]$salida,
+  [string]$salida,
+  #[System.IO.DirectoryInfo]$salida,
 
   [Parameter(Mandatory = $true, ParameterSetName = "invocar")]
   [string]$patron,
@@ -43,32 +44,42 @@ function comprobarDirectorioMonitoreado {
   param(
     [System.IO.DirectoryInfo]$directoriofunc
   )
-  if (-not (Test-Path "/tmp/Ejercicio4/running.ej4")) {
-    mkdir "/tmp/Ejercicio4"
-    New-Item -Path "/tmp/Ejercicio4/running.ej4" -ItemType File
+
+  if ($directoriofunc -eq $salida) {
+    Write-Error "No se puede monitorear el mismo directorio en donde se guardaran los backups"
+    exit 1
   }
-  #$procesosExistentes = Get-Content "/tmp/Ejercicio4/running.ej4" | ForEach-Object
-  $coincidencias = Select-String -Path "/tmp/Ejercicio4/running.ej4" -Pattern $directoriofunc
+
+  if (-not (Test-Path "$Env:temp\Ejercicio4")) {
+    mkdir "$Env:temp\Ejercicio4"
+  }
+
+  if (-not (Test-Path "$Env:temp\Ejercicio4\running.ej4")) {
+    New-Item -Path "$Env:temp\Ejercicio4\running.ej4" -ItemType File
+  }
+  #$procesosExistentes = Get-Content "$Env:temp\Ejercicio4\running.ej4" | ForEach-Object
+  $coincidencias = Select-String -Path "$Env:temp\Ejercicio4\running.ej4" -Pattern $directoriofunc
   if ($coincidencias) {
+    $directoriofunc = $directoriofunc -replace '\\\\', '\'
     Write-Error "Ya se esta monitoreando $directoriofunc o un subdirectorio de esta, si quieres frenarlo indica el parametro -kill. Puedes ver los directorios monitoreandose con -consultar"
     exit 1
   }
 }
-function mostrarDirectoriosMonitoreandose{
-  if (-not (Test-Path -Path "/tmp/Ejercicio4/running.ej4")){
+function mostrarDirectoriosMonitoreandose {
+  if (-not (Test-Path -Path "$Env:temp\Ejercicio4\running.ej4")) {
     Write-Output "No hay directorios monitoreandose"
     exit 0
   }
 
-  $procesosCorriendo = (Get-Content "/tmp/Ejercicio4/running.ej4").Split(' ', 2) #guarda PID- Directorio- PID-Directorio... #el 2 es para que solo divida hasta la aparicion del primer espacio (el que divide PID de directorio) asi no separa por espacios que podria tener un directorio++
-  if ($procesosCorriendo.Count -eq 0){
+  $procesosCorriendo = (Get-Content "$Env:temp\Ejercicio4\running.ej4").Split(' ', 2) #guarda PID- Directorio- PID-Directorio... #el 2 es para que solo divida hasta la aparicion del primer espacio (el que divide PID de directorio) asi no separa por espacios que podria tener un directorio++
+  if ($procesosCorriendo.Count -eq 0) {
     Write-Output "No hay directorios monitoreandose"
     exit 0
   }
   
   Write-Output "Directorios Monitoreandose:"
   Write-Output "-------------------"
-  for($i=1; $i -le $procesosCorriendo.Count; $i+=2){
+  for ($i = 1; $i -le $procesosCorriendo.Count; $i += 2) {
     Write-Output "$($procesosCorriendo[$i])"
   }
   Write-Output "-------------------"
@@ -79,65 +90,69 @@ function dejarMonitorizar {
   #leer el PID
   #kill del PID
   #borrar el registro de esa linea
-  if (-not (Test-Path "/tmp/Ejercicio4/running.ej4")) {
+  if (-not (Test-Path "$Env:temp\Ejercicio4\running.ej4")) {
     Write-Error "No hay ningun directorio monitoreandose"
     exit 4
   }
 
-  $coincidencias = Select-String -Path "/tmp/Ejercicio4/running.ej4" -Pattern $directorio #trae las lineas donde se indica el directorio (deberia ser solo una)
+  $coincidencias = Select-String -Path "$Env:temp\Ejercicio4\running.ej4" -Pattern $directorio #trae las lineas donde se indica el directorio (deberia ser solo una)
+
   if (-not $coincidencias) {
     Write-Error "No se esta monitoreando $directorio, si quieres monitorearlo indica el parametro -salida y -patron"
     exit 3
   }
   #ejemplo de coincidencia:
   #running.ej4:2:93888 /home/maximobosch/APLs-VH-1C2024/APL1/PowerShell/Ejercicio2
-  $pidABorrar = $coincidencias[0].ToString().Split()[0].Split(":")[2]
+  $pidABorrar = $coincidencias[0].ToString().Split()[0].Split(":")[3]
   Stop-Process $pidABorrar
 
-  $lineaABorrar = $coincidencias[0].ToString().Split()[0].Split(":")[1]
-  $lineas = Get-Content "/tmp/Ejercicio4/running.ej4"
+  $lineaABorrar = $coincidencias[0].ToString().Split()[0].Split(":")[2]
+  $lineas = Get-Content "$Env:temp\Ejercicio4\running.ej4"
   if ($lineas.Count -eq 1) {
     #si solo queda un proceso, borra el archivo directamente
-    Remove-Item -Path "/tmp/Ejercicio4/running.ej4" 
+    Remove-Item -Path "$Env:temp\Ejercicio4\running.ej4" 
   }
   else {
 
-    Clear-Content "/tmp/Ejercicio4/running.ej4" #borra todas las lineas para escribirlas devuelta, sin la que mate recien
+    Clear-Content "$Env:temp\Ejercicio4\running.ej4" #borra todas las lineas para escribirlas devuelta, sin la que mate recien
     for ($i = 0; $i -lt $lineas.Count; $i++) {
       if ($i -eq $lineaABorrar - 1) {
         continue
       }
-      Write-Output $lineas[$i] >> "/tmp/Ejercicio4/running.ej4"
+      Write-Output $lineas[$i] >> "$Env:temp\Ejercicio4\running.ej4"
     }
   }
+  $directorio = $directorio -replace '\\\\', '\'
   Write-Host "Ya no se esta monitoreando el directorio $directorio" -ForegroundColor Green
 }
 
-function verificarIntegridadProcesosCorriendo{
-  if (-not (Test-Path -Path "/tmp/Ejercicio4/running.ej4")){
+function verificarIntegridadProcesosCorriendo {
+  if (-not (Test-Path -Path "$Env:temp\Ejercicio4\running.ej4")) {
     return 
   }
-  $procesosGuardados = (Get-Content "/tmp/Ejercicio4/running.ej4") -split "\r?\n" #para que separe por lineas
+  $procesosGuardados = (Get-Content "$Env:temp\Ejercicio4\running.ej4") -split "\r?\n" #para que separe por lineas
   $procesosGuardados = [System.Collections.ArrayList]$procesosGuardados
   $lineasABorrar = @()
-  for($i = 0; $i -lt $procesosGuardados.Count; $i++) { #busca procesos que esten en el archivo pero que no se esten ejecutando (causado por un cierre inesperado del archivo)
+  for ($i = 0; $i -lt $procesosGuardados.Count; $i++) {
+    #busca procesos que esten en el archivo pero que no se esten ejecutando (causado por un cierre inesperado del archivo)
     $pidLeido = $procesosGuardados[$i].Split()[0]
     $procesoCorriendo = Get-Process | Where-Object Id -eq $pidLeido
-    if (-not $procesoCorriendo){
+    if (-not $procesoCorriendo) {
       $lineasABorrar += $i
       Write-Warning "El proceso de PID: $pidLeido no se encontraba corriendo, pero estaba en el archivo, eliminando del archivo..."
     }
   }
   $lineasABorrar = $lineasABorrar | Sort-Object -Descending #para que borre indices de atras para adelante y no queden indices corridos
-  foreach ($linea in $lineasABorrar){ #borra las lineas de los procesos
+  foreach ($linea in $lineasABorrar) {
+    #borra las lineas de los procesos
     $procesosGuardados.RemoveAt($linea)
   }
-  Write-Output $procesosGuardados > "/tmp/Ejercicio4/running.ej4"
+  Write-Output $procesosGuardados > "$Env:temp\Ejercicio4\running.ej4"
 }
 
 $bloque = {
   param($directorio, $salida, $patron)
-  function fechaFormateada{
+  function fechaFormateada {
     return Get-Date -Format "yyyyMMdd-HHmmss"
   }
   function main {
@@ -158,24 +173,27 @@ $bloque = {
       $accion = {
         $fecha = fechaFormateada
         $coincidenciasPatron = Select-String -Path $event.SourceEventArgs.FullPath -Pattern $patron
-        if ($coincidenciasPatron){
+        if ($coincidenciasPatron) {
+
+          echo $salida.FullName >> "$Env:temp\salida.log"
+
           Start-Job -ScriptBlock { #no se porqué si la compresion lo hago en otro subproceso anda bien, si lo hago sin subproceso, cuando comprime un archivo deja de monitorear cambios (con o sin backup)
             param($path, $destination)
             Compress-Archive -Path $path -DestinationPath $destination -CompressionLevel "Fastest"
-        } -ArgumentList $event.SourceEventArgs.FullPath, "$salida/$fecha.zip"
+          } -ArgumentList $event.SourceEventArgs.FullPath, "$salida/$fecha.zip"
 
-          Write-Output "$fecha--$($event.SourceEventArgs.FullPath)--$($event.SourceEventArgs.ChangeType)--realizo back up" >> "/tmp/Ejercicio4/ej4.log"
+          Write-Output "$fecha--$($event.SourceEventArgs.FullPath)--$($event.SourceEventArgs.ChangeType)--realizo back up" >> "$Env:temp\Ejercicio4/ej4.log"
         }
-        else{
-          Write-Output "$fecha--$($event.SourceEventArgs.FullPath)--$($event.SourceEventArgs.ChangeType)--no se realizo back up" >> "/tmp/Ejercicio4/ej4.log"
+        else {
+          Write-Output "$fecha--$($event.SourceEventArgs.FullPath)--$($event.SourceEventArgs.ChangeType)--no se realizo back up" >> "$Env:temp\Ejercicio4/ej4.log"
         }
       }
       . {
-        Register-ObjectEvent -InputObject $watcher -EventName Changed  -Action $accion 
-        Register-ObjectEvent -InputObject $watcher -EventName Created  -Action $accion 
+        Register-ObjectEvent -InputObject $watcher -EventName Changed  -Action $accion
+        Register-ObjectEvent -InputObject $watcher -EventName Created  -Action $accion
       }
       
-      Write-Output "$($PID) $($directorio)" >> "/tmp/Ejercicio4/running.ej4"
+      Write-Output "$($PID) $($directorio)" >> "$Env:temp\Ejercicio4\running.ej4"
       # monitoring starts now:
       $watcher.EnableRaisingEvents = $true
       do {
@@ -185,39 +203,45 @@ $bloque = {
         
             
       } while ($true)
-    }finally{
+    }
+    finally {
       Write-Output "chauuuu" >> ./errores.txt
     }
     
     
   }
 
-  
   main -directorio $directorio -salida $salida -patron $patron
 }
 
 verificarIntegridadProcesosCorriendo
 
-if ($PSCmdlet.ParameterSetName -ne "consultar"){
+if ($PSCmdlet.ParameterSetName -ne "consultar") {
   try {
     $directorio = Resolve-Path $directorio -ErrorAction Stop #convierto el direcotrio a analizar en ruta absoluta, asi es siempre el mismo
     #el ErrorAction Stop es para que en caso de error salte al catch, por defecto no lo hace
+    if ($salida) {
+      $salida = Resolve-Path $salida -ErrorAction Stop
+    }
   }
   catch {
-    Write-Error "No se pudo convertir $directorio a una ruta absoluta"
+    Write-Error "No se pudo convertir $directorio o $salida a una ruta absoluta"
     exit 2
   }
 }
 
+$directorio = $directorio -replace '\\', '\\'
+
 if ($PSCmdlet.ParameterSetName -eq "invocar") {
   #si los parametros que se pasaron, son los de invocar ...
   comprobarDirectorioMonitoreado $directorio
-  Start-Job -ScriptBlock $bloque -ArgumentList $directorio, $salida, $patron
+  $directorio = $directorio -replace '\\\\', '\'
+  Start-Job -ScriptBlock $bloque -ArgumentList $directorio, $salida, $patron | Out-Null
 }
 elseif ($PSCmdlet.ParameterSetName -eq "matar") {
   #son los parametros para matar un proceso
   dejarMonitorizar $directorio
 }
-elseif ($PSCmdlet.ParameterSetName -eq "consultar"){
+elseif ($PSCmdlet.ParameterSetName -eq "consultar") {
   mostrarDirectoriosMonitoreandose
 }
