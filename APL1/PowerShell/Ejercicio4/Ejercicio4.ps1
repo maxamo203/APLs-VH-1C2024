@@ -28,8 +28,8 @@ Param(
   [Parameter(Mandatory = $True, ParameterSetName = "invocar")]
   [System.IO.DirectoryInfo]$salida,
 
-  [Parameter(Mandatory = $true, ParameterSetName = "invocar")]
-  [string]$patron,
+  [Parameter(Mandatory = $false, ParameterSetName = "invocar")]
+  [string]$patron = ".*",
 
   [Parameter(Mandatory = $True, ParameterSetName = "matar")]
   [switch]$kill,
