@@ -20,6 +20,7 @@
   .PARAMETER consultar
   Muestra los directorios que se estan monitoreando en ese momento
 #>
+
 Param(
   [Parameter(Mandatory = $True, ParameterSetName = "invocar")]
   [Parameter(Mandatory = $True, ParameterSetName = "matar")]
@@ -77,7 +78,7 @@ function dejarMonitorizar {
   param ($directorio)
   #ir al running ej4
   #leer el PID
-  #kill del PID
+  #kill del PID (en realidad en detener y remover el job)
   #borrar el registro de esa linea
   if (-not (Test-Path "/tmp/Ejercicio4/running.ej4")) {
     Write-Error "No hay ningun directorio monitoreandose"
@@ -91,8 +92,8 @@ function dejarMonitorizar {
   }
   #ejemplo de coincidencia:
   #running.ej4:2:93888 /home/maximobosch/APLs-VH-1C2024/APL1/PowerShell/Ejercicio2
-  $pidABorrar = $coincidencias[0].ToString().Split()[0].Split(":")[2]
-  Stop-Process $pidABorrar
+  $jobABorrar = $coincidencias[0].ToString().Split(" ",2)[1] #el nombre del job incluye el directorio
+  Remove-Job "jobEj4$jobABorrar" -Force #el force es para que antes detenga el job, y luego lo remueve
 
   $lineaABorrar = $coincidencias[0].ToString().Split()[0].Split(":")[1]
   $lineas = Get-Content "/tmp/Ejercicio4/running.ej4"
@@ -110,7 +111,7 @@ function dejarMonitorizar {
       Write-Output $lineas[$i] >> "/tmp/Ejercicio4/running.ej4"
     }
   }
-  Write-Host "Ya no se esta monitoreando el directorio $directorio" -ForegroundColor Green
+  Write-Host "Ya no se esta monitoreando el directorio $directorio" -ForegroundColor Green 
 }
 
 function verificarIntegridadProcesosCorriendo{
@@ -170,7 +171,7 @@ $bloque = {
           Write-Output "$fecha--$($event.SourceEventArgs.FullPath)--$($event.SourceEventArgs.ChangeType)--no se realizo back up" >> "/tmp/Ejercicio4/ej4.log"
         }
       }
-      . {
+      $handlers =. {
         Register-ObjectEvent -InputObject $watcher -EventName Changed  -Action $accion 
         Register-ObjectEvent -InputObject $watcher -EventName Created  -Action $accion 
       }
@@ -185,8 +186,18 @@ $bloque = {
         
             
       } while ($true)
-    }finally{
-      Write-Output "chauuuu" >> ./errores.txt
+    }finally{ #este finally se ejecuta cuando hago el stop-job (lo hace el removeJob con -Force), no sirve si mato el proceso directamente
+      $watcher.EnableRaisingEvents = $false
+  
+      # remove the event handlers
+      $handlers | ForEach-Object {
+        Unregister-Event -SourceIdentifier $_.Name
+      }
+      
+      $handlers | Remove-Job
+      
+      # properly dispose the FileSystemWatcher:
+      $watcher.Dispose()
     }
     
     
@@ -208,11 +219,10 @@ if ($PSCmdlet.ParameterSetName -ne "consultar"){
     exit 2
   }
 }
-
 if ($PSCmdlet.ParameterSetName -eq "invocar") {
   #si los parametros que se pasaron, son los de invocar ...
   comprobarDirectorioMonitoreado $directorio
-  Start-Job -ScriptBlock $bloque -ArgumentList $directorio, $salida, $patron
+  Start-Job -ScriptBlock $bloque -ArgumentList $directorio, $salida, $patron -Name "jobEj4$directorio" #le paso el pid del programa actual como parametro, porque el job, como tal tiene otro PID, y no concuerda con el PID del script que lo llamo
 }
 elseif ($PSCmdlet.ParameterSetName -eq "matar") {
   #son los parametros para matar un proceso
