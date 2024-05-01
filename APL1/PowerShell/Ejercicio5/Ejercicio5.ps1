@@ -6,6 +6,48 @@ param(
     [string[]]$nombre
 
 )
+function busquedaBinariaMultiple{
+    param(
+        [Object[]]$source,
+        [int[]]$targets
+    )
+    $inf = 0
+    $sup = $source.Count-1 #topes inclusivos
+    $targetsEncontrados = @()
+    $actual = 20
+    $conteo = 0
+    foreach($target in $targets){
+        $base = $inf
+        $top = $sup
+        $flag = $false
+        
+        while ($base -le $top){
+            [int]$actual = ($top+$base) / 2
+            $conteo++
+            Write-Warning "salida $base $actual $top"
+            if ($source[$actual].id -eq $target){
+                $global:Resultados += $source[$actual]
+                $targetsEncontrados += $target
+                $flag = $true
+                break
+            }
+            elseif($source[$actual].id -lt $target){
+                $base = $actual+1
+            }
+            else{
+                $top = $actual-1
+            }
+        }
+        if($flag){
+            $inf = $actual + 1
+        }else{
+            $inf = $actual
+        }
+    }
+    Write-Warning "Iteraciones $conteo, Total $sup"
+    return $targetsEncontrados
+
+}
 function peticion{
     param(
         [ScriptBlock]$peticion, 
@@ -79,35 +121,43 @@ function buscarEnArchivo{
         [Parameter(Mandatory)]
         [ref]$ids
     )
-    if(-not( Test-Path "cache.ej5")){
+    
+    if(-not( Test-Path "cache.ej5") -or $ids.Value.Count -eq 0){
         return 
     }
     #$nombresEncontrados = New-Object 'System.Collections.Generic.HashSet[string]'
-    $idsEncontrados = New-Object 'System.Collections.Generic.HashSet[int]'
-    Get-Content "cache.ej5" | ConvertFrom-Json | ForEach-Object {
-        $encontro = $false
-        # foreach($nombre in $nombres.Value){
-        #     if ($_.name -match $nombre){
-        #         $nombresEncontrados.Add($nombre) > $null #para que no imprima True o False cuando agrega
-        #         $encontro = $True
-        #     }
+    #$idsEncontrados = New-Object 'System.Collections.Generic.HashSet[int]'
+    # Get-Content "cache.ej5" | ConvertFrom-Json | ForEach-Object {
+    #     $encontro = $false
+    #     # foreach($nombre in $nombres.Value){
+    #     #     if ($_.name -match $nombre){
+    #     #         $nombresEncontrados.Add($nombre) > $null #para que no imprima True o False cuando agrega
+    #     #         $encontro = $True
+    #     #     }
 
-        # }
-        foreach($id in $ids.Value){
-            if ($_.id -eq $id){
-                $idsEncontrados.Add($id) > $null
-                $encontro = $True
-            }
+    #     # }
+    #     foreach($id in $ids.Value){
+    #         if ($_.id -eq $id){
+    #             $idsEncontrados.Add($id) > $null  #para que no imprima True o False cuando agrega
+    #             $encontro = $True
+    #         }
 
-        }
-        if($encontro){
-            $global:Resultados += $_
-        }
-    }
+    #     }
+    #     if($encontro){
+    #         $global:Resultados += $_
+    #     }
+    # }
+    $personajesArchivo = Get-Content "cache.ej5" | ConvertFrom-Json
+    
+    $idsEncontrados = busquedaBinariaMultiple $personajesArchivo $ids.Value
+    $idsEncontrados
     #$nombres.Value = $nombres.Value | Where-Object {$_ -notin $nombresEncontrados}
-    $ids.Value = $ids.Value | Where-Object {$_ -notin $idsEncontrados}
+    $ids.Value = $ids.Value | Where-Object {$_ -notin $idsEncontrados} #elimina los ids que se encontraron en el archivo para que no los busque en la API
 }
+
 $global:Resultados = @()
+$id = $id | Group-Object |ForEach-Object { $_.Group | Select-Object -First 1 } #ordena ids para usarlos ordenados en busqueda binaria y elimina duplicados
+
 buscarEnArchivo ([ref]$id) #en el archivo solo busca por id, no busca por nombres, mando referencia de id asi la funcion elimina los ids que fueron encontrados en el archiov
 
 
