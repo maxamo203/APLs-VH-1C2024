@@ -118,6 +118,13 @@ function petitcionPorId{
     try{ 
         $res = Invoke-RestMethod -Uri "https://rickandmortyapi.com/api/character/$($id -join ",")" | parsearObjeto
         $global:Resultados += $res
+
+        #miro si algun id no trajo personaje
+        $idsPersonajes = $res | ForEach-Object {$_.id}
+        $id | Where-Object {$idsPersonajes -notcontains $_} | ForEach-Object{
+            Write-Warning "No se encontro el ID $_"
+        }
+    
     }
     catch{
        # Accede al objeto de respuesta de la excepción
@@ -193,10 +200,12 @@ $global:Resultados = @()
 $id = $id | Group-Object |ForEach-Object { $_.Group | Select-Object -First 1 } #ordena ids para usarlos ordenados en busqueda binaria y elimina duplicados
 
 buscarEnArchivo ([ref]$id) #en el archivo solo busca por id, no busca por nombres, mando referencia de id asi la funcion elimina los ids que fueron encontrados en el archiov
-
-
 petitcionPorId $id
 petitcionPorNombre $nombre
+
+if($Resultados.Count -eq 0){
+    exit 0
+}
 
 $Resultados =  $Resultados | Group-Object -Property id | ForEach-Object { $_.Group | Select-Object -First 1 }  #elimina posibles personajes duplicados que pudieron venir de la red y archivo, basandose en el id, los agrupa y me quedo con el primer elemento de ese grupo+
 $Resultados | imprimirObjeto
