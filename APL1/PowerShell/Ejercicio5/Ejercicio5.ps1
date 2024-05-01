@@ -14,50 +14,62 @@ function busquedaBinariaMultiple{
     $inf = 0
     $sup = $source.Count-1 #topes inclusivos
     $targetsEncontrados = @()
-    $actual = 20
-    $conteo = 0
-    foreach($target in $targets){
+    $actual = 0 #se mueve entre todos los personajes
+    $conteo = 0 #sirve para ver cuantas iteraciones se hicieron en total
+    $targetActual = 0 #el target (id) que esta buscadno
+    $conteoTargets = 0 #cuantos targets lleva analizados
+    while ($conteoTargets -lt $targets.Count){
         $base = $inf
         $top = $sup
         $flag = $false
-        
+        $targetActual = $conteoTargets % 2 -eq 0? $conteoTargets/2 : $targets.Count-1-($conteoTargets-1)/2 #para que el id que se busque de la forma 0,n-1,1,n-2,2,n-3, etc
+        Write-Warning "buscando $($targets[$targetActual])... ($conteoTargets)"
         while ($base -le $top){
             [int]$actual = ($top+$base) / 2
             $conteo++
             Write-Warning "salida $base $actual $top"
-            if ($source[$actual].id -eq $target){
+            if ($source[$actual].id -eq $targets[$targetActual]){
                 $global:Resultados += $source[$actual]
-                $targetsEncontrados += $target
+                $targetsEncontrados += $targets[$targetActual]
                 $flag = $true
                 break
             }
-            elseif($source[$actual].id -lt $target){
+            elseif($source[$actual].id -lt $targets[$targetActual]){
                 $base = $actual+1
             }
             else{
                 $top = $actual-1
             }
         }
-        if($flag){
-            $inf = $actual + 1
-        }else{
-            $inf = $actual
+
+        if($conteoTargets % 2 -eq 0){
+            if($flag){
+                $inf = $actual + 1
+            }else{
+                $inf = $actual
+            }
         }
+        else{
+            if($flag){
+                $sup = $actual - 1
+            }else{
+                $sup = $actual
+            }
+        }
+        $conteoTargets++
     }
-    Write-Warning "Iteraciones $conteo, Total $sup"
+    Write-Warning "Iteraciones $conteo, Total $($source.Count)"
     return $targetsEncontrados
 
 }
 function peticion{
     param(
         [ScriptBlock]$peticion, 
-        [string]$datoPedido
+        [string[]]$datoPedido
     )
     try{ 
         $res = & $peticion
 
-        
-        #Write-Output $res 
         
         $global:Resultados += $res
     }
@@ -102,14 +114,36 @@ function petitcionPorId{
     if($id.Count -eq 0){
         return
     }
-    peticion -peticion {Invoke-RestMethod -Uri "https://rickandmortyapi.com/api/character/$($id -join ",")" | parsearObjeto} -datoPedido $id
+    
+    try{ 
+        $res = Invoke-RestMethod -Uri "https://rickandmortyapi.com/api/character/$($id -join ",")" | parsearObjeto
+        $global:Resultados += $res
+    }
+    catch{
+       # Accede al objeto de respuesta de la excepción
+       $responseError = $_.ErrorDetails.Message | ConvertFrom-Json
+        Write-Warning "$($responseError.error): $id"
+    }
 }
 function petitcionPorNombre{
     param ([string[]]$nombres)
     if($nombres.Count -eq 0){
         return
     }
-    peticion -peticion {$nombres | ForEach-Object {(Invoke-RestMethod -Uri "https://rickandmortyapi.com/api/character/?name=$_").results | parsearObjeto } } -datoPedido $nombres
+    foreach($nombre in $nombres){
+        try{ 
+            $res = (Invoke-RestMethod -Uri "https://rickandmortyapi.com/api/character/?name=$nombre").results | parsearObjeto 
+            
+            $global:Resultados += $res
+        }
+        catch{
+           # Accede al objeto de respuesta de la excepción
+           $responseError = $_.ErrorDetails.Message | ConvertFrom-Json
+            Write-Warning "$($responseError.error): No existe un $nombre"
+        }
+
+    }
+    
 }
 
 
@@ -150,7 +184,7 @@ function buscarEnArchivo{
     $personajesArchivo = Get-Content "cache.ej5" | ConvertFrom-Json
     
     $idsEncontrados = busquedaBinariaMultiple $personajesArchivo $ids.Value
-    $idsEncontrados
+    #$idsEncontrados
     #$nombres.Value = $nombres.Value | Where-Object {$_ -notin $nombresEncontrados}
     $ids.Value = $ids.Value | Where-Object {$_ -notin $idsEncontrados} #elimina los ids que se encontraron en el archivo para que no los busque en la API
 }
