@@ -13,7 +13,6 @@ function mostrarAyuda() {
 function manejarSigInt() {
 	if [ -f $tempIds ]; then rm $tempIds; fi
 	if [ -f $tempNombres ]; then rm $tempNombres; fi
-	if [ -f $destino ]; then rm $destino; fi
 	exit 1
 }
 
@@ -63,49 +62,47 @@ function validarParametros() {
 		echo "No se ha ingresado ningun parametro... Saliendo"
 		exit 3
 	fi
-	nombres="$(echo "$nombres" | sed -s 's/ /+/g')"
+	if [[ "$ids" != ""  && !("$ids" =~ ^([0-9])+(,[0-9]+)*$) ]]; then
+		echo "ERROR: Ids no numericos"
+		exit 3
+	fi
 }
-
-#Puedo pasar una lista de ids a la API
-#No puedo pasar una lista de nombres a la API, tengo que iterar
 
 #Cuando consultas nombre, te devuelve paginas (puede devolver solo una)
 function consultarNombres() {
-	if [ "$nombres" = "" ];then
-		echo '[' >> $1
-		echo ']' >> $1
-		return
-	fi
-
 	IFS_VIEJO="$IFS"
 	IFS=','
 
 	for nombre in $nombres; do
-		local url="$urlBase""/?name=""$nombre"
 
-		while true; do
-			local resultado=$(curl -s "$url")
+		local resultadoFinal="$(jq --arg nombre "$nombre" '.[] | select(.name == $nombre)' "$destino")"
+		if [[ "$resultadoFinal" = "" ]];then
+			nombreApi="$(echo "$nombre" | sed -s 's/ /+/g')"
+			local url="$urlBase/?name=$nombreApi"
 
-			if [[ "$(echo "$resultado" | jq -e '.error')" != "null" ]]; then
-				nombre="$(echo "$nombre" | sed -s 's/+/ /g')"
-				echo "El nombre '$nombre' no traera resultados"
-				break
-			fi
+			while true; do
+				local resultado=$(curl -s "$url")
 
-			local resultadoFinal="$resultadoFinal""$(echo "$resultado" | jq '.results[]')"
-			local url="$(echo "$resultado" | jq -r '.info.next')"
+				if [[ "$(echo "$resultado" | jq -e '.error')" != "null" ]]; then
+					echo "El nombre '$nombre' no traera resultados"
+					break
+				fi
 
-			if [[ "$url" = "null" ]];then
-				break;
-			fi
-		done
+				local resultadoFinal="$resultadoFinal""$(echo "$resultado" | jq '.results[]')"
+				local url="$(echo "$resultado" | jq -r '.info.next')"
+
+				if [[ "$url" = "null" ]];then
+					break;
+				fi
+			done
+		fi
+		resultadoNombres="$resultadoNombres""$resultadoFinal"
 	done
 
 	IFS="$IFS_VIEJO"
 
-	local resultadoFinal="[$(echo "$resultadoFinal" | jq -c '.' | paste -sd "," -)]"
-
-	echo "$resultadoFinal" | jq 'unique' >> $1
+	resultadoNombres="[$(echo "$resultadoNombres" | jq -c '.' | paste -sd "," -)]"
+	resultadoNombres="$(echo "$resultadoNombres" | jq 'unique')"
 }
 
 #Cuando consultas id, devuelve 1 objeto o un array
@@ -113,29 +110,19 @@ function consultarIds() {
 	IFS_VIEJO="$IFS"
 	IFS=","
 
-	local idsValidos=""
 	for id in $ids; do
 		if [ "$id" -ge 1 ] && [ "$id" -le 826 ]; then
-			local idsValidos="$idsValidos""$id"","
+			local resultado="$(jq ".[] | select(.id == $id)" $destino)"
+			if [[ "$resultado" = "" ]];then
+				local resultado=$(curl -s "$urlBase/$id")
+			fi
+			resultadoIds="$resultadoIds""$resultado"
 		else
-			echo "ID: $id invalido"
+			echo "ID: $id invalido, no traera resultados"
 		fi
 	done
-
-	#ids validos termina en ','. Por lo tanto, la consulta a la API SIEMPRE devuelve un array
-
 	IFS="$IFS_VIEJO"
-
-	if [ "$idsValidos" = "" ];then
-		echo '[' >> $1
-		echo ']' >> $1
-		return
-	fi
-
-	local url="$urlBase""/""$idsValidos"
-	local resultado=$(curl -s "$url")
-
-	echo "$resultado" | jq '.' >> $1
+	resultadoIds="[$(echo "$resultadoIds" | jq -c '.' | paste -sd "," -)]"
 }
 
 trap manejarSigInt SIGINT
@@ -145,18 +132,22 @@ destino="/home/$(whoami)/resultadoApiRYM.json"
 tempIds="/tmp/tempIds.json"
 tempNombres="/tmp/tempNombres.json"
 
-touch $tempIds
-touch $tempNombres
+if [ ! -f "$destino" ]; then
+	echo "[]" > $destino
+fi
 
 procesarParametros "$@"
 validarParametros
 
-consultarNombres $tempNombres
-consultarIds $tempIds
-jq -s '.[0] + .[1] | unique' $tempNombres $tempIds > $destino
+resultadoNombres=""
+resultadoIds=""
 
-rm $tempIds
-rm $tempNombres
+consultarNombres
+consultarIds
+
+resultadoArchivo="$(cat "$destino")"
+resultadoTotal="$(jq -n --argjson json1 "$resultadoNombres" --argjson json2 "$resultadoIds" '$json1 + $json2 | unique')"
+jq -n --argjson json1 "$resultadoTotal" --argjson json2 "$resultadoArchivo" '$json1 + $json2 | unique' > $destino
 
 printf "\nRESULTADOS\n-------------------------------------------\n"
-jq -r '.[] | "Name: \(.name)\nStatus: \(.status)\nSpecies: \(.species)\nGender: \(.gender)\nOrigin: \(.origin.name)\nLocation: \(.location.name)\n-------------------------------------------"' $destino
+echo "$resultadoTotal" | jq -r '.[] | "Name: \(.name)\nStatus: \(.status)\nSpecies: \(.species)\nGender: \(.gender)\nOrigin: \(.origin.name)\nLocation: \(.location.name)\n-------------------------------------------"'
