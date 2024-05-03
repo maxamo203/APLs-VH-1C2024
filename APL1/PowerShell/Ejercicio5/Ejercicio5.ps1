@@ -1,8 +1,10 @@
 param(
 
-    [Parameter(Mandatory=$false, ParameterSetName="input")]
+    [Parameter(Mandatory=$true, ParameterSetName="id")]
+    [Parameter(Mandatory=$true, ParameterSetName="idnombre")]
     [int[]]$id,
-    [Parameter(Mandatory=$false, ParameterSetName="input")]
+    [Parameter(Mandatory=$true, ParameterSetName="nombre")]
+    [Parameter(Mandatory=$true, ParameterSetName="idnombre")]
     [string[]]$nombre
 
 )
@@ -62,23 +64,7 @@ function busquedaBinariaMultiple{
     return $targetsEncontrados
 
 }
-function peticion{
-    param(
-        [ScriptBlock]$peticion, 
-        [string[]]$datoPedido
-    )
-    try{ 
-        $res = & $peticion
 
-        
-        $global:Resultados += $res
-    }
-    catch{
-       # Accede al objeto de respuesta de la excepción
-       $responseError = $_.ErrorDetails.Message | ConvertFrom-Json
-        Write-Warning "$($responseError.error): $datoPedido"
-    }
-}
 function parsearObjeto{
     [CmdletBinding()]
     param(
@@ -152,54 +138,59 @@ function petitcionPorNombre{
     }
     
 }
-
+function getIds{
+    param([string[]]$nombres)
+    if ($global:IndicePersonajes.Count -eq 0){
+        return
+    }
+    $asignaciones = @{}
+    foreach($nombre in $nombres){
+        $id = $global:IndicePersonajes.($nombre) #la comparacion ya es insensitive. (si el nombre esta en el indice)
+        if ($id){
+            $asignaciones[$id] = $nombre
+        }
+        
+    }
+    return $asignaciones
+}
 
 function buscarEnArchivo{
     param(
-        # [Parameter(Mandatory)]
-        # [ref]$nombres,
+        [Parameter(Mandatory)]
+        [ref]$nombres,
 
         [Parameter(Mandatory)]
         [ref]$ids
     )
     
-    if(-not( Test-Path "cache.ej5") -or $ids.Value.Count -eq 0){
+    if($global:PersonajesArchivos.Count -eq 0){
         return 
     }
-    #$nombresEncontrados = New-Object 'System.Collections.Generic.HashSet[string]'
-    #$idsEncontrados = New-Object 'System.Collections.Generic.HashSet[int]'
-    # Get-Content "cache.ej5" | ConvertFrom-Json | ForEach-Object {
-    #     $encontro = $false
-    #     # foreach($nombre in $nombres.Value){
-    #     #     if ($_.name -match $nombre){
-    #     #         $nombresEncontrados.Add($nombre) > $null #para que no imprima True o False cuando agrega
-    #     #         $encontro = $True
-    #     #     }
-
-    #     # }
-    #     foreach($id in $ids.Value){
-    #         if ($_.id -eq $id){
-    #             $idsEncontrados.Add($id) > $null  #para que no imprima True o False cuando agrega
-    #             $encontro = $True
-    #         }
-
-    #     }
-    #     if($encontro){
-    #         $global:Resultados += $_
-    #     }
-    # }
-    $personajesArchivo = Get-Content "cache.ej5" | ConvertFrom-Json
+    $idsDeNombres = getIds $nombres.Value #busque el id del nombre en el indice, devuelve {id: nombre} 
     
-    $idsEncontrados = busquedaBinariaMultiple $personajesArchivo $ids.Value
+    
+    $idsEncontrados = busquedaBinariaMultiple $global:PersonajesArchivos $ids.Value
+    $nombresEncontrados = busquedaBinariaMultiple $global:PersonajesArchivos ($idsDeNombres.Keys | Sort-Object)
     #$idsEncontrados
     #$nombres.Value = $nombres.Value | Where-Object {$_ -notin $nombresEncontrados}
     $ids.Value = $ids.Value | Where-Object {$_ -notin $idsEncontrados} #elimina los ids que se encontraron en el archivo para que no los busque en la API
+    $nombres.Value = $nombres.Value | Where-Object {$_ -notin $nombresEncontrados.Values} 
 }
 
 $global:Resultados = @()
+$global:PersonajesArchivos = @()
+$global:IndicePersonajes = @()
+
+if (Test-Path "./cache.ej5"){
+    $global:PersonajesArchivos = Get-Content "cache.ej5" | ConvertFrom-Json
+}
+if (Test-Path "./indice.ej5"){
+    $global:IndicePersonajes = Get-Content "indice.ej5" | ConvertFrom-Json
+}
+
 $id = $id | Group-Object |ForEach-Object { $_.Group | Select-Object -First 1 } #ordena ids para usarlos ordenados en busqueda binaria y elimina duplicados
 
-buscarEnArchivo ([ref]$id) #en el archivo solo busca por id, no busca por nombres, mando referencia de id asi la funcion elimina los ids que fueron encontrados en el archiov
+buscarEnArchivo ([ref]$id) ([ref]$nombre) #en el archivo solo busca por id, no busca por nombres, mando referencia de id asi la funcion elimina los ids que fueron encontrados en el archiov
 petitcionPorId $id
 petitcionPorNombre $nombre
 
@@ -207,16 +198,17 @@ if($Resultados.Count -eq 0){
     exit 0
 }
 
-$Resultados =  $Resultados | Group-Object -Property id | ForEach-Object { $_.Group | Select-Object -First 1 }  #elimina posibles personajes duplicados que pudieron venir de la red y archivo, basandose en el id, los agrupa y me quedo con el primer elemento de ese grupo+
+$Resultados =  $Resultados | Group-Object -Property id | ForEach-Object { $_.Group | Select-Object -First 1 }  #elimina posibles personajes duplicados que pudieron venir de la red y archivo, basandose en el id, los agrupa y me quedo con el primer elemento de ese grupo
 $Resultados | imprimirObjeto
 
 $todosLosPersonajes = @() 
-if (Test-Path "cache.ej5"){
-    $elementosAlmacenados = Get-Content "cache.ej5" | ConvertFrom-Json
-    $todosLosPersonajes = $($elementosAlmacenados;$Resultados) | Group-Object -Property id | ForEach-Object { $_.Group | Select-Object -First 1 } #concatena los arrays de objetos del archivo con los obtenidos por web y luego lo convierte a json.
+if ($global:PersonajesArchivos.Count -ne 0){
+    $todosLosPersonajes = $($global:PersonajesArchivos;$Resultados) | Group-Object -Property id | ForEach-Object { $_.Group | Select-Object -First 1 } #concatena los arrays de objetos del archivo con los obtenidos por web y luego lo convierte a json.
 }else{
     $todosLosPersonajes = $Resultados 
 }
+
+
 
 $todosLosPersonajes | ConvertTo-Json > "cache.ej5" 
 
