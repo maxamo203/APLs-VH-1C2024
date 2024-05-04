@@ -147,34 +147,52 @@ function getIds{
     foreach($nombre in $nombres){
         $id = $global:IndicePersonajes.($nombre) #la comparacion ya es insensitive. (si el nombre esta en el indice)
         if ($id){
-            $asignaciones[$id] = $nombre
+            
+            $asignaciones[[string]$id] = $nombre #casteo el $id xq estuve 2hs viendo porque cunado queria acceder a un id especifico no me tiraba nada
         }
         
     }
     return $asignaciones
 }
-
+function calcularIndices {
+    param(
+        [Object[]]$personajes
+    )
+    $tabla = [PSCustomObject]@{}
+    foreach ($personaje in $personajes) {
+        # $nombre = $personaje.name
+        # $tabla.$($nombre) = $personaje.id
+        if(-not $tabla.($personaje.name)){ #para que no sobreescriba la propiedad, en tal caso se queda con la primer opcion
+            $tabla |  Add-Member -MemberType NoteProperty -Name $personaje.name -Value $personaje.id
+        }
+    }
+    return $tabla
+}
 function buscarEnArchivo{
     param(
         [Parameter(Mandatory)]
-        [ref]$nombres,
+        [ref]$ids,
 
         [Parameter(Mandatory)]
-        [ref]$ids
+        [ref]$nombres
     )
     
     if($global:PersonajesArchivos.Count -eq 0){
         return 
     }
     $idsDeNombres = getIds $nombres.Value #busque el id del nombre en el indice, devuelve {id: nombre} 
-    
+    #Write-Output "$($idsDeNombres.Keys) $($idsDeNombres.Values)"
     
     $idsEncontrados = busquedaBinariaMultiple $global:PersonajesArchivos $ids.Value
-    $nombresEncontrados = busquedaBinariaMultiple $global:PersonajesArchivos ($idsDeNombres.Keys | Sort-Object)
-    #$idsEncontrados
+    Write-Warning "---------------------------"
+    $idnombresEncontrados = busquedaBinariaMultiple $global:PersonajesArchivos ($idsDeNombres.Keys | Sort-Object)
+    
     #$nombres.Value = $nombres.Value | Where-Object {$_ -notin $nombresEncontrados}
     $ids.Value = $ids.Value | Where-Object {$_ -notin $idsEncontrados} #elimina los ids que se encontraron en el archivo para que no los busque en la API
-    $nombres.Value = $nombres.Value | Where-Object {$_ -notin $nombresEncontrados.Values} 
+    $nombresEncontrados = $idnombresEncontrados | ForEach-Object {$idsDeNombres[[string]$_]}
+    
+    $nombres.Value = $nombres.Value | Where-Object {$_ -notin $nombresEncontrados}
+    
 }
 
 $global:Resultados = @()
@@ -191,6 +209,7 @@ if (Test-Path "./indice.ej5"){
 $id = $id | Group-Object |ForEach-Object { $_.Group | Select-Object -First 1 } #ordena ids para usarlos ordenados en busqueda binaria y elimina duplicados
 
 buscarEnArchivo ([ref]$id) ([ref]$nombre) #en el archivo solo busca por id, no busca por nombres, mando referencia de id asi la funcion elimina los ids que fueron encontrados en el archiov
+
 petitcionPorId $id
 petitcionPorNombre $nombre
 
@@ -209,7 +228,7 @@ if ($global:PersonajesArchivos.Count -ne 0){
 }
 
 
-
+(calcularIndices $todosLosPersonajes)  | ConvertTo-Json > "indice.ej5"
 $todosLosPersonajes | ConvertTo-Json > "cache.ej5" 
 
 
