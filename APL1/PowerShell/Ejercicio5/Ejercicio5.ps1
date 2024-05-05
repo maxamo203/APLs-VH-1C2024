@@ -1,3 +1,20 @@
+<#
+.SYNOPSIS
+Este script interactua con la api de rickandmorty, permitiendo buscar por id o por nombre de personaje
+.DESCRIPTION
+Este script interactua con la api de rickandmorty, permitiendo buscar por id o por nombre de personaje, y ademas cachea los resultados obtenidos para que una futura busqueda del mismo personaje no demore tanto tiempo.
+.EXAMPLE
+./Ejercicio5.ps1 -id 3,6,9
+.EXAMPLE
+./Ejercicio5.ps1 -nombre "Rick Sanchez", "Morty Smith"
+.EXAMPLE 
+./Ejercicio5.ps1 -nombre "Rick Sanchez", "Morty Smith" -id 3,6,9
+.NOTES
+Si la busqueda es por nombre, solo traera un personaje del cache si la coincidencia es exacta (case insensitive)
+./Ejercicio5.ps1 -nombre "Rick Sanchez" --> lo va a buscar en cache
+./Ejercicio5.ps1 -nombre "Rick" --> no lo va a buscar en cache y traera todos los resultados de la api
+En el caso que varios personajes tengan exactamente el mismo nombre, en el indice se guardara el id del que haya venido primero
+#>
 param(
 
     [Parameter(Mandatory=$true, ParameterSetName="id")]
@@ -6,6 +23,7 @@ param(
     [Parameter(Mandatory=$true, ParameterSetName="nombre")]
     [Parameter(Mandatory=$true, ParameterSetName="idnombre")]
     [string[]]$nombre
+
 
 )
 function busquedaBinariaMultiple{
@@ -98,7 +116,7 @@ function imprimirObjeto{
 function petitcionPorId{
     param ([int[]]$id)
     if($id.Count -eq 0){
-        return
+        return $false
     }
     
     try{ 
@@ -117,11 +135,12 @@ function petitcionPorId{
        $responseError = $_.ErrorDetails.Message | ConvertFrom-Json
         Write-Warning "$($responseError.error): $id"
     }
+    return $true
 }
 function petitcionPorNombre{
     param ([string[]]$nombres)
     if($nombres.Count -eq 0){
-        return
+        return $false
     }
     foreach($nombre in $nombres){
         try{ 
@@ -136,7 +155,7 @@ function petitcionPorNombre{
         }
 
     }
-    
+    return $true
 }
 function getIds{
     param([string[]]$nombres)
@@ -194,7 +213,7 @@ function buscarEnArchivo{
     $nombres.Value = $nombres.Value | Where-Object {$_ -notin $nombresEncontrados}
     
 }
-
+$ini = Get-Date
 $global:Resultados = @()
 $global:PersonajesArchivos = @()
 $global:IndicePersonajes = @()
@@ -210,8 +229,8 @@ $id = $id | Group-Object |ForEach-Object { $_.Group | Select-Object -First 1 } #
 
 buscarEnArchivo ([ref]$id) ([ref]$nombre) #en el archivo solo busca por id, no busca por nombres, mando referencia de id asi la funcion elimina los ids que fueron encontrados en el archiov
 
-petitcionPorId $id
-petitcionPorNombre $nombre
+$resId = petitcionPorId $id
+$resNombre = petitcionPorNombre $nombre
 
 if($Resultados.Count -eq 0){
     exit 0
@@ -220,17 +239,24 @@ if($Resultados.Count -eq 0){
 $Resultados =  $Resultados | Group-Object -Property id | ForEach-Object { $_.Group | Select-Object -First 1 }  #elimina posibles personajes duplicados que pudieron venir de la red y archivo, basandose en el id, los agrupa y me quedo con el primer elemento de ese grupo
 $Resultados | imprimirObjeto
 
-$todosLosPersonajes = @() 
-if ($global:PersonajesArchivos.Count -ne 0){
-    $todosLosPersonajes = $($global:PersonajesArchivos;$Resultados) | Group-Object -Property id | ForEach-Object { $_.Group | Select-Object -First 1 } #concatena los arrays de objetos del archivo con los obtenidos por web y luego lo convierte a json.
-}else{
-    $todosLosPersonajes = $Resultados 
+$mid = Get-Date
+if ($resId -eq $true -or $resNombre -eq $true){ #que actualize el cache y los indices si hubo alguna peticion a la api
+    $todosLosPersonajes = @() 
+    if ($global:PersonajesArchivos.Count -ne 0){
+        $todosLosPersonajes = $($global:PersonajesArchivos;$Resultados) | Group-Object -Property id | ForEach-Object { $_.Group | Select-Object -First 1 } #concatena los arrays de objetos del archivo con los obtenidos por web y luego lo convierte a json.
+    }else{
+        $todosLosPersonajes = $Resultados 
+    }
+    
+    
+    (calcularIndices $todosLosPersonajes)  | ConvertTo-Json > "indice.ej5"
+    $todosLosPersonajes | ConvertTo-Json > "cache.ej5" 
 }
 
-
-(calcularIndices $todosLosPersonajes)  | ConvertTo-Json > "indice.ej5"
-$todosLosPersonajes | ConvertTo-Json > "cache.ej5" 
-
+$fin = Get-Date
+$durMid = $mid - $ini
+$durFIn = $fin - $ini
+Write-Output "Tiempo hasta imprimir $($durMid.TotalMilliseconds)`nTiempo hasta temrinar $($durFIn.TotalMilliseconds)"
 
 
 
