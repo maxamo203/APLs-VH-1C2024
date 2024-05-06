@@ -107,6 +107,10 @@ function consultarNombres() {
 
 #Cuando consultas id, devuelve 1 objeto o un array
 function consultarIds() {
+	if [[ "$ids" = "" ]]; then
+		resultadoIds="[]"
+		return
+	fi
 	IFS_VIEJO="$IFS"
 	IFS=","
 
@@ -114,14 +118,21 @@ function consultarIds() {
 		if [ "$id" -ge 1 ] && [ "$id" -le 826 ]; then
 			local resultado="$(jq ".[] | select(.id == $id)" $destino)"
 			if [[ "$resultado" = "" ]];then
-				local resultado=$(curl -s "$urlBase/$id")
+				local cadenaFallos="$cadenaFallos""$id,"
 			fi
 			resultadoIds="$resultadoIds""$resultado"
 		else
 			echo "ID: $id invalido, no traera resultados"
 		fi
 	done
+
 	IFS="$IFS_VIEJO"
+
+	if [[ "$cadenaFallos" != "" ]]; then
+		local resultado="$(curl -s "$urlBase/$cadenaFallos" | jq '.[]')"
+		resultadoIds="$resultadoIds""$resultado"
+	fi
+
 	resultadoIds="[$(echo "$resultadoIds" | jq -c '.' | paste -sd "," -)]"
 }
 
