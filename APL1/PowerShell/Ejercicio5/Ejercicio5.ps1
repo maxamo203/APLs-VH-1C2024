@@ -43,11 +43,11 @@ function busquedaBinariaMultiple{
         $top = $sup
         $flag = $false
         $targetActual = $conteoTargets % 2 -eq 0? $conteoTargets/2 : $targets.Count-1-($conteoTargets-1)/2 #para que el id que se busque de la forma 0,n-1,1,n-2,2,n-3, etc
-        Write-Warning "buscando $($targets[$targetActual])... ($conteoTargets)"
+        #Write-Warning "buscando $($targets[$targetActual])... ($conteoTargets)"
         while ($base -le $top){
             [int]$actual = ($top+$base) / 2
             $conteo++
-            Write-Warning "salida $base $actual $top"
+            #Write-Warning "salida $base $actual $top"
             if ($source[$actual].id -eq $targets[$targetActual]){
                 $global:Resultados += $source[$actual]
                 $targetsEncontrados += $targets[$targetActual]
@@ -78,7 +78,7 @@ function busquedaBinariaMultiple{
         }
         $conteoTargets++
     }
-    Write-Warning "Iteraciones $conteo, Total $($source.Count)"
+    #Write-Warning "Iteraciones $conteo, Total $($source.Count)"
     return $targetsEncontrados
 
 }
