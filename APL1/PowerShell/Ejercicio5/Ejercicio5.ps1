@@ -203,7 +203,7 @@ function buscarEnArchivo{
     #Write-Output "$($idsDeNombres.Keys) $($idsDeNombres.Values)"
     
     $idsEncontrados = busquedaBinariaMultiple $global:PersonajesArchivos $ids.Value
-    Write-Warning "---------------------------"
+    #Write-Warning "---------------------------"
     $idnombresEncontrados = busquedaBinariaMultiple $global:PersonajesArchivos ($idsDeNombres.Keys | Sort-Object)
     
     #$nombres.Value = $nombres.Value | Where-Object {$_ -notin $nombresEncontrados}
