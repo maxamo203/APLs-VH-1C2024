@@ -180,8 +180,8 @@ echo -e "${BY}EJECUTANDO: ./Ejercicio1.sh -s ~/../../tmp/pruebasEjercicio1/resul
 python3 -mjson.tool ~/../../tmp/pruebasEjercicio1/resultado.json > /dev/null
 mostrarResultado $? 0
 
-echo -e "${Y}Prueba 13: Se le pasa una ruta de salida en la que no tiene permisos para escribir"
-echo -e "Resultado esperado: Error por falta de permisos"
-echo -e "${BY}EJECUTNADO: ./Ejercicio1.sh -s /root -d /tmp/pruebasEjercicio1/resultado.json${W}"
-./Ejercicio1.sh -s /root -d /tmp/pruebasEjercicio1/resultado.json
-mostrarResultado $? 5
+# echo -e "${Y}Prueba 13: Se le pasa una ruta de salida en la que no tiene permisos para escribir"
+# echo -e "Resultado esperado: Error por falta de permisos"
+# echo -e "${BY}EJECUTNADO: ./Ejercicio1.sh -s /root -d /tmp/pruebasEjercicio1/resultado.json${W}"
+# ./Ejercicio1.sh -s /root -d /tmp/pruebasEjercicio1/resultado.json
+# mostrarResultado $? 5

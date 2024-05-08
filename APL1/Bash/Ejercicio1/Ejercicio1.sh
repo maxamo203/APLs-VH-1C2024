@@ -34,7 +34,7 @@ function generarJSON(){
     for archivo in $(find "$1" -type f ! -iname "*.csv"); do
         echo -e "\033[0;33m$archivo no tiene extensión csv, omitiendo\033[0m" #pinta de amarillo, y lo vuelve a blanco
     done  
-    if [ -z $archivos ]; then
+    if [ -z "$archivos" ]; then
         echo "Directorio vacio, saliendo"
         exit 0
     fi
