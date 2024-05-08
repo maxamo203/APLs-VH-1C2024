@@ -107,9 +107,9 @@ foreach ($archivo in $archivos){
     $registros= Get-Content $archivo.FullName -Delimiter $separador
     foreach ($registro in $registros){
         #creo un array de cadenas con el resultado de splitear por cualquier cosa que no sea numero o letra
-        #esto se hace por si hay caracteres no deseados entre palabras, como por ejemplo: Arbol(TDA)
+        #o espacio (por si se usa otro separador). Esto se hace por si hay caracteres no deseados entre palabras, como por ejemplo: Arbol(TDA)
         #dando como resultado este array: ("Arbol", "TDA")
-        $cadenasRegistros = $registro -split '[^\wáéíóúüÁÉÍÓÚÜ]+'
+        $cadenasRegistros = $registro -split '[^\wáéíóúüÁÉÍÓÚÜ ]+'
         foreach ($cadenaRegistros in $cadenasRegistros ){
             #quito del registro el separador
             $cadenaRegistros = $cadenaRegistros -replace "$separador", ''
