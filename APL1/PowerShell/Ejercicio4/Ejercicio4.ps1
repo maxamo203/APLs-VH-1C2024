@@ -44,7 +44,7 @@ Param(
     }
     $true
   })]
-  [System.IO.DirectoryInfo]$salida,
+  [string]$salida,
 
   [Parameter(Mandatory = $false, ParameterSetName = "invocar")]
   [ValidateNotNullOrEmpty()]
@@ -62,10 +62,21 @@ function comprobarDirectorioMonitoreado {
   param(
     [System.IO.DirectoryInfo]$directoriofunc
   )
-  if (-not (Test-Path "/tmp/Ejercicio4/running.ej4")) {
+
+
+  if ($directorio -eq $salida) {
+    Write-Error "No se puede monitorear el mismo directorio en donde se guardaran los backups"
+    exit 1
+  }
+
+  if (-not (Test-Path "/tmp/Ejercicio4")) {
     mkdir "/tmp/Ejercicio4"
+  }
+
+  if (-not (Test-Path "/tmp/Ejercicio4/running.ej4")) {
     New-Item -Path "/tmp/Ejercicio4/running.ej4" -ItemType File
   }
+  
   #$procesosExistentes = Get-Content "/tmp/Ejercicio4/running.ej4" | ForEach-Object
   $coincidencias = Select-String -Path "/tmp/Ejercicio4/running.ej4" -Pattern $directoriofunc
   if ($coincidencias) {
@@ -231,16 +242,20 @@ if ($PSCmdlet.ParameterSetName -ne "consultar"){
   try {
     $directorio = Resolve-Path $directorio -ErrorAction Stop #convierto el direcotrio a analizar en ruta absoluta, asi es siempre el mismo
     #el ErrorAction Stop es para que en caso de error salte al catch, por defecto no lo hace
+    if ($salida) {
+      $salida = Resolve-Path $salida -ErrorAction Stop
+    }
   }
   catch {
-    Write-Error "No se pudo convertir $directorio a una ruta absoluta"
+    Write-Error "No se pudo convertir $directorio o $salida a una ruta absoluta"
     exit 2
   }
 }
+
 if ($PSCmdlet.ParameterSetName -eq "invocar") {
   #si los parametros que se pasaron, son los de invocar ...
-  comprobarDirectorioMonitoreado $directorio
-  Start-Job -ScriptBlock $bloque -ArgumentList $directorio, $salida, $patron -Name "jobEj4$directorio" #le paso el pid del programa actual como parametro, porque el job, como tal tiene otro PID, y no concuerda con el PID del script que lo llamo
+  comprobarDirectorioMonitoreado $directorio $salida
+  Start-Job -ScriptBlock $bloque -ArgumentList $directorio, $salida, $patron -Name "jobEj4$directorio" | Out-Null #le paso el pid del programa actual como parametro, porque el job, como tal tiene otro PID, y no concuerda con el PID del script que lo llamo
 }
 elseif ($PSCmdlet.ParameterSetName -eq "matar") {
   #son los parametros para matar un proceso
