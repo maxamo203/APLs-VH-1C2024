@@ -21,12 +21,22 @@ function generarJSON(){
     IFS_VIEJO="$IFS"
     IFS=$'\n' #el simbolo $ acá es para que bash interprete el \n como salto de linea, y no como la cadena literal "\n"
     #lo que hace la linea anterior es cambiar el separador de parametros de bash, por defecto toma espacios, \n y \r (creo) para separar
-    #entonces lo fuerzo a que use solo el \n, porque la salida que me va a generar el ls de abajo está separadas por saltos de linea (creo que por las comiilas que tiene "$1")
-    archivos=`ls -d "$1"/* 2>&1` 
-    #echo $archivos
-    if [ $? != 0 ]; then
+    #entonces lo fuerzo a que use solo el \n, para que diferencie los disntinto archivos aunque tengan espacios
+    
+    
+    if [ ! -d "$1" ]; then #si no existe el directorio tira error
         echo Ubicacion no encontrada, saliendo
         exit 1
+    fi
+    
+    archivos=`find "$1" -maxdepth 1 -type f -iname "*.csv"` #iname, busqueda insensible
+
+    for archivo in $(find "$1" -type f ! -iname "*.csv"); do
+        echo -e "\033[0;33m$archivo no tiene extensión csv, omitiendo\033[0m" #pinta de amarillo, y lo vuelve a blanco
+    done  
+    if [ -z $archivos ]; then
+        echo "Directorio vacio, saliendo"
+        exit 0
     fi
     awk -F',' '
 $1 ~ /[0-9]+/ { 
@@ -105,7 +115,7 @@ eval set -- $opts #no se que hace
 
 while true; do
     
-    case "$1" in 
+    case "$1" in
     -d|--directorio )
         directorio="$2" 
         shift 2

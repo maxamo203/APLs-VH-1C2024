@@ -22,6 +22,7 @@
 #MATELLAN, GONZALO FACUNDO
 #VALLEJOS, FRANCO NICOLAS
 #ZABALGOITIA, AGUSTÍN
+[CmdletBinding(DefaultParameterSetName = 'salida')]
 Param(
     [Parameter(Mandatory = $True)]
     [ValidateScript({
@@ -37,7 +38,7 @@ Param(
     [ValidateScript({
             if ($_ -match "\.\w+$") { $true } else { throw "El formato del archivo no es válido." }
         })]
-    [System.IO.FileInfo]$salida,
+    [System.IO.FileInfo]$salida = "./salida.json",
 
     [Parameter(ParameterSetName = "pantalla")] [switch]$pantalla
 )
@@ -45,7 +46,15 @@ Param(
 #Write-Output "Parametros: $directorio $salida $pantalla"
 $notasPorAlumno = @{} #va a ser un diccionario en donde la clave es el dni del alumno y el valor es un array que adentro va a tener diccionarios para cada materia (con su nota)
 $Archivos = Get-ChildItem $directorio
+if($Archivos.Count -eq 0){
+    Write-Warning "Directorio de notas vacio, saliendo"
+    exit 0
+}
 foreach ($archivo in $Archivos) {
+    if($archivo.Extension -ne ".csv"){
+        Write-Warning "Se encontro un archivo que no es .csv: $($archivo.Name), omitiendo"
+        continue
+    }
     $cantNotas = (Get-Content $archivo.FullName -TotalCount 1).Split(',').Count - 1
     $csvContent = Import-Csv -Path $archivo.FullName
     $ponderacion = 10 / $cantNotas
