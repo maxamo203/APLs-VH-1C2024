@@ -153,9 +153,9 @@ $caracteresMasFrecuentes = $listaCaracteresOrdenada.GetEnumerator() | Where-Obje
 
 #Imprimo el informe
 
-foreach ($palabra in $listaPalabras.GetEnumerator()) {
-    Write-Host "$($palabra.Key) con $($palabra.Value) ocurrencia(s)"
-}
+# foreach ($palabra in $listaPalabras.GetEnumerator()) {
+#     Write-Host "$($palabra.Key) con $($palabra.Value) ocurrencia(s)"
+# }
 
 Write-Host "
 ------------------INFORME------------------

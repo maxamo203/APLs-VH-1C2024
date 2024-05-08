@@ -95,7 +95,7 @@ match(FILENAME, archivoRegex){
     if (AceptaCase != "true")
             $0 = tolower($0) #pasa todo a minuscula
 
-    gsub(/[^A-Za-z0-9 ]/,FS,$0) #elimina todo lo que no sea letra o numero o espacio (importante el espacio entre el 9 y el ]) y lo reemplaza por el separador
+    gsub(/[^A-Za-z0-9áéíóúÁÉÍÓÚ ]/,FS,$0) #elimina todo lo que no sea letra o numero o espacio (importante el espacio entre el 9 y el ]) y lo reemplaza por el separador
 
     for(i=1; i<=NF; i++){
         omitir = "false"
