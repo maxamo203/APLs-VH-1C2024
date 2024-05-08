@@ -17,7 +17,7 @@ En el caso que varios personajes tengan exactamente el mismo nombre, en el indic
 #>
 #INTEGRANTES:
 #BOSCH, MAXIMO AUGUSTO
-#MARTINEZ CANNELLA, IÃ±AKI
+#MARTINEZ CANNELLA, IÑAKI
 #MATELLAN, GONZALO FACUNDO
 #VALLEJOS, FRANCO NICOLAS
 #ZABALGOITIA, AGUSTÍN

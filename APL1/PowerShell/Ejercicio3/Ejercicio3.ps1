@@ -32,7 +32,7 @@ Array de caracteres que deben ser omitidos al analizar las palabras del archivo.
 #>
 #INTEGRANTES:
 #BOSCH, MAXIMO AUGUSTO
-#MARTINEZ CANNELLA, IÃ±AKI
+#MARTINEZ CANNELLA, IÑAKI
 #MATELLAN, GONZALO FACUNDO
 #VALLEJOS, FRANCO NICOLAS
 #ZABALGOITIA, AGUSTÍN
