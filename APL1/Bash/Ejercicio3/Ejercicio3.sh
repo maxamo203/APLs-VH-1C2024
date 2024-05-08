@@ -66,42 +66,45 @@ while true; do
         exit 1
     esac
 done
-
+if [ "$extension" != ".*" ]; then
+    extension="\\\.$extension"
+fi
 if [ "$ayuda" == "true" ]; then
     mostrarAyuda
     exit 0
 fi
-if [ "$dir" == "" ]; then
-    echo "Direccion no pasada, saliendo" >&2
+if [ ! -d "$dir" ]; then
+    echo "Direccion no pasada o no es un directorio, saliendo" >&2
     exit 2
 fi
 IFS_VIEJO="$IFS"
 IFS=$'\n'
-archivos=`ls -d "$dir"/*`
+archivos=`ls -d "$dir"/* 2>&1` 
 
 #pasar todo a minuscula (asi Linux y linux es la misma palabra)
 #remover caracteres especiales (.,!? etc), salvo el delimitador 
 
-awk -F"$separador" -v extension="$extension" -v omitir="$omitir" -v AceptaCase="$caseSensitive" '
+awk -F"$separador" -v extension="$extension" -v omitir="$omitir" -v caseSensitive="$caseSensitive" '
 BEGIN {
-    archivoRegex = "\\." extension "$" #el simbolo $ al final de la regex indica que quiero que la cadena termine con lo que le dije antes
+    archivoRegex = extension "$" #el simbolo $ al final de la regex indica que quiero que la cadena termine con lo que le dije antes
     
     #por ejemplo para la extension de un archivo seria tipo txt$, porque quiero quedarme con los archivos que terminen txt
     conteoArchivos = 0
     cantTotalPalabras = 0
-    if (AceptaCase != "true")
+    if (caseSensitive != "true"){
         omitir = tolower(omitir)
-        separador = tolower(separador)
+        FS = tolower(FS)
+    }
     split(omitir, palabrasAOmitir, ",")
 }
 match(FILENAME, archivoRegex){
     if (archivoAnterior != FILENAME) #una especie de corte de control para contar los archivos que efectivamente se analizan (xq algunos pueden ser omitidos por la extension)
         conteoArchivos++
 
-    if (AceptaCase != "true")
+    if (caseSensitive != "true")
             $0 = tolower($0) #pasa todo a minuscula
 
-    gsub(/[^A-Za-z0-9áéíóúÁÉÍÓÚ ]/,FS,$0) #elimina todo lo que no sea letra o numero o espacio (importante el espacio entre el 9 y el ]) y lo reemplaza por el separador
+    gsub(/[^A-Za-z0-9áéíóúÁÉÍÓÚ ]/,FS,$0) #elimina todo lo que no sea letra o numero o espacio (importante el espacio entre el Ú y el ]) y lo reemplaza por el separador
 
     for(i=1; i<=NF; i++){
         omitir = "false"
