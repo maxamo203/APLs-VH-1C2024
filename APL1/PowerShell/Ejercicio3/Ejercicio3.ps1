@@ -30,12 +30,7 @@ Array de caracteres que deben ser omitidos al analizar las palabras del archivo.
 .EXAMPLE
 .\ejercicio.ps1 -directorio .\misArchivos -extension .txt -omitir @("`n", "`r")
 #>
-#INTEGRANTES:
-#BOSCH, MAXIMO AUGUSTO
-#MARTINEZ CANNELLA, IÑAKI
-#MATELLAN, GONZALO FACUNDO
-#VALLEJOS, FRANCO NICOLAS
-#ZABALGOITIA, AGUSTÍN
+
 Param(
     [Parameter(Mandatory=$True)]
     [ValidateNotNullOrEmpty()]
@@ -48,21 +43,26 @@ Param(
     })]
     [string]
     $directorio,
+    
     [Parameter(Mandatory=$False)]
     [ValidateNotNullOrEmpty()]    
-    [ValidatePattern('^...$')]
+    [ValidatePattern('.+')]
     [string]
     $extension="*",
+    
     [Parameter(Mandatory=$False)]
     [ValidateNotNullOrEmpty()]
-    [ValidatePattern('^.$')]
+    [ValidatePattern('.+')]
     [string]
     $separador=" ",    
+    
     [Parameter(Mandatory=$False)]
     [ValidateNotNullOrEmpty()]
     [array]
     $omitir=@()
 )
+
+
 
 #omite salto de linea
 $omitir += "`n"
@@ -107,12 +107,12 @@ foreach ($archivo in $archivos){
     $registros= Get-Content $archivo.FullName -Delimiter $separador
     foreach ($registro in $registros){
         #creo un array de cadenas con el resultado de splitear por cualquier cosa que no sea numero o letra
-        #esto se hace por si hay caracteres no deseados entre palabras, como por ejemplo: Arbol(TDA)
+        #o espacio (por si se usa otro separador). Esto se hace por si hay caracteres no deseados entre palabras, como por ejemplo: Arbol(TDA)
         #dando como resultado este array: ("Arbol", "TDA")
-        $cadenasRegistros = $registro -split '[^\p{L}\p{N}áéíóúüÁÉÍÓÚÜ]+'
+        $cadenasRegistros = $registro -split '[^\wáéíóúüÁÉÍÓÚÜ ]+'
         foreach ($cadenaRegistros in $cadenasRegistros ){
-            #quito del registro todo lo que no sea numeros o letras
-            $cadenaRegistros = $cadenaRegistros -replace '[^\p{L}\p{N}áéíóúüÁÉÍÓÚÜ]', ''
+            #quito del registro el separador
+            $cadenaRegistros = $cadenaRegistros -replace "$separador", ''
             #si contieneOmitir devuelve "1" se saltea el registro
             if(-not (contieneOmitir $cadenaRegistros)){
                 #cuenta las palabras
@@ -157,11 +157,6 @@ $caracteresMasFrecuentes = $listaCaracteresOrdenada.GetEnumerator() | Where-Obje
 
 
 #Imprimo el informe
-
-# foreach ($palabra in $listaPalabras.GetEnumerator()) {
-#     Write-Host "$($palabra.Key) con $($palabra.Value) ocurrencia(s)"
-# }
-
 Write-Host "
 ------------------INFORME------------------
 La cantidad de ocurrencias de palabras de X caracteres"
