@@ -20,7 +20,12 @@
   .PARAMETER consultar
   Muestra los directorios que se estan monitoreando en ese momento
 #>
-
+#INTEGRANTES:
+#BOSCH, MAXIMO AUGUSTO
+#MARTINEZ CANNELLA, IÃ±AKI
+#MATELLAN, GONZALO FACUNDO
+#VALLEJOS, FRANCO NICOLAS
+#ZABALGOITIA, AGUSTÍN
 Param(
   [Parameter(Mandatory = $True, ParameterSetName = "invocar")]
   [Parameter(Mandatory = $True, ParameterSetName = "matar")]

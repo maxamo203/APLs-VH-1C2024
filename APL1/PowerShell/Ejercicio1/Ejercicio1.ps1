@@ -1,3 +1,27 @@
+<#
+.SYNOPSIS
+	Este script realiza un informe de notas de alumnos, separado por alumno
+.DESCRIPTION
+	El script carga los archivos csv que se encuentran en un directorio, y para cada alumno calcula su nota en cada materia 
+.PARAMETER directorio
+	Ruta del directorio donde se encuentran los archivos de notas
+.PARAMETER salida
+	Indica que el resultado se enviara a un archivo json con el nombre especificado
+.PARAMETER pantalla
+	Indica que el resultado se muestra por pantalla, no se puede usar junto con -salida
+.EXAMPLE
+	.\Ejercicio1.ps1 -directorio "../Notas Ejercicio1" -salida ./resultado.json
+.EXAMPLE
+	.\Ejercicio1.ps1 -directorio "../Notas Ejercicio1" -pantalla
+.FUNCTIONALITY
+	Analisis de notas
+#>
+#INTEGRANTES:
+#BOSCH, MAXIMO AUGUSTO
+#MARTINEZ CANNELLA, IÃ±AKI
+#MATELLAN, GONZALO FACUNDO
+#VALLEJOS, FRANCO NICOLAS
+#ZABALGOITIA, AGUSTÍN
 Param(
     [Parameter(Mandatory = $True)]
     [ValidateScript({

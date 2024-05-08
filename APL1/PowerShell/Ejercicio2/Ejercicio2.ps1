@@ -11,11 +11,17 @@
 .PARAMETER separador
 	Carácter separador de valores. Opcional, por defecto es una coma (`,`).
 .EXAMPLE
-	.\MultiplicarMatrices.ps1 -matriz1 "C:\Ruta\Matriz1.txt" -matriz2 "C:\Ruta\Matriz2.txt" -separador ";"
+	.\Ejercicio2.ps1 -matriz1 "C:\Ruta\Matriz1.txt" -matriz2 "C:\Ruta\Matriz2.txt" -separador ";"
 	Realiza la multiplicacion de las matrices contenidas en los archivos Matriz1.txt y Matriz2.txt, utilizando el punto y coma (;) como separador de valores.
 .FUNCTIONALITY
 	Multiplicacion de matrices
 #>
+#INTEGRANTES:
+#BOSCH, MAXIMO AUGUSTO
+#MARTINEZ CANNELLA, IÃ±AKI
+#MATELLAN, GONZALO FACUNDO
+#VALLEJOS, FRANCO NICOLAS
+#ZABALGOITIA, AGUSTÍN
 Param(
   [Parameter(Mandatory=$true)]
   [ValidateScript({

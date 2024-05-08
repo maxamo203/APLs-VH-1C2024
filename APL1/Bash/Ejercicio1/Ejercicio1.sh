@@ -1,5 +1,10 @@
 #! /bin/bash
-
+#INTEGRANTES:
+#BOSCH, MAXIMO AUGUSTO
+#MARTINEZ CANNELLA, IÃ±AKI
+#MATELLAN, GONZALO FACUNDO
+#VALLEJOS, FRANCO NICOLAS
+#ZABALGOITIA, AGUSTÍN
 function mostrarAyuda(){
 echo 'Modo de uso:
 -d|--direccion <path> * --> Indica la direccion de la carpeta (relativa o absoluta) donde estan los archivos a analizar

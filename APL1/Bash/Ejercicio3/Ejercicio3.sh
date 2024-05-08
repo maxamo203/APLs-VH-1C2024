@@ -1,4 +1,10 @@
 #! /bin/bash
+#INTEGRANTES:
+#BOSCH, MAXIMO AUGUSTO
+#MARTINEZ CANNELLA, IÃ±AKI
+#MATELLAN, GONZALO FACUNDO
+#VALLEJOS, FRANCO NICOLAS
+#ZABALGOITIA, AGUSTÍN
 function mostrarAyuda(){
     echo 'Modo de uso:
 -d|--directorio <path> ** --> Indica el directorio donded estan los archivos a analizar

@@ -15,6 +15,12 @@ Si la busqueda es por nombre, solo traera un personaje del cache si la coinciden
 ./Ejercicio5.ps1 -nombre "Rick" --> no lo va a buscar en cache y traera todos los resultados de la api
 En el caso que varios personajes tengan exactamente el mismo nombre, en el indice se guardara el id del que haya venido primero
 #>
+#INTEGRANTES:
+#BOSCH, MAXIMO AUGUSTO
+#MARTINEZ CANNELLA, IÃ±AKI
+#MATELLAN, GONZALO FACUNDO
+#VALLEJOS, FRANCO NICOLAS
+#ZABALGOITIA, AGUSTÍN
 param(
     [Parameter(Mandatory=$true, ParameterSetName="id")]
     [Parameter(Mandatory=$true, ParameterSetName="idnombre")]
