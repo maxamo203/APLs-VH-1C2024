@@ -26,7 +26,7 @@ param(
     [Parameter(Mandatory=$true, ParameterSetName="idnombre")]
     [int[]]$id,
     [Parameter(Mandatory=$true, ParameterSetName="nombre")]
-    [Parameter(Mandatory=$true, ParameterSetName="idnombre")]
+    [Parameter(Mandatory=$true, ParameterSetName="idnombre")] #con este juego de parametersetName's me aseguro de que me va a dejar pasar solo id o solo nombre o los dos, pero no ninguno
     [string[]]$nombre
 )
 

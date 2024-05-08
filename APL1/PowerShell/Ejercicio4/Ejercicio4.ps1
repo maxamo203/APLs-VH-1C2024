@@ -29,12 +29,25 @@
 Param(
   [Parameter(Mandatory = $True, ParameterSetName = "invocar")]
   [Parameter(Mandatory = $True, ParameterSetName = "matar")]
+  [ValidateScript({
+    if (-not (Test-Path $_)) {
+        throw "La ruta $_ no existe."
+    }
+    $true
+  })]
   [string]$directorio, #lo uso como string porque sino me da problemas cuando quiero convertirlo a ruta absoluta
 
   [Parameter(Mandatory = $True, ParameterSetName = "invocar")]
+  [ValidateScript({
+    if (-not (Test-Path $_)) {
+        throw "La ruta $_ no existe."
+    }
+    $true
+  })]
   [System.IO.DirectoryInfo]$salida,
 
   [Parameter(Mandatory = $false, ParameterSetName = "invocar")]
+  [ValidateNotNullOrEmpty()]
   [string]$patron = ".*",
 
   [Parameter(Mandatory = $True, ParameterSetName = "matar")]

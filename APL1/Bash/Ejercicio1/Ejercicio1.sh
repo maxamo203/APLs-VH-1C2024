@@ -17,13 +17,13 @@ echo 'Modo de uso:
 **: Si no se indica ni -s ni -p se generara por defecto el archivo de salida en ./resultado.json'
 }
 function generarJSON(){
-    echo $1 "JIJi"
+    #echo $1 "JIJi"
     IFS_VIEJO="$IFS"
     IFS=$'\n' #el simbolo $ acá es para que bash interprete el \n como salto de linea, y no como la cadena literal "\n"
     #lo que hace la linea anterior es cambiar el separador de parametros de bash, por defecto toma espacios, \n y \r (creo) para separar
     #entonces lo fuerzo a que use solo el \n, porque la salida que me va a generar el ls de abajo está separadas por saltos de linea (creo que por las comiilas que tiene "$1")
     archivos=`ls -d "$1"/* 2>&1` 
-    echo $archivos
+    #echo $archivos
     if [ $? != 0 ]; then
         echo Ubicacion no encontrada, saliendo
         exit 1
@@ -142,4 +142,4 @@ validarParametros #verifica si son parametros validos y establece la salida segu
 
 generarJSON "$directorio" "$salida"
 
-echo "Fin"
+#echo "Fin"
