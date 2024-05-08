@@ -77,7 +77,7 @@ function ProcesarArchivos{
 		# Verifica si todos los elementos son numéricos
 		foreach ($fila in $ContenidoMatriz) {
 			foreach ($elemento in ($fila -split $separador)) {
-				if ($elemento -match '\D') {
+				if ($elemento -notmatch '^[-]?\d+$') {
 					Write-Error "ERROR: Hay elementos de la matriz $NombreMatriz que no son numericos o el separador ingresado es incorrecto"
 					exit 1
 				}
