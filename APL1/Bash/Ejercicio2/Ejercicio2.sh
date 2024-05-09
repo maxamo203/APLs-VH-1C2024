@@ -1,9 +1,5 @@
 #! /bin/bash
-#BOSCH, MAXIMO AUGUSTO
-#MARTINEZ CANNELLA, IÑAKI
-#MATELLAN, GONZALO FACUNDO
-#VALLEJOS, FRANCO NICOLAS
-#ZABALGOITIA, AGUSTÍN
+
 function mostrarAyuda() {
 	echo "Modo de uso:"
 	echo "-m1|--matriz1 <path> * --> Indica la ruta del archivo que contiene la primer matriz"
@@ -14,14 +10,14 @@ function mostrarAyuda() {
 }
 
 function procesarArchivos() {
-		if [ $separador = "|" ]
+		if [[ "$separador" =~ "|" ]]
 		then
 			nuevaLinea="a"
 		else
 			nuevaLinea="|"
 		fi
 
-		paste -s -d "$nuevaLinea" "$arch1" "$arch2" | awk -v separador="$separador" -v nuevaLinea="$nuevaLinea" -F $separador '
+		paste -s -d "$nuevaLinea" "$arch1" "$arch2" | awk -v separador="$separador" -v nuevaLinea="$nuevaLinea" -F "$separador" '
 
 		function validarMatriz(matriz,filas,columnas,errorMatriz) {
 			if ( filas == 0 ){
@@ -65,7 +61,6 @@ function procesarArchivos() {
 				resultado=""
 			}
 		}
-
 		NR == 1 {
 			#Cargo Matriz 1
 			split($0,arr,nuevaLinea)
@@ -155,6 +150,9 @@ function validarParametros() {
 			exit 2
 		elif [[ "$separador" =~ [0-9] ]]; then
 			echo "El separador no puede contener caracteres numericos"
+			exit 2
+		elif [[ ! "$separador" =~ ^(.?)$ ]]; then
+			echo "El separador debe ser un unico caracter"
 			exit 2
 		elif [ "$separador" = "" ]; then
 				separador=","
