@@ -1,4 +1,9 @@
 #! /bin/bash
+#BOSCH, MAXIMO AUGUSTO
+#MARTINEZ CANNELLA, IÑAKI
+#MATELLAN, GONZALO FACUNDO
+#VALLEJOS, FRANCO NICOLAS
+#ZABALGOITIA, AGUSTÍN
 
 function mostrarAyuda() {
 	echo "Modo de uso:"
