@@ -1,5 +1,10 @@
 #! /bin/bash
-
+#INTEGRANTES:
+#BOSCH, MAXIMO AUGUSTO
+#MARTINEZ CANNELLA, IÑAKI
+#MATELLAN, GONZALO FACUNDO
+#VALLEJOS, FRANCO NICOLAS
+#ZABALGOITIA, AGUSTÍN
 function mostrarAyuda() {
 	echo "Modo de uso:"
 	echo "-i|--id <ID> --> Id o Ids de los personajes a buscar, separados por ','"

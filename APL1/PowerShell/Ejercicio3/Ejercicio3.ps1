@@ -30,7 +30,11 @@ Array de caracteres que deben ser omitidos al analizar las palabras del archivo.
 .EXAMPLE
 .\ejercicio.ps1 -directorio .\misArchivos -extension .txt -omitir @("`n", "`r")
 #>
-
+#BOSCH, MAXIMO AUGUSTO
+#MARTINEZ CANNELLA, IÑAKI
+#MATELLAN, GONZALO FACUNDO
+#VALLEJOS, FRANCO NICOLAS
+#ZABALGOITIA, AGUSTÍN
 Param(
     [Parameter(Mandatory=$True)]
     [ValidateNotNullOrEmpty()]
