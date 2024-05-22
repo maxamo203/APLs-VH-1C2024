@@ -72,6 +72,7 @@ void parsearParametros(char** parametros,int argc, char* opcionesCortas, char** 
             //printf("%s %dsexont\n", optarg, posArg);
         }
     }
+    free(Parametros);
     //printf("%s\n", variables[1]);
 }
 void freeParametros(int cant, char *** variables){
