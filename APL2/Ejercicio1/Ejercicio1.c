@@ -2,9 +2,38 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <getopt.h>
+
+void mostrar_ayuda() {
+    printf("Uso: programa [opciones]\n");
+    printf("Opciones:\n");
+    printf("  -h, --help                 Mostrar esta ayuda y salir\n");
+    printf("  -d, --directorio <ruta>    Especificar el directorio\n");
+}
+
 void Mensaje( int pid, int ppid);
-int main(){
-    
+int main(int argc, char *argv[]){
+    int opt;
+    char *directorio = NULL;
+
+    // Estructura para las opciones largas
+    struct option long_options[] = {
+        {"help", no_argument, 0, 'h'},
+        {0, 0, 0, 0}
+    };
+
+    // Procesar los argumentos
+    while ((opt = getopt_long(argc, argv, "hd:", long_options, NULL)) != -1) {
+        switch (opt) {
+            case 'h':
+                mostrar_ayuda();
+                exit(EXIT_SUCCESS);
+            default:
+                mostrar_ayuda();
+                exit(EXIT_FAILURE);
+        }
+    }
+
     int pid = fork();
     int pid2 = -1;
     int pid3 = -1;
@@ -12,7 +41,7 @@ int main(){
         Mensaje(getpid(), getppid());
         pid2 = fork();
         if (pid2 == 0){
-            Mensaje(getpid(), getppid());
+            Mensaje(getpid(), getppid()); //aca hay condicion de carrera, puede decir el PID del padre o del proceso INIT, depende de si termina el padre antes de que ejecute el mensaje
         }
         else{
             exit(2); //el proceso padre termina, dejando al hijo "huerfano", lo adopta init
@@ -68,7 +97,7 @@ int main(){
     }
     
     getchar();
-    printf("Yo era %d o %d o %d\n", pid, pid2, pid3);
+    printf("Yo era %d\n", getpid());
     return 0;
 }
 
