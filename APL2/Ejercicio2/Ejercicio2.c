@@ -7,6 +7,7 @@
 
 #define MAX_FILES 100
 
+// Datos que manejaran los hilos
 struct ThreadData {
     char *directory;
     char *output_file;
@@ -16,6 +17,7 @@ struct ThreadData {
     int total_counts[10];
 };
 
+// Funcion auxiliar para validar -t
 int es_entero_positivo(const char *str) {
     if (str == NULL || *str == '\0') {
         return 0;
@@ -28,7 +30,8 @@ int es_entero_positivo(const char *str) {
     return 1;
 }
 
-void *count_numbers(void *arg) {
+// Funcion que cada hilo ejecuta
+void *contar_numeros(void *arg) {
     struct ThreadData *data = (struct ThreadData *)arg;
 
     while (1) {
@@ -80,7 +83,7 @@ int main(int argc, char *argv[]) {
     char *output_file = NULL;
     int threads_provided = 0;
 
-    // Parsear los argumentos
+    // Parseo de parametros
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-t") == 0 && i + 1 < argc) {
 			if(!es_entero_positivo(argv[i+1])){
@@ -123,7 +126,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    // Leer los nombres de los archivos en el directorio
+    // Guardar nombres de los archivos del directorio en las estructuras de los hilos
     while ((entry = readdir(dir)) != NULL && data.file_count < MAX_FILES) {
         if (entry->d_type == DT_REG && strstr(entry->d_name, ".txt") != NULL) {
             char *filepath = malloc(strlen(directory) + strlen(entry->d_name) + 2);
@@ -137,7 +140,7 @@ int main(int argc, char *argv[]) {
 
     // Crear y ejecutar threads
     for (int i = 0; i < num_threads; i++) {
-        if (pthread_create(&threads[i], NULL, count_numbers, (void *)&data) != 0) {
+        if (pthread_create(&threads[i], NULL, contar_numeros, (void *)&data) != 0) {
             perror("Error al crear el thread");
             return EXIT_FAILURE;
         }
