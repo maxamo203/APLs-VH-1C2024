@@ -10,7 +10,8 @@ void mostrarAyuda();
 
 void mostrar(char*);
 void cambiarNombre(char*);
-void padre();
+void matar_hijos(pid_t);
+pid_t padre();
 void hijo1();
 void hijo3();
 void zombie();
@@ -23,13 +24,20 @@ void biznieto();
 
 
 int main(int argc, char *argv[]){
+	pid_t grupoProcesos;
 	procesarParametros(argc,argv);
-	padre();
+	grupoProcesos = padre();
 	getchar();
+	matar_hijos(grupoProcesos);
 	return 0;
 }
 
-void padre(){
+void matar_hijos(pid_t pid_padre) {
+    pid_t pgid = getpgid(pid_padre);
+    kill(-pgid, SIGKILL);
+}
+
+pid_t padre(){
 	pid_t pid;
 	cambiarNombre("Padre");
 	mostrar("Padre");
@@ -45,10 +53,11 @@ void padre(){
 			pid = fork();
 			if(pid == 0){
 				hijo3();
-				waitpid(pid,NULL,WUNTRACED);
 			}
+			waitpid(pid,NULL,WUNTRACED);
 		}
 	}
+	return getpid();
 }
 
 void hijo1(){
@@ -111,12 +120,13 @@ void hijo3(){
 	if(pid == 0){
 		demonio();
 	}
-	exit(1);
+	exit(0);
 }
 
 void demonio(){
 	cambiarNombre("Demonio");
 	mostrar("Demonio");
+	while(1);
 }
 
 void cambiarNombre(char* nombre){
