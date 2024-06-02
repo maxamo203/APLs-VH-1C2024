@@ -8,7 +8,8 @@
 #include <termios.h>
 
 int main(int argc, char* argv[]){
-    //char nombre[30] = atoi(getpid());
+    char nombre[30];
+    strcpy(nombre, argv[1]);
     struct sockaddr_in socketConfig;
     Tablero tablero;
     int opt = 1;
@@ -38,15 +39,22 @@ int main(int argc, char* argv[]){
         if(strcmp(buffer, "TU TURNO") == 0){
             printf("Tu tunro wachin\n");
             tcflush(STDIN_FILENO, TCIFLUSH);
-            scanf("%d %d", &entrada[0],&entrada[1]);
+            while(scanf("%d %d", &entrada[0],&entrada[1]) != 2){
+                puts("Entrada invalida");
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF);
+            }
             memcpy(bytesEscritos, entrada,sizeof(entrada));
             write(socketComunicacion,bytesEscritos, sizeof(bytesEscritos));
-        }else if(bytesRecibidos > 72){//el tamaño del buffer que envia, es el tablero
+        }else if(bytesRecibidos == 128){//el tamaño del buffer que envia, es el tablero
             memcpy(&tablero,buffer, sizeof(tablero));
             imprimirTablero(&tablero);
         }
         else{
             printf("%s\n", buffer);
+            if(strcmp(buffer, "JUEGO INICIADO") == 0){
+                write(socketComunicacion, nombre, sizeof(nombre)); //manda su nombre
+            }
         }
         //printf("cant bytes [%d] [%s]\n", bytesRecibidos, buffer);
         //buffer[bytesRecibidos] = 0;

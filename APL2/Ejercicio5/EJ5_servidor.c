@@ -14,13 +14,16 @@ typedef struct
     int nro;
     int socket;
 } parametrosThreads;
-
+typedef struct{
+    char nombre[30];
+} TNombre;
 pthread_t *tids;
 sem_t *semaforosTurnos;
 sem_t semaforoAvisados;
 int cantJugadores = 3;
 int jugadoresConectados = 0;
-char * estadoJugadores;
+char * estadoJugadores; // guarda los aciertos de cada jugador o -1 si se desconecta
+TNombre * nombresJugadores;
 int jugadorActual = 0;
 
 pthread_barrier_t barreraInicio;
@@ -44,26 +47,33 @@ void enviarTableroActualizado()
             puts("Encontre tid");
         }
     }
-    puts("1");
     char bufferAviso[50];
     int result = recv(params[ind].socket, &bufferAviso, 1, MSG_PEEK | MSG_DONTWAIT);
-    if(result == 0){
+    if(result == 0){ //se desconecto uno
         puts("AJJAAAA");
-        estadoJugadores[ind] = 0;
+        estadoJugadores[ind] = -1;
         jugadoresConectados--;
         sem_post(&semaforoAvisados);
         return;
     }
-    sprintf(bufferAviso, "jugador %d dio vuelta %d %d", jugadorActual, userInput[0], userInput[1]);
-    if(write(params[ind].socket, sendBuff, sizeof(sendBuff)) <= 0){
-        puts("ALGO RAROOOO 1");
-    }
+    sprintf(bufferAviso, "[%s] dio vuelta %d %d", nombresJugadores[jugadorActual].nombre, userInput[0], userInput[1]);
+    write(params[ind].socket, sendBuff, sizeof(sendBuff));
     usleep(10000);
-    if(write(params[ind].socket, bufferAviso, sizeof(bufferAviso)) <= 0) {
-        puts("ALGO RARROOOOO 2");
-    }
+    write(params[ind].socket, bufferAviso, sizeof(bufferAviso));
     puts("Imprimio tablero en otro");
     sem_post(&semaforoAvisados);
+}
+void enviarResultados(int socket){
+    char bufferSend[2000];
+    char bufferNombre[30];
+    strcat(bufferSend, "RESULTADOS:\n");
+    for(int i = 0;i<jugadoresConectados;i++){
+        strcat(bufferSend, nombresJugadores[i].nombre);
+        strcat(bufferSend,": ");
+        sprintf(bufferNombre, "%d", estadoJugadores[i]); // Convertir el entero a una cadena
+        strcat(bufferSend, estadoJugadores[i] < 0 ? "0" : bufferNombre);
+    }
+    write(socket,bufferSend,sizeof(bufferSend));
 }
 void *enviarTexto(void *arg)
 {
@@ -78,7 +88,7 @@ void *enviarTexto(void *arg)
     signal(SIGUSR1, enviarTableroActualizado);
     int socketCom = ((parametrosThreads *)arg)->socket;
     int nro = ((parametrosThreads *)arg)->nro;
-    estadoJugadores[nro] = 1;
+    estadoJugadores[nro] = 0;
 
     char receiveBuffer[30];
 
@@ -89,6 +99,7 @@ void *enviarTexto(void *arg)
     write(socketCom, sendBuff, strlen(sendBuff));
     int rc = pthread_barrier_wait(&barreraInicio);
     write(socketCom, "JUEGO INICIADO", sizeof("JUEGO INICIADO"));
+    read(socketCom, nombresJugadores[nro].nombre,30); //recibe el nombre
     while (jugadoresConectados > 0 && !tableroCompleto(&tablero))
     {
         printf("Principio %d\n", nro);
@@ -101,7 +112,7 @@ void *enviarTexto(void *arg)
             break;
         }
         printf("%d-----\n", errno);
-        if (estadoJugadores[nro])
+        if (estadoJugadores[nro]>=0)
         { // aunque el cliente se haya desconectado el server mantiene su estructura
             for (int i = 0; i < 2; i++)
             {
@@ -114,7 +125,7 @@ void *enviarTexto(void *arg)
                     puts("Jugador desconectado");
                     pthread_mutex_lock(&mutex);
                     jugadoresConectados--;
-                    estadoJugadores[nro] = 0;
+                    estadoJugadores[nro] = -1;
                     pthread_mutex_unlock(&mutex);
                     break;
                 }
@@ -125,12 +136,15 @@ void *enviarTexto(void *arg)
                     i--;
                     continue;
                 }
+                else if(res == 2){//si acierta
+                    estadoJugadores[nro]++;
+                }
                 memcpy(sendBuff, &tablero, sizeof(tablero));
                 write(socketCom, sendBuff, sizeof(sendBuff));
                 // mandar señal a otros hilos para que le informen al usuario
                 for (int i = 0; i < cantJugadores; i++)
                 {
-                    if (i == nro || estadoJugadores[i] == 0)
+                    if (i == nro || estadoJugadores[i] == -1)
                         continue; // que no se mande una señal a si mismo o a uno que no esta jugando
                     printf("se;al enviada a %ld, soy %ld\n", tids[i], pthread_self());
                     pthread_kill(tids[i], SIGUSR1);
@@ -144,7 +158,9 @@ void *enviarTexto(void *arg)
         }
         sem_post(&semaforosTurnos[(nro + 1) % cantJugadores]);
     }
-    //jugadoresConectados--;
+    if(estadoJugadores[nro]>=0){
+        enviarResultados(socketCom);
+    }
     close(socketCom);
 }
 // devuelve el FD del socket abierto
@@ -161,6 +177,7 @@ int main(int argc, char *argv[])
     pthread_mutex_init(&mutex, NULL);
     sem_init(&semaforoAvisados, 0, 0);
     estadoJugadores = malloc(cantJugadores);
+    nombresJugadores = malloc(cantJugadores * (sizeof(TNombre)));
     while(1){
         if (pthread_barrier_init(&barreraInicio, NULL, cantJugadores) != 0)
             {
