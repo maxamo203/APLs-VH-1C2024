@@ -32,21 +32,23 @@ int main(int argc, char* argv[]){
     int bytesRecibidos = 0;
     int entrada[2];
     char bytesEscritos[10];
+    puts("Esperando partida...");
     while ((bytesRecibidos = read(socketComunicacion, buffer, sizeof(buffer) - 1))>0)
-    {
+    {   
         if(strcmp(buffer, "TU TURNO") == 0){
             printf("Tu tunro wachin\n");
             tcflush(STDIN_FILENO, TCIFLUSH);
             scanf("%d %d", &entrada[0],&entrada[1]);
             memcpy(bytesEscritos, entrada,sizeof(entrada));
             write(socketComunicacion,bytesEscritos, sizeof(bytesEscritos));
-        }else if(bytesRecibidos == 128){//el tamaño del buffer que envia, es el tablero
+        }else if(bytesRecibidos > 72){//el tamaño del buffer que envia, es el tablero
             memcpy(&tablero,buffer, sizeof(tablero));
             imprimirTablero(&tablero);
         }
         else{
             printf("%s\n", buffer);
         }
+        //printf("cant bytes [%d] [%s]\n", bytesRecibidos, buffer);
         //buffer[bytesRecibidos] = 0;
         
        
