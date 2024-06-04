@@ -7,7 +7,7 @@
 
 #define MAX_FILES 100
 
-// Datos que manejaran los hilos
+// Estructura de datos que manejarán los hilos
 struct ThreadData {
     char *directory;
     char *output_file;
@@ -20,7 +20,7 @@ struct ThreadData {
 // Contador global de hilos
 static int thread_count = 0;
 
-// Funcion auxiliar para validar -t
+// Función auxiliar para validar si una cadena es un entero positivo
 int es_entero_positivo(const char *str) {
     if (str == NULL || *str == '\0') {
         return 0;
@@ -33,15 +33,14 @@ int es_entero_positivo(const char *str) {
     return 1;
 }
 
-// Funcion que cada hilo ejecuta
+// Función que cada hilo ejecuta
 void *contar_numeros(void *arg) {
     struct ThreadData *data = (struct ThreadData *)arg;
 
     // Incrementar el contador de hilos y usarlo como identificador del hilo
     int thread_id;
     pthread_mutex_lock(&data->lock);
-    thread_count++;
-    thread_id = thread_count;
+    thread_id = ++thread_count;
     pthread_mutex_unlock(&data->lock);
 
     while (1) {
@@ -74,6 +73,8 @@ void *contar_numeros(void *arg) {
                 data->total_counts[i] += counts[i];
             }
             pthread_mutex_unlock(&data->lock);
+
+            free(file);
         } else {
             perror("Error al abrir el archivo");
         }
@@ -91,38 +92,30 @@ int main(int argc, char *argv[]) {
     int num_threads;
     char *directory = NULL;
     char *output_file = NULL;
-    int threads_provided = 0;
 
-    // Parseo de parametros	
-	for (int i = 1; i < argc; i++) {
+    // Parseo de parámetros
+    for (int i = 1; i < argc; i++) {
         if ((strcmp(argv[i], "-t") == 0 || strcmp(argv[i], "--threads") == 0) && i + 1 < argc) {
-			if(!es_entero_positivo(argv[i+1])){
+            if (!es_entero_positivo(argv[i + 1])) {
                 printf("El valor proporcionado para --threads debe ser un número entero positivo.\n");
                 return EXIT_FAILURE;
             }
             num_threads = atoi(argv[i + 1]);
-            threads_provided = 1;
             i++;
         } else if ((strcmp(argv[i], "-i") == 0 || strcmp(argv[i], "--input") == 0) && i + 1 < argc) {
             directory = argv[i + 1];
             i++;
-        } else if ((strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--output") == 0 || strcmp(argv[i], "output") == 0) && i + 1 < argc) {
+        } else if ((strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--output") == 0) && i + 1 < argc) {
             output_file = argv[i + 1];
             i++;
+        } else {
+            printf("Argumento no válido, uso: %s --threads <nro> --input <directorio> [--output <archivo>]\n", argv[0]);
+            return EXIT_FAILURE;
         }
-		else{
-			printf("Argumento no válido, uso: %s --threads <nro> --input <directorio> [--output <archivo>]\n",argv[0]);
-			return EXIT_FAILURE;
-		}
     }
 
     if (directory == NULL) {
         printf("Debe proporcionar el directorio de entrada.\n");
-        return EXIT_FAILURE;
-    }
-
-    if (!threads_provided) {
-        printf("Debe proporcionar la cantidad de hilos a través de la opción -t.\n");
         return EXIT_FAILURE;
     }
 
@@ -137,17 +130,22 @@ int main(int argc, char *argv[]) {
     }
 
     // Guardar nombres de los archivos del directorio en las estructuras de los hilos
-	while ((entry = readdir(dir)) != NULL && data.file_count < MAX_FILES) {
+    while ((entry = readdir(dir)) != NULL && data.file_count < MAX_FILES) {
         if (entry->d_type == DT_REG) {
             size_t len = strlen(entry->d_name);
             if (len > 4 && strcmp(entry->d_name + len - 4, ".txt") == 0) {
                 char *filepath = malloc(strlen(directory) + strlen(entry->d_name) + 2);
+                if (filepath == NULL) {
+                    perror("Error al asignar memoria");
+                    closedir(dir);
+                    return EXIT_FAILURE;
+                }
                 sprintf(filepath, "%s/%s", directory, entry->d_name);
                 data.files[data.file_count++] = filepath;
             }
         }
     }
-	closedir(dir);
+    closedir(dir);
 
     pthread_t threads[num_threads];
 
@@ -164,17 +162,12 @@ int main(int argc, char *argv[]) {
         pthread_join(threads[i], NULL);
     }
 
-    // Liberar la memoria utilizada para almacenar los nombres de los archivos
-    for (int i = 0; i < data.file_count; i++) {
-        free(data.files[i]);
-    }
-
     // Imprimir el total de apariciones
     printf("Finalizado lectura. Apariciones total: 0=%d, 1=%d, 2=%d, 3=%d, 4=%d, 5=%d, 6=%d, 7=%d, 8=%d, 9=%d\n",
            data.total_counts[0], data.total_counts[1], data.total_counts[2], data.total_counts[3], data.total_counts[4],
            data.total_counts[5], data.total_counts[6], data.total_counts[7], data.total_counts[8], data.total_counts[9]);
 
-	// Escribir el resultado en el archivo de salida si se especificó
+    // Escribir el resultado en el archivo de salida si se especificó
     if (output_file != NULL) {
         FILE *output_fp = fopen(output_file, "w");
         if (output_fp != NULL) {
