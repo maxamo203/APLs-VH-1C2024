@@ -153,6 +153,6 @@ void procesarParametros(int argc,char *argv[]){
 }
 
 void mostrarAyuda(){
-	printf("Ayuda\n");
+	printf("Este programa crea la jerarquia de procesos pedida en la consigna. No recibe parametros\n");
 	exit(0);
 }

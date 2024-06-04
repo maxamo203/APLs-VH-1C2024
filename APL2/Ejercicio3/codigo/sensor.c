@@ -41,7 +41,7 @@ int main(int argc, char* argv[]){
         	sensor(atoi(numero), atof(segundos), atoi(mensajes));
     	}
 
-    	freeParametros(5, variables);
+    	freeParametros(4, variables);
 	return 0;
 }
 

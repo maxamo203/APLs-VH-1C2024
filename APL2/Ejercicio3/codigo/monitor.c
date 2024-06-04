@@ -63,11 +63,9 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-
-void mostrarAyuda(){
-    	printf("AYUDA:\n");
-    	printf("-l/--log \t Indica el nombre del archivo donde se guardaran las lecturas\n");
-	printf("-h/--help \t muestra la ayuda\n");
+void finalizarMonitor(int fifo) {
+	unlink(FIFO_FILE);
+	exit(0);
 }
 
 int existeMonitor(char* nombre){
@@ -130,11 +128,6 @@ int monitor(char* logFile) {
 	return 0;
 }
 
-void finalizarMonitor(int fifo) {
-	unlink(FIFO_FILE);
-	exit(0);
-}
-
 void parsearLectura(char* buffer,Lectura* lectura){ 	//El sensor escribe en formato |numero:medicion|
 	char* finalCad;
 	char* inicioLectura;
@@ -144,4 +137,10 @@ void parsearLectura(char* buffer,Lectura* lectura){ 	//El sensor escribe en form
 	inicioLectura = strrchr(buffer,'|');
 	sscanf(inicioLectura+1 , "%d:%d" , &lectura->numero , &lectura->medicion);
 	*inicioLectura = '\0';
+}
+
+void mostrarAyuda(){
+    	printf("AYUDA:\n");
+    	printf("-l/--log \t Indica el nombre del archivo donde se guardaran las lecturas\n");
+	printf("-h/--help \t muestra la ayuda\n");
 }
