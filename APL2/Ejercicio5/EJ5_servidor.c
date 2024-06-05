@@ -146,9 +146,19 @@ void *enviarTexto(void *arg)
     while (jugadoresConectados > 0 && !tableroCompleto(&tablero))
     {
         printf("Principio %d\n", nro);
-        do{
-            sem_wait(&semaforosTurnos[nro]);
-        }while(errno == EINTR);
+        while (sem_wait(&semaforosTurnos[nro]) == -1)
+        {
+            puts("ALGO PASO RARO en el SEMAFORO");
+            if (errno == EINTR)
+            {
+                continue; // Reiniciar sem_wait
+            }
+            else
+            {
+                perror("sem_wait");
+                exit(EXIT_FAILURE);
+            }
+        }
         if (tableroCompleto(&tablero))
         {
             sem_post(&semaforosTurnos[(nro + 1) % cantJugadores]);
