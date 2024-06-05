@@ -141,8 +141,16 @@ void *enviarTexto(void *arg)
     sprintf(sendBuff, "Esperando jugadores %d/%d...", jugadoresConectados, cantJugadores);
     write(socketCom, sendBuff, strlen(sendBuff));
     int rc = pthread_barrier_wait(&barreraInicio);
-    write(socketCom, "JUEGO INICIADO", sizeof("JUEGO INICIADO"));
-    read(socketCom, nombresJugadores[nro].nombre, 30); // recibe el nombre
+    int result = recv(socketCom, &receiveBuffer, 1, MSG_PEEK | MSG_DONTWAIT);
+    if (result == 0) // el jugador se desconecto antes de que empiece la partida
+    {
+        puts("Jugador desconectado");
+        estadoJugadores[nro] = -1;
+        jugadoresConectados--;
+    }else{
+        write(socketCom, "JUEGO INICIADO", sizeof("JUEGO INICIADO"));
+        read(socketCom, nombresJugadores[nro].nombre, 30); // recibe el nombre
+    }
     while (jugadoresConectados > 0 && !tableroCompleto(&tablero))
     {
         printf("Principio %d\n", nro);
