@@ -78,6 +78,7 @@ void parsearParametros(char** parametros,int argc, char* opcionesCortas, char** 
 }
 void freeParametros(int cant, char *** variables){
     for(int i = 0;i<cant;i++){
+        if(*(variables[i]) == NULL) continue;
         free(*(variables[i]));
     }
 }
