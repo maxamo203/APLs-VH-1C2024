@@ -146,7 +146,9 @@ void *enviarTexto(void *arg)
     while (jugadoresConectados > 0 && !tableroCompleto(&tablero))
     {
         printf("Principio %d\n", nro);
-        sem_wait(&semaforosTurnos[nro]);
+        do{
+            sem_wait(&semaforosTurnos[nro]);
+        }while(errno == EINTR);
         if (tableroCompleto(&tablero))
         {
             sem_post(&semaforosTurnos[(nro + 1) % cantJugadores]);
@@ -209,15 +211,15 @@ void *enviarTexto(void *arg)
 
 int main(int argc, char *argv[])
 {
-    struct sigaction sa;
-    sa.sa_handler = terminarServer;
-    sa.sa_flags = 0; // Ensure the signal interrupts the open call
-    sigemptyset(&sa.sa_mask);
-    if (sigaction(SIGINT, &sa, NULL) == -1)
-    {
-        perror("sigaction");
-        exit(EXIT_FAILURE);
-    }
+    // struct sigaction sa;
+    // sa.sa_handler = terminarServer;
+    // sa.sa_flags = 0; // Ensure the signal interrupts the open call
+    // sigemptyset(&sa.sa_mask);
+    // if (sigaction(SIGINT, &sa, NULL) == -1)
+    // {
+    //     perror("sigaction");
+    //     exit(EXIT_FAILURE);
+    // }
 
     char *puerto = NULL, *usuarios = NULL, *help = NULL;
     char *opcionesLargas[] = {"puerto", "jugadores", "help"};
