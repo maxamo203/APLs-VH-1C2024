@@ -114,8 +114,8 @@ void enviarTableroActualizado()
 }
 void enviarResultados(int socket)
 {
-    char bufferSend[2000];
-    char bufferNombre[30];
+    char bufferSend[2000] = {0};
+    char bufferNombre[30] = {0};
     strcat(bufferSend, "RESULTADOS:\n");
     for (int i = 0; i < jugadoresConectados; i++)
     {
