@@ -121,6 +121,6 @@ int main(int argc, char* argv[]){
         puts("Servidor Caido");
     }
     close(socketComunicacion);
-
+    freeParametros(4,variables);
     return EXIT_SUCCESS;
 }
