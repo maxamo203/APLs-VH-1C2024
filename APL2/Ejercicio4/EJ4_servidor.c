@@ -21,8 +21,31 @@ void manejarusr1(){
 void interrupcion(){
     printf("\rNo se puede interrumpir\n");
 }
+int existeProceso(char* nombre){
+    	FILE* fp;
+    	char proc[100];
+    	char comando[100];
+    	int existeOtro = 0;
+    	sprintf(comando, "ps -eo  args | grep -v 'grep' | grep %s -c ", nombre); //-c para que me diga la cantidad de coincidneicas
+    	fp = popen(comando, "r"); 
+    	if(fp == NULL){
+        	printf("Error comprobando si existe otro servidor\n");
+        	return 1;
+    	}
+    	while(fgets(proc, sizeof(proc), fp) != NULL){
+        	if(atoi(proc)>1){
+            		existeOtro = 1;
+        	}
+    	}
+    	pclose(fp);
+    	return existeOtro;
+}
 int main(int argc, char* argv[]){
     //TODO validar que no haya otro servidor
+    if(existeProceso(argv[0])){
+        puts("Ya existe un monitor");
+        return 1;
+    }
     if(signal(SIGINT, interrupcion) == SIG_ERR) {
         perror("No se pudo establecer el manejador de señal");
         return 1;
