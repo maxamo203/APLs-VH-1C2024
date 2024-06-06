@@ -18,9 +18,15 @@ void manejarusr2(){
 void manejarusr1(){
     signal_caught = SIGUSR1;
 }
+void interrupcion(){
+    printf("\rNo se puede interrumpir\n");
+}
 int main(int argc, char* argv[]){
     //TODO validar que no haya otro servidor
-    //TODO ignorar señal sigint
+    if(signal(SIGINT, interrupcion) == SIG_ERR) {
+        perror("No se pudo establecer el manejador de señal");
+        return 1;
+    }
     struct sigaction sa;
     sa.sa_handler = manejarusr2;
     sa.sa_flags = 0; // Ensure the signal interrupts the open call

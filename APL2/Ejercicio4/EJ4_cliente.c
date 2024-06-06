@@ -121,6 +121,8 @@ int main(int argc, char* argv[]){
     sem_close(s_tableroEscrito);
     sem_close(s_cliente);
     sem_close(s_servidor);
+    shmdt(shminput);
+    shmdt(shtab);
     // sem_unlink(S_INICIAR_JUEGO);
     // sem_unlink(S_ENTRADA_USUARIO);
     // sem_unlink(S_TABLERO_ESCRITO);
