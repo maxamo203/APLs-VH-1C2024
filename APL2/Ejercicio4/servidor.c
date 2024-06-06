@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h> 
+#include <errno.h>
 
 
 #define MIN_RAND 65
@@ -22,6 +23,7 @@
 #define SEM_NAME_SV "/memotest_sem_servidor"
 #define SEM_NAME_CLIENTE "/memotest_sem_cliente"
 #define SEM_NAME_PARTIDA "/memotest_sem_partida"
+#define SEM_NAME_EXCLUSIVO "/memotest_sem_exclusivo"
 
 
 struct DataRecibida{
@@ -40,6 +42,7 @@ int shmIdentificador;
 sem_t *sem_sv;
 sem_t *sem_cliente;
 sem_t *sem_partida;
+sem_t *sem_exclusivo;
 struct MemoriaCompartida *memoria;
 //Se utiliza para saber si esta esperando un semaforo cuando recibe la señal SIGUSR1
 //Solo util en este caso que solo se espera un tipo de semaforo, de lo contrario se deberia
@@ -164,6 +167,9 @@ void handle_sigusr1(int sig) {
         shmdt(memoria);
         shmctl(shmIdentificador, IPC_RMID, NULL);
 
+        sem_close(sem_exclusivo);
+        sem_unlink(SEM_NAME_EXCLUSIVO);
+
         puts("Servidor cerrado satisfactoriamente!!");
         exit(EXIT_SUCCESS);
     }
@@ -171,6 +177,17 @@ void handle_sigusr1(int sig) {
 
 
 int main() {
+
+    sem_exclusivo = sem_open(SEM_NAME_EXCLUSIVO, O_CREAT | O_EXCL, 0666, 0);
+    if (sem_exclusivo == SEM_FAILED) {
+        if (errno == EEXIST) {
+            printf("El servidor ya está en ejecución.\n");
+        } else {
+            perror("No se pudo crear el semáforo exclusivo");
+        }
+        exit(EXIT_FAILURE);
+    }
+    
     signal(SIGINT, handle_sigint);
     signal(SIGUSR1, handle_sigusr1);
     key_t shmKey = ftok(SHM_PATH, SHM_INT);
@@ -202,6 +219,7 @@ int main() {
             int movExitoso;
 
             puts("Esperando primer movimiento");
+            sleep(1);
             sem_post(sem_sv); // tx 1 servidor
 
             esperandoSem=1;
@@ -224,6 +242,7 @@ int main() {
             mostrarTablero(memoria->tableroJugador);
             
             puts("Enviando tablero con primer movimiento");
+            sleep(1);
             sem_post(sem_sv); // tx 3 servidor
 
             puts("Espera del segundo movimiento");
@@ -245,15 +264,18 @@ int main() {
             mostrarTablero(memoria->tableroJugador);
 
             puts("Enviando tablero con segundo movimiento");
+            sleep(1);
             sem_post(sem_sv); // tx 4 servidor         
 
             puts("Generando conclucion de movimiento");
             if (movExitoso == 0) {
-                ocultarLetra(memoria->tableroJugador, letra);
+                //El movimiento no fue exitoso, se ocultan las letras descubiertas en este turno
                 memoria->tableroJugador[memoria->movimiento.fila][memoria->movimiento.columna] = '-';
+                ocultarLetra(memoria->tableroJugador, letra);
                 mostrarTablero(tableroPartida);
                 mostrarTablero(memoria->tableroJugador);
             } else {
+                //El movimiento fue correcto
                 memoria->cantMovExitosos++;
             }
 
@@ -262,15 +284,21 @@ int main() {
             esperandoSem=1;
             sem_wait(sem_cliente); // rx 4 cliente
             esperandoSem=0;
-                 
+            puts("Recepcion confirmada");
+                
             puts("Enviando tablero con conclusión");
-            sem_post(sem_sv);
+            sleep(1);
+            sem_post(sem_sv); // tx 5 servidor  
 
             puts("Esperando confirmacion de recepcion del tablero con conclucion");
-            sem_post(sem_sv);
+            sem_wait(sem_cliente);
+            puts("Recepcion confirmada");
 
         }
+    puts("Esperando recepcion de fin de partida");
+    sem_wait(sem_cliente);
     puts("Terminó el partido!!");
     }
+
     return 0;
 }
