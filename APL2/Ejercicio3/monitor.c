@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
 }
 
 void finalizarMonitor(int fifo) {
+	puts("Cerrando Monitor");
 	unlink(FIFO_FILE);
 	exit(0);
 }
@@ -123,6 +124,9 @@ int monitor(char* logFile) {
 				fprintf(archLog,"%s--SENSOR n°: %d, MEDICION: %d\n", fechaHora, lectura.numero, lectura.medicion);
 			}
 			fclose(archLog);
+		}
+		else{
+			usleep(10000);
 		}
 	}
 	return 0;
