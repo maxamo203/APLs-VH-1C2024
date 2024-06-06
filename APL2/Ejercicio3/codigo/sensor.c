@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
         	return 0;
     	}
 	if(validarParametrosSensor(numero, segundos, mensajes) != 0){
-        	printf("ERROR: Parametros invalidos");
+        	printf("ERROR: Parametros invalidos\n");
 		return 1;
     	}
 
