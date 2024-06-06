@@ -63,6 +63,7 @@ void crearTablero(char tablero[][4]) {
     int cantPorCaracter[8] = {2, 2, 2, 2, 2, 2, 2, 2};
     srand(time(NULL));
 
+    //Genera 8 caracteres distintos
     for (int i = 0; i < 8; i++) {
         int caracter = rand() % (MAX_RAND - MIN_RAND + 1) + MIN_RAND;
         while (buscarEnCadena(caracteres, caracter, sizeof(caracteres) / sizeof(char))) {
@@ -71,6 +72,7 @@ void crearTablero(char tablero[][4]) {
         caracteres[i] = caracter;
     }
 
+    //coloca dos veces cada caracter en la tabla
     for (int i = 0; i < FILAS; i++) {
         for (int j = 0; j < COLUMNAS; j++) {
             int pos = rand() % 8;
@@ -83,23 +85,21 @@ void crearTablero(char tablero[][4]) {
     }
 }
 
+//Llena el tablero de "-"
 void inicializarTablero(char tablero[][COLUMNAS]) {
     for (int i = 0; i < COLUMNAS; i++)
         for (int j = 0; j < COLUMNAS; j++)
             tablero[i][j] = '-';
 }
 
-int revelarLetra(char tableroPartida[][COLUMNAS], char tableroJugador[][COLUMNAS], struct DataRecibida *movimiento) {
-    if (tableroJugador[movimiento->fila][movimiento->columna] != '-') {
-        return 0;
-    }
-
+void revelarLetra(char tableroPartida[][COLUMNAS], char tableroJugador[][COLUMNAS], struct DataRecibida *movimiento) {
     tableroJugador[movimiento->fila][movimiento->columna] = tableroPartida[movimiento->fila][movimiento->columna];
-    return 1;
 }
 
 void mostrarTablero(char tablero[][COLUMNAS]) {
+    printf(" 1 2 3 4\n");
     for (int i = 0; i < COLUMNAS; i++) {
+        printf("%d ", i+1);
         for (int j = 0; j < COLUMNAS; j++) {
             printf("%c ", tablero[i][j]);
         }
@@ -109,6 +109,7 @@ void mostrarTablero(char tablero[][COLUMNAS]) {
 }
 
 void ocultarLetra(char tablero[][COLUMNAS], char letra) {
+    //Busca la aparecion de la letra seleccionada en el anterior turno y se oculta
     for (int i = 0; i < COLUMNAS; i++) {
         for (int j = 0; j < COLUMNAS; j++) {
             if (tablero[i][j] == letra) {
@@ -120,13 +121,9 @@ void ocultarLetra(char tablero[][COLUMNAS], char letra) {
 }
 
 int verificarMovimiento(char tableroPartida[][COLUMNAS], char tableroJugador[][COLUMNAS], struct DataRecibida *movimiento, char letra) {
-    if (tableroPartida[movimiento->fila][movimiento->columna] == letra) {
-        tableroJugador[movimiento->fila][movimiento->columna] = letra;
-        return 1;
-    } else {
-        tableroJugador[movimiento->fila][movimiento->columna] = tableroPartida[movimiento->fila][movimiento->columna];
-        return 0;
-    }
+    //Reemplaza en el tablero la letra elegida y verifica que este correcta
+    tableroJugador[movimiento->fila][movimiento->columna] = tableroPartida[movimiento->fila][movimiento->columna];;
+    return tableroPartida[movimiento->fila][movimiento->columna] == letra ? 1 : 0;
 }
 
 void limpiarMemoria(struct MemoriaCompartida *memoria){
