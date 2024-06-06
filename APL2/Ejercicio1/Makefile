@@ -9,4 +9,4 @@ Ejercicio1.o: Ejercicio1.c
 clean:
 	rm -f *.o
 cleanall:
-	rm -f *.o Ejercicio1
+	rm -f *.o Ejecutable

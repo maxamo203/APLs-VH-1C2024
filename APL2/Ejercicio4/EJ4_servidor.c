@@ -9,7 +9,7 @@
 #include "../Bibliotecas/headers/tablero.h"
 #include "semaforos.h"
 #include <signal.h>
-
+ 
 volatile sig_atomic_t signal_caught = 0;
 
 void manejarusr2(){

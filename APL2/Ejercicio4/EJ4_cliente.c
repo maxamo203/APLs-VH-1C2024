@@ -68,12 +68,6 @@ int main(int argc, char* argv[]){
         }
         char tout = 0;
         while(! tableroCompleto(shtab)){
-            // for(int i = 0;i<4;i++){
-            //     for (int j = 0; j < 4; j++)
-            //     {
-            //         printf("%c %d\n",shtab->tablero[i][j],shtab->descubiertos[i][j]);
-            //     }     
-            // }
             imprimirTablero(shtab);
             printf("Ingresa entrada (x y)/(-1 -1) para salir al menu: ");
             scanf("%d %d", &input[1], &input[0]);
@@ -92,7 +86,7 @@ int main(int argc, char* argv[]){
                 tout = 1;
                 break;
             }
-        }
+        } 
         if(tout) break;
         if(!finalizaMal){
             //V(s_finalizaMal)
