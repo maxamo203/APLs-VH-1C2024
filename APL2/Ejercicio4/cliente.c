@@ -21,6 +21,7 @@
 #define SEM_NAME_CLIENTE "/memotest_sem_cliente"
 #define SEM_NAME_PARTIDA "/memotest_sem_partida"
 
+
 struct DataRecibida{
     int fila, columna;
 };
@@ -38,7 +39,9 @@ void limpiarBufferEntrada() {
 }
 
 void mostrarTablero(char tablero[][COLUMNAS]) {
+    printf("  1 2 3 4\n");
     for (int i = 0; i < COLUMNAS; i++) {
+        printf("%d ", i+1);
         for (int j = 0; j < COLUMNAS; j++) {
             printf("%c ", tablero[i][j]);
         }
@@ -49,7 +52,13 @@ void mostrarTablero(char tablero[][COLUMNAS]) {
 
 //Ignora la señales SIGINT (Ctrl + c)
 void handle_sigint(int sig){
-    printf("SIGINT recibido. Ignorando.\n");
+    puts("SIGINT recibido. Ignorando.\n");
+}
+
+void imprimirSem(sem_t *semaforo){
+    int valor;
+    sem_getvalue(semaforo, &valor);
+    printf("Valor del semaforo %d\n", valor);
 }
 
 int main() {
@@ -99,20 +108,22 @@ int main() {
     sem_wait(sem_partida); 
 
     puts("Servidor conectado!!");
-    sleep(1);
     sem_post(sem_cliente); // tx 1 cliente
 
     puts("Esperando tablero");
+    //imprimirSem(sem_sv);
     sem_wait(sem_sv); // rx 1 servidor
+    //imprimirSem(sem_sv);
     mostrarTablero(memoria->tableroJugador);
     
     while (memoria->cantMovExitosos < 8) {
         do {
             limpiarBufferEntrada();
-            sleep(0.5);
+            
+            
             printf("Ingrese la fila (1-4) (0 para finalizar): ");
             scanf("%d", &memoria->movimiento.fila);
-            sleep(0.5);
+            
             if(memoria->movimiento.fila == 0){
                 printf("Seguro que quiere finalizar la partida? (0 para finalizar)");
             }
@@ -135,27 +146,29 @@ int main() {
         
         if(!memoria->partidaEnProgreso){
             puts("Enviando fin de partida...");
-            sleep(1);
+    
             sem_post(sem_cliente);
             break;
         }
-
+        
         puts("Enviando primer movimiento");
-        sleep(1);
+
         sem_post(sem_cliente); // tx 2 cliente
 
         puts("Esperando tablero con primer movimiento");
+        //imprimirSem(sem_sv);
         sem_wait(sem_sv); // rx 3 servidor
-        sleep(1);
 
+        //imprimirSem(sem_sv);
+        
         mostrarTablero(memoria->tableroJugador);
         
         do {
             limpiarBufferEntrada();
             printf("Ingrese la fila (1-4) (0 para finalizar): ");
-            sleep(0.5);
+            
             scanf("%d", &memoria->movimiento.fila);
-            sleep(0.5);
+            
             if(memoria->movimiento.fila == 0){
                 printf("Seguro que quiere finalizar la partida? (0 para finalizar)");
             }
@@ -178,32 +191,37 @@ int main() {
         
         if(!memoria->partidaEnProgreso){
             puts("Enviando fin de partida...");
-            sleep(1);
+    
             sem_post(sem_cliente); 
             break;
         }
-
+        
         puts("Enviando segundo movimiento");
-        sleep(1);
-        sem_post(sem_cliente); // rx 3 cliente
-        puts("Esperando tablero con segundo movimiento");
-        sem_wait(sem_sv); // rx 4 servidor
 
+        sem_post(sem_cliente); // rx 3 cliente
+        
+        puts("Esperando tablero con segundo movimiento");
+        //imprimirSem(sem_sv);
+        sem_wait(sem_sv); // rx 4 servidor
+        //imprimirSem(sem_sv);
         mostrarTablero(memoria->tableroJugador);
 
         puts("Enviando confirmacion de recepcion del tablero con segundo movimiento");
-        sleep(1);
-        sem_post(sem_cliente); // tx 4 cliente  
+
+        sem_post(sem_cliente); // tx 4 cliente
         
         puts("Esperando tablero con conclusión");
+        //imprimirSem(sem_sv);
+        sleep(1); //tiempo para que el jugador vea el segundo movimiento hecho
         sem_wait(sem_sv); //rx 5 servidor
-
+        //imprimirSem(sem_sv);
         puts("Tablero con conclusión recibido");
         mostrarTablero(memoria->tableroJugador);
         
         puts("Enviando confirmacion de recepcion del tablero con conclucion");
-        sleep(1);
+
         sem_post(sem_cliente);
+        
     }
 
     if(memoria->cantMovExitosos >= 8){

@@ -58,6 +58,12 @@ int buscarEnCadena(char *cadena, char caracter, int tam) {
     return *cadena == caracter ? 1 : 0;
 }
 
+void imprimirSem(sem_t *semaforo){
+    int valor;
+    sem_getvalue(semaforo, &valor);
+    printf("Valor del semaforo %d\n", valor);
+}
+
 void crearTablero(char tablero[][4]) {
     char caracteres[8];
     int cantPorCaracter[8] = {2, 2, 2, 2, 2, 2, 2, 2};
@@ -97,7 +103,7 @@ void revelarLetra(char tableroPartida[][COLUMNAS], char tableroJugador[][COLUMNA
 }
 
 void mostrarTablero(char tablero[][COLUMNAS]) {
-    printf(" 1 2 3 4\n");
+    printf("  1 2 3 4\n");
     for (int i = 0; i < COLUMNAS; i++) {
         printf("%d ", i+1);
         for (int j = 0; j < COLUMNAS; j++) {
@@ -174,11 +180,10 @@ void handle_sigusr1(int sig) {
 
 
 int main() {
-
     sem_exclusivo = sem_open(SEM_NAME_EXCLUSIVO, O_CREAT | O_EXCL, 0666, 0);
     if (sem_exclusivo == SEM_FAILED) {
         if (errno == EEXIST) {
-            printf("El servidor ya está en ejecución.\n");
+            puts("El servidor ya está en ejecución.\n");
         } else {
             perror("No se pudo crear el semáforo exclusivo");
         }
@@ -210,15 +215,16 @@ int main() {
         mostrarTablero(tableroPartida);
         memoria->cantMovExitosos = 0;
         
+        
+        //imprimirSem(sem_sv);
+        sem_post(sem_sv); // tx 1 servidor
+        //imprimirSem(sem_sv);
 
         while (memoria->cantMovExitosos<8) {
             char letra;
             int movExitoso;
 
             puts("Esperando primer movimiento");
-            sleep(1);
-            sem_post(sem_sv); // tx 1 servidor
-
             esperandoSem=1;
             sem_wait(sem_cliente); // rx 2 cliente
             esperandoSem=0;
@@ -239,8 +245,10 @@ int main() {
             mostrarTablero(memoria->tableroJugador);
             
             puts("Enviando tablero con primer movimiento");
-            sleep(1);
+            
+            //imprimirSem(sem_sv);
             sem_post(sem_sv); // tx 3 servidor
+            //imprimirSem(sem_sv);
 
             puts("Espera del segundo movimiento");
             esperandoSem=1;
@@ -261,31 +269,35 @@ int main() {
             mostrarTablero(memoria->tableroJugador);
 
             puts("Enviando tablero con segundo movimiento");
-            sleep(1);
+            //imprimirSem(sem_sv);
             sem_post(sem_sv); // tx 4 servidor         
+            //imprimirSem(sem_sv);
 
-            puts("Generando conclucion de movimiento");
-            if (movExitoso == 0) {
-                //El movimiento no fue exitoso, se ocultan las letras descubiertas en este turno
-                memoria->tableroJugador[memoria->movimiento.fila][memoria->movimiento.columna] = '-';
-                ocultarLetra(memoria->tableroJugador, letra);
-                mostrarTablero(tableroPartida);
-                mostrarTablero(memoria->tableroJugador);
-            } else {
-                //El movimiento fue correcto
-                memoria->cantMovExitosos++;
-            }
-
-            
             puts("Esperando confirmacion de recepcion del tablero con segundo movimiento");
             esperandoSem=1;
             sem_wait(sem_cliente); // rx 4 cliente
             esperandoSem=0;
             puts("Recepcion confirmada");
                 
+
+            puts("Generando conclucion de movimiento");
+            if (movExitoso == 0) {
+                //El movimiento no fue exitoso, se ocultan las letras descubiertas en este turno
+                memoria->tableroJugador[memoria->movimiento.fila][memoria->movimiento.columna] = '-';
+                ocultarLetra(memoria->tableroJugador, letra);
+            } else {
+                //El movimiento fue correcto
+                memoria->cantMovExitosos++;
+            }
+
+            mostrarTablero(tableroPartida);
+            mostrarTablero(memoria->tableroJugador);
+            
             puts("Enviando tablero con conclusión");
-            sleep(1);
+            
+            //imprimirSem(sem_sv);
             sem_post(sem_sv); // tx 5 servidor  
+            //imprimirSem(sem_sv);
 
             puts("Esperando confirmacion de recepcion del tablero con conclucion");
             sem_wait(sem_cliente);
