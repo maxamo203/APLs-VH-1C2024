@@ -11,3 +11,8 @@ cliente: cliente.o
 
 cliente.o: cliente.c
 	cc -c cliente.c
+
+clean:
+	rm -f *.o
+cleanall:
+	rm -f *.o cliente servidor

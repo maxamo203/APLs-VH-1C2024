@@ -39,6 +39,8 @@ void limpiarBufferEntrada() {
 }
 
 void mostrarTablero(char tablero[][COLUMNAS]) {
+    printf("\033[2J");//borrar pantalla
+    printf("\033[H"); //mover arriba
     printf("  1 2 3 4\n");
     for (int i = 0; i < COLUMNAS; i++) {
         printf("%d ", i+1);
