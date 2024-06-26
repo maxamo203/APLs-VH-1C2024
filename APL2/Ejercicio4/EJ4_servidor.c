@@ -18,6 +18,9 @@ void manejarusr2(){
 void manejarusr1(){
     signal_caught = SIGUSR1;
 }
+void manejarsigterm(){
+    signal_caught = SIGTERM;
+}
 void interrupcion(){
     printf("\rNo se puede interrumpir\n");
 }
@@ -64,6 +67,14 @@ int main(int argc, char* argv[]){
     sa2.sa_flags = 0; // Ensure the signal interrupts the open call
     sigemptyset(&sa2.sa_mask);
     if (sigaction(SIGUSR1, &sa2, NULL) == -1) {
+        perror("sigaction");
+        exit(EXIT_FAILURE);
+    }
+    struct sigaction sa3;
+    sa3.sa_handler = manejarsigterm;
+    sa3.sa_flags = 0; // Ensure the signal interrupts the open call
+    sigemptyset(&sa3.sa_mask);
+    if (sigaction(SIGTERM, &sa3, NULL) == -1) {
         perror("sigaction");
         exit(EXIT_FAILURE);
     }
@@ -141,6 +152,7 @@ int main(int argc, char* argv[]){
         puts("Juego iniciado");
         int x = 0,y = 0;
         char clientePerdido = 0;
+        char servidorTerminado = 0;
         while (! tableroCompleto(&tablero) && x != -1 && y != -1)
         {
             if(P(s_entradaUsuario) == -1){
@@ -148,9 +160,13 @@ int main(int argc, char* argv[]){
                     puts("Partida temrinada");
                     clientePerdido = 1;
                     break;
-                }else{
+                }else if (signal_caught == SIGUSR1){
                     puts("Partida en curso, no se puede finalizar");
                     continue;
+                }else{
+                    puts("Servidor interrumpido, saliendo");
+                    servidorTerminado = 1;
+                    break;
                 }
             }
             printf("Usuaro dijo x=%d y=%d\n", shminput[0], shminput[1]);
@@ -163,6 +179,8 @@ int main(int argc, char* argv[]){
         }
         if(clientePerdido){
             continue;
+        }else if (servidorTerminado){
+            break;
         }
         finalizarJuego(&tablero);
         escribirEnMemoria(&tablero, shtab);

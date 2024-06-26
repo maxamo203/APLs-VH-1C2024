@@ -1,4 +1,4 @@
-all: todo clean
+all: todo
 
 todo: EJ4_cliente.o EJ4_servidor.o tablero.o semaforos.o
 	gcc EJ4_cliente.o tablero.o semaforos.o -o EJ4_cliente
